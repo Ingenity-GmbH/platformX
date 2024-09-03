@@ -1,7 +1,10 @@
 cc_library(
     name = "macos_ui",
     srcs = ["macos/macos_ui.cpp"],
-    hdrs = ["//include:ui_interface.h"],
+    hdrs = [
+        "//include:global.h",
+        "//include:ui_interface.h",
+    ],
     copts = [
         "-std=c++17",
         "-I./third-party/metal-cpp",

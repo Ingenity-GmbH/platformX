@@ -153,6 +153,9 @@ _APPKIT_PRIVATE_DEF_SEL( setTitle_,
 _APPKIT_PRIVATE_DEF_SEL( windows,
 						"windows" );
 
+_APPKIT_PRIVATE_DEF_SEL( toggleFullScreen_,
+						"toggleFullScreen:" );
+						
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------

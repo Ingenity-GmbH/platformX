@@ -1,6 +1,9 @@
+#include <iostream>
 #include <MetalKit/MetalKit.hpp>
+#include <CoreGraphics/CoreGraphics.h>
 
-#include "../../include/ui_interface.h"
+#include "include/global.h"
+#include "include/ui_interface.h"
 
 class Renderer {
     public:
@@ -46,21 +49,36 @@ class MTKViewDelegate : public MTK::ViewDelegate {
         Renderer* pRenderer;
 };
 
+
+MTKViewDelegate::MTKViewDelegate(MTL::Device* pDevice)
+: MTK::ViewDelegate(), pRenderer(new Renderer(pDevice)) {}
+
+MTKViewDelegate::~MTKViewDelegate() {
+    delete pRenderer;
+}
+
+void MTKViewDelegate::drawInMTKView(MTK::View* pView) {
+    pRenderer->draw(pView);
+}
+
 class AppDelegate : public NS::ApplicationDelegate {
     public:
         ~AppDelegate();
 
         NS::Menu* createMenuBar();
+        void setWindowTitle(const NS::String* title);
 
         virtual void applicationWillFinishLaunching(NS::Notification* pNotification) override;
         virtual void applicationDidFinishLaunching(NS::Notification* pNotification) override;
         virtual bool applicationShouldTerminateAfterLastWindowClosed(NS::Application* pSender) override;
 
+
     private:
-        NS::Window* pWindow;
+        NS::Application* pApp;
         MTK::View* pMtkView;
         MTL::Device* pDevice;
         MTKViewDelegate* pViewDelegate = nullptr;
+        NS::Window* pWindow;
 };
 
 AppDelegate::~AppDelegate() {
@@ -73,11 +91,12 @@ AppDelegate::~AppDelegate() {
 NS::Menu* AppDelegate::createMenuBar() {
     using NS::UTF8StringEncoding;
 
+    NS::String* appName = NS::RunningApplication::currentApplication()->localizedName();
+
     NS::Menu* pMainMenu = NS::Menu::alloc()->init();
     NS::MenuItem* pAppMenuItem = NS::MenuItem::alloc()->init();
-    NS::Menu* pAppMenu = NS::Menu::alloc()->init(NS::String::string("Appname", UTF8StringEncoding));
+    NS::Menu* pAppMenu = NS::Menu::alloc()->init(appName);
 
-    NS::String* appName = NS::RunningApplication::currentApplication()->localizedName();
     NS::String* quitItemName = NS::String::string("Quit ", UTF8StringEncoding)->stringByAppendingString(appName);
     SEL quitCb = NS::MenuItem::registerActionCallback("appQuit", [](void*,SEL,const NS::Object* pSender){
         auto pApp = NS::Application::sharedApplication();
@@ -111,19 +130,29 @@ NS::Menu* AppDelegate::createMenuBar() {
     return pMainMenu->autorelease();
 }
 
+void AppDelegate::setWindowTitle(const NS::String* title) {
+    pWindow->setTitle(title);
+}
+
 void AppDelegate::applicationWillFinishLaunching(NS::Notification* pNotification) {
     NS::Menu* pMenu = createMenuBar();
-    NS::Application* pApp = reinterpret_cast< NS::Application* >(pNotification->object());
+    pApp = reinterpret_cast< NS::Application*>(pNotification->object());
     pApp->setMainMenu(pMenu);
     pApp->setActivationPolicy(NS::ActivationPolicy::ActivationPolicyRegular);
 }
 
 void AppDelegate::applicationDidFinishLaunching(NS::Notification* pNotification) {
-    CGRect frame = (CGRect){ {100.0, 100.0}, {512.0, 512.0} };
+    CGRect screen = CGDisplayBounds(CGMainDisplayID());
+    CGRect frame = (CGRect){{   (screen.size.width-MIN(screen.size.width,STD_WIN_SIZE_WIDTH))/2.0, 
+                                (screen.size.height-MIN(screen.size.height,STD_WIN_SIZE_HEIGHT))/2.0},
+                                {MIN(screen.size.width,STD_WIN_SIZE_WIDTH), MIN(screen.size.width,STD_WIN_SIZE_HEIGHT)} };
 
+    
     pWindow = NS::Window::alloc()->init(
         frame,
-        NS::WindowStyleMaskClosable|NS::WindowStyleMaskTitled,
+        NS::WindowStyleMaskClosable | 
+            NS::WindowStyleMaskTitled | 
+            NS::WindowStyleMaskResizable,
         NS::BackingStoreBuffered,
         false);
 
@@ -137,7 +166,6 @@ void AppDelegate::applicationDidFinishLaunching(NS::Notification* pNotification)
     pMtkView->setDelegate(pViewDelegate);
 
     pWindow->setContentView(pMtkView);
-    pWindow->setTitle(NS::String::string("maindarwin", NS::StringEncoding::UTF8StringEncoding));
 
     pWindow->makeKeyAndOrderFront(nullptr);
 
@@ -147,18 +175,6 @@ void AppDelegate::applicationDidFinishLaunching(NS::Notification* pNotification)
 
 bool AppDelegate::applicationShouldTerminateAfterLastWindowClosed(NS::Application* pSender) {
     return true;
-}
-
-MTKViewDelegate::MTKViewDelegate(MTL::Device* pDevice)
-: MTK::ViewDelegate()
-, pRenderer(new Renderer(pDevice)) {}
-
-MTKViewDelegate::~MTKViewDelegate() {
-    delete pRenderer;
-}
-
-void MTKViewDelegate::drawInMTKView(MTK::View* pView) {
-    pRenderer->draw(pView);
 }
 
 class MacOSUI : public UIInterface {
@@ -173,11 +189,11 @@ class MacOSUI : public UIInterface {
             pAutoreleasePool->release();
         }
         
-        void createWindow() override {
+        void createWindow(const std::string& windowTitle) override {
             pAutoreleasePool = NS::AutoreleasePool::alloc()->init();
             pSharedApplication = NS::Application::sharedApplication();
+            appDelegate.setWindowTitle(NS::String::string(windowTitle.c_str(), NS::UTF8StringEncoding));
             pSharedApplication->setDelegate(&appDelegate);
-            pSharedApplication->run();
         }
         
         void showMessage(const char* message) override {
@@ -186,6 +202,7 @@ class MacOSUI : public UIInterface {
         
         void runEventLoop() override {
             // Event loop
+            pSharedApplication->run();
         }
 };
 

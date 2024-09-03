@@ -1,11 +1,17 @@
 #pragma once
 
+#include <string>
+
 class UIInterface {
-public:
-    virtual ~UIInterface() = default;
-    virtual void createWindow() = 0;
-    virtual void showMessage(const char* message) = 0;
-    virtual void runEventLoop() = 0;
+    public:
+        virtual ~UIInterface() = default;
+        virtual void createWindow(const std::string& windowTitle) = 0;
+        virtual void showMessage(const char* message) = 0;
+        virtual void runEventLoop() = 0;
+
+    protected:
+        std::string windowTitle;
+
 };
 
 UIInterface* createNativeUI();

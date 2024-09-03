@@ -43,7 +43,7 @@ namespace NS
 			void				setContentView( const View* pContentView );
 			void				makeKeyAndOrderFront( const Object* pSender );
 			void				setTitle( const String* pTitle );
-
+			void				toggleFullScreen(const Object* pSender);
 			void				close();
 	};
 
@@ -73,6 +73,11 @@ _NS_INLINE void NS::Window::makeKeyAndOrderFront( const Object* pSender )
 _NS_INLINE void NS::Window::setTitle( const String* pTitle )
 {
 	Object::sendMessage< void >( this, _APPKIT_PRIVATE_SEL( setTitle_), pTitle );
+}
+
+_NS_INLINE void NS::Window::toggleFullScreen( const Object* pSender )
+{
+	Object::sendMessage< void >( this, _APPKIT_PRIVATE_SEL( toggleFullScreen_), pSender );
 }
 
 _NS_INLINE void NS::Window::close()

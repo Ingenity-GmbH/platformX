@@ -18,6 +18,7 @@ cc_library(
         "-framework Metal",
         "-framework Foundation",
         "-framework Cocoa",
+        "-framework CoreGraphics",
     ],
     deps = [
         "//third-party:metal-cpp",
