@@ -93,6 +93,9 @@ _APPKIT_PRIVATE_DEF_SEL( applicationShouldTerminateAfterLastWindowClosed_,
 _APPKIT_PRIVATE_DEF_SEL( applicationWillFinishLaunching_,
 						"applicationWillFinishLaunching:" );
 
+_APPKIT_PRIVATE_DEF_SEL( applicationWillTerminate_,
+						"applicationWillTerminate:" );
+
 _APPKIT_PRIVATE_DEF_SEL( close,
 						"close" );
 

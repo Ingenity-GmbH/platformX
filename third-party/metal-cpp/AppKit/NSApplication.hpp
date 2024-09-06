@@ -67,6 +67,7 @@ namespace NS
 		public:
 			virtual					~ApplicationDelegate() { }
 			virtual void			applicationWillFinishLaunching( Notification* pNotification ) { }
+			virtual void			applicationWillTerminate( Notification* pNotification ) { }
 			virtual void			applicationDidFinishLaunching( Notification* pNotification ) { }
 			virtual bool			applicationShouldTerminateAfterLastWindowClosed( class Application* pSender ) { return false; }
 	};
@@ -116,12 +117,19 @@ _NS_INLINE void NS::Application::setDelegate( const ApplicationDelegate* pAppDel
 		pDel->applicationDidFinishLaunching( (NS::Notification *)pNotification );
 	};
 
+	DispatchFunction willTerminate = []( Value* pSelf, SEL, void* pNotification ){
+		auto pDel = reinterpret_cast< NS::ApplicationDelegate* >( pSelf->pointerValue() );
+		pDel->applicationWillTerminate( (NS::Notification *)pNotification );
+	};
+
 	DispatchFunction shouldTerminateAfterLastWindowClosed = []( Value* pSelf, SEL, void* pApplication ){
 		auto pDel = reinterpret_cast< NS::ApplicationDelegate* >( pSelf->pointerValue() );
 		pDel->applicationShouldTerminateAfterLastWindowClosed( (NS::Application *)pApplication );
 	};
 
+
 	class_addMethod( (Class)_NS_PRIVATE_CLS( NSValue ), _APPKIT_PRIVATE_SEL( applicationWillFinishLaunching_ ), (IMP)willFinishLaunching, "v@:@" );
+	class_addMethod( (Class)_NS_PRIVATE_CLS( NSValue ), _APPKIT_PRIVATE_SEL( applicationWillTerminate_ ), (IMP)willTerminate, "v@:@" );
 	class_addMethod( (Class)_NS_PRIVATE_CLS( NSValue ), _APPKIT_PRIVATE_SEL( applicationDidFinishLaunching_ ), (IMP)didFinishLaunching, "v@:@" );
 	class_addMethod( (Class)_NS_PRIVATE_CLS( NSValue ), _APPKIT_PRIVATE_SEL( applicationShouldTerminateAfterLastWindowClosed_), (IMP)shouldTerminateAfterLastWindowClosed, "B@:@" );
 
