@@ -1,49 +1,72 @@
-#include <windows.h>
+#include "windows_ui.h"
+
+#include "include/global.h"
 #include "include/ui_interface.h"
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+#pragma region WindowsUI
+void WindowsUI::createWindow(const std::string& windowTitle) {
+    WNDCLASSEXW wcex = {};
 
-class WindowsUI : public UIInterface {
-    HWND hwnd;
-public:
-    void createWindow() override {
-        WNDCLASS wc = {};
-        wc.lpfnWndProc = WindowProc;
-        wc.hInstance = GetModuleHandle(nullptr);
-        wc.lpszClassName = "NativeUIWindow";
-        RegisterClass(&wc);
+    wcex.cbSize = sizeof(WNDCLASSEX);
+    wcex.style          = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc    = WindowProc;
+    wcex.cbClsExtra     = 0;
+    wcex.cbWndExtra     = 0;
+    wcex.hInstance      = GetModuleHandle(nullptr);;
+    // wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
+    // wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
+    // wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
+    // wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1);
+    std::wstring wstr(windowTitle.begin(), windowTitle.end());
+    wcex.lpszClassName  =  wstr.c_str();
+    // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+    RegisterClassExW(&wcex);
 
-        hwnd = CreateWindowEx(
-            0, "NativeUIWindow", "Native UI App",
-            WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 300, 200,
-            nullptr, nullptr, GetModuleHandle(nullptr), nullptr
-        );
+    int width = GetSystemMetrics(SM_CXSCREEN);
+    int height = GetSystemMetrics(SM_CYSCREEN);
+    hWnd = CreateWindowW(   wcex.lpszClassName , 
+                            wcex.lpszClassName ,
+                            WS_OVERLAPPEDWINDOW,
+                            CW_USEDEFAULT,
+                            CW_USEDEFAULT,
+                            std::min<int>(width,STD_WIN_SIZE_WIDTH),
+                            std::min<int>(height,STD_WIN_SIZE_HEIGHT),
+                            nullptr,
+                            nullptr,
+                            wcex.hInstance,
+                            nullptr);
 
-        ShowWindow(hwnd, SW_SHOWDEFAULT);
-    }
-
-    void showMessage(const char* message) override {
-        MessageBoxA(hwnd, message, "Message", MB_OK);
-    }
-
-    void runEventLoop() override {
-        MSG msg = {};
-        while (GetMessage(&msg, nullptr, 0, 0)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
-};
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-    switch (uMsg) {
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-    }
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    ShowWindow(hWnd, SW_SHOWDEFAULT);
+    UpdateWindow(hWnd);
 }
 
-UIInterface* createNativeUI() {
+void WindowsUI::runEventLoop() {
+    MSG msg;
+    while (GetMessageW(&msg, nullptr, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessageW(&msg);
+    }
+}
+
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    switch (message) {
+        case WM_PAINT:
+            {
+                PAINTSTRUCT ps;
+                HDC hdc = BeginPaint(hWnd, &ps);
+                EndPaint(hWnd, &ps);
+                break;
+            }
+
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
+    }
+
+    return DefWindowProc(hWnd, message, wParam, lParam); 
+}
+
+UIInterface* createUI() {
     return new WindowsUI();
 }
+#pragma endregion WindowsUI
