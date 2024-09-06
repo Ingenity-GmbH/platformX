@@ -1,39 +1,31 @@
-#include <X11/Xlib.h>
-#include "ui_interface.h"
+#include "linux_ui.h"
 
-class LinuxUI : public UIInterface {
-    Display* display;
-    Window window;
-public:
-    void createWindow() override {
-        display = XOpenDisplay(nullptr);
-        if (display == nullptr) {
-            return;
-        }
+#include "include/global.h"
 
-        int screen = DefaultScreen(display);
-        window = XCreateSimpleWindow(display, RootWindow(display, screen),
-                                     10, 10, 300, 200, 1,
-                                     BlackPixel(display, screen), WhitePixel(display, screen));
-        XSelectInput(display, window, ExposureMask | KeyPressMask);
-        XMapWindow(display, window);
+#pragma region LinuxUI
+void LinuxUI::createWindow() {
+    display = XOpenDisplay(nullptr);
+    if (display == nullptr) {
+        return;
     }
 
-    void showMessage(const char* message) override {
-        // In a real application, you'd create a dialog window here
-        // For simplicity, we'll just print to console
-        printf("Message: %s\n", message);
-    }
+    int screen = DefaultScreen(display);
+    window = XCreateSimpleWindow(display, RootWindow(display, screen),
+                                    10, 10, 300, 200, 1,
+                                    BlackPixel(display, screen), WhitePixel(display, screen));
+    XSelectInput(display, window, ExposureMask | KeyPressMask);
+    XMapWindow(display, window);
+}
 
-    void runEventLoop() override {
-        XEvent event;
-        while (true) {
-            XNextEvent(display, &event);
-            // Handle events here
-        }
+void LinuxUI::runEventLoop() {
+    XEvent event;
+    while (true) {
+        XNextEvent(display, &event);
+        // Handle events here
     }
-};
+}
 
-UIInterface* createNativeUI() {
+UIInterface* createUI() {
     return new LinuxUI();
 }
+#pragma endregion LinuxUI

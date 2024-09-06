@@ -1,7 +1,6 @@
 #include "macos_ui.h"
 
 #include "include/global.h"
-#include "include/ui_interface.h"
 
 #pragma region Renderer
 Renderer::Renderer(MTL::Device* pDevice)

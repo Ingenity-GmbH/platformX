@@ -46,7 +46,11 @@ cc_library(
 cc_library(
     name = "linux_ui",
     srcs = ["linux/linux_ui.cpp"],
-    hdrs = ["//include:ui_interface.h"],
+    hdrs = [
+        "linux/linux_ui.h",
+        "//include:global.h",
+        "//include:ui_interface.h"
+    ],
     linkopts = [
         "-lX11",
         "lXext",

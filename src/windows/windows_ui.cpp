@@ -1,7 +1,6 @@
 #include "windows_ui.h"
 
 #include "include/global.h"
-#include "include/ui_interface.h"
 
 #pragma region WindowsUI
 void WindowsUI::createWindow(const std::string& windowTitle) {
@@ -27,8 +26,8 @@ void WindowsUI::createWindow(const std::string& windowTitle) {
     hWnd = CreateWindowW(   wcex.lpszClassName , 
                             wcex.lpszClassName ,
                             WS_OVERLAPPEDWINDOW,
-                            CW_USEDEFAULT,
-                            CW_USEDEFAULT,
+                            (width-std::min<int>(width,STD_WIN_SIZE_WIDTH))/2.0, 
+                            (height-std::min<int>(height,STD_WIN_SIZE_HEIGHT))/2.0,
                             std::min<int>(width,STD_WIN_SIZE_WIDTH),
                             std::min<int>(height,STD_WIN_SIZE_HEIGHT),
                             nullptr,
