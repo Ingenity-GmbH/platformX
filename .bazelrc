@@ -1,0 +1,7 @@
+startup --windows_enable_symlinks
+build --enable_runfiles
+build:remote --remote_executor=grpc://192.168.64.3:50051
+build:remote --remote_cache=grpc://192.168.64.3:50051
+build:remote --remote_instance_name=Windows
+build:remote --spawn_strategy=remote
+build:remote --remote_timeout=3600
