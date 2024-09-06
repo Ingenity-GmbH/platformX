@@ -2,6 +2,7 @@ cc_library(
     name = "macos_ui",
     srcs = ["macos/macos_ui.cpp"],
     hdrs = [
+        "macos/macos_ui.h",
         "//include:global.h",
         "//include:ui_interface.h",
     ],
@@ -17,6 +18,7 @@ cc_library(
         "-framework Metal",
         "-framework Foundation",
         "-framework Cocoa",
+        "-framework CoreGraphics",
     ],
     defines = [
         "NS_PRIVATE_IMPLEMENTATION",
@@ -29,10 +31,14 @@ cc_library(
 cc_library(
     name = "windows_ui",
     srcs = ["windows/windows_ui.cpp"],
-    hdrs = ["//include:ui_interface.h"],
+    hdrs = [
+        "windows/windows_ui.h",
+        "//include:global.h",
+        "//include:ui_interface.h"
+    ],
     linkopts = [
-        "-luser32",
-        "-lgdi32",
+        "-DEFAULTLIB:user32",
+        "-DEFAULTLIB:gdi32",
     ],
     visibility = ["//visibility:public"],
 )

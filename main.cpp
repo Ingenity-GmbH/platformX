@@ -2,10 +2,9 @@
 #include "include/ui_interface.h"
 
 int main() {
-    std::unique_ptr<UIInterface> ui(createNativeUI());
-    ui->createWindow("window title");
-    ui->showMessage("Hello, Native UI!");
+    std::unique_ptr<UIInterface> ui(createUI());
+    ui->createWindow("platformX App");
     ui->runEventLoop();
     
-    return 0;
+    return EXIT_SUCCESS;
 }

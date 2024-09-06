@@ -3,7 +3,10 @@ cc_binary(
     srcs = ["main.cpp"],
     deps = select({
         "@bazel_tools//src/conditions:darwin": [":macos_ui"],
-        "@bazel_tools//src/conditions:windows": [":windows_ui"],
+        "@bazel_tools//src/conditions:windows": [
+            ":windows_ui", 
+            # ":com_github_grpc_grpc"
+        ],
         "//conditions:default": [":linux_ui"],
     }),
 )
@@ -36,6 +39,10 @@ cc_library(
     copts = [
         "-Wall",
         "-std=c++17",
+    ],
+    linkopts = [
+        "-DEFAULTLIB:user32",
+        "-DEFAULTLIB:gdi32",
     ],
 )
 

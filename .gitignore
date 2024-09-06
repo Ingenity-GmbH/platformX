@@ -1,2 +1,5 @@
+System Volume Information
 .DS_Store
+.vscode
+.spice-clipboard
 bazel-*
