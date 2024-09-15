@@ -37,8 +37,8 @@ cc_library(
         "//src:windows_ui",
     ],
     copts = [
-        "-Wall",
-        "-std=c++17",
+        "/Wall",
+        "/std:c++17",
     ],
     linkopts = [
         "-DEFAULTLIB:user32",
