@@ -1,10 +1,14 @@
+package(default_visibility = ["//visibility:public"])
+
 cc_library(
     name = "macos_ui",
     srcs = ["macos/macos_ui.cpp"],
     hdrs = [
-        "macos/macos_ui.h",
         "//include:global.h",
-        "//include:ui_interface.h",
+        "//include:application.h",
+        "//include:component.h",
+        "//include:components.h",
+        "macos/macos_ui.h",
     ],
     copts = [
         "-std=c++17",
@@ -30,11 +34,22 @@ cc_library(
 
 cc_library(
     name = "windows_ui",
-    srcs = ["windows/windows_ui.cpp"],
+    srcs = [
+        "windows/application.cpp",
+        "windows/window.cpp",
+        "windows/button.cpp",
+    ],
     hdrs = [
-        "windows/windows_ui.h",
         "//include:global.h",
-        "//include:ui_interface.h"
+        "//include:application.h",
+        "//include:component.h",
+        "//include:components.h",
+        "windows/application.h",
+        "windows/window.h",
+        "windows/button.h",
+    ],
+    copts = [
+        "/std:c++17",
     ],
     linkopts = [
         "-DEFAULTLIB:user32",
@@ -47,9 +62,14 @@ cc_library(
     name = "linux_ui",
     srcs = ["linux/linux_ui.cpp"],
     hdrs = [
-        "linux/linux_ui.h",
         "//include:global.h",
-        "//include:ui_interface.h"
+        "//include:application.h",
+        "//include:component.h",
+        "//include:components.h",
+        "linux/linux_ui.h",
+    ],
+    copts = [
+        "-std=c++17",
     ],
     linkopts = [
         "-lX11",
