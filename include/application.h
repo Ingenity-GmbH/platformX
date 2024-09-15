@@ -11,6 +11,6 @@ class Application {
     public:
         virtual ~Application() = default;
         virtual void runEventLoop() = 0;
-        virtual std::shared_ptr<Component> getWindow() const = 0;
+        virtual std::shared_ptr<Component> getMainWindow() const = 0;
 };
 Application* createApplication(const std::string& title);

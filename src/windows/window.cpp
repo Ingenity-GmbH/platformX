@@ -7,30 +7,28 @@
 WinWindow::WinWindow(const std::string& title) 
 : Window(
     title, 
-    Position((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_HEIGHT))/2.0),
-    Size(std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_WIDTH), std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_HEIGHT))) {
+    Size(std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_WIDTH), std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_WIN_SIZE_HEIGHT)),
+    Position((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_WIN_SIZE_HEIGHT))/2.0)) {
 
     self = this;
-    WNDCLASSEXW wcex = {};
+    WNDCLASSA wc = {};
 
-    wcex.cbSize = sizeof(WNDCLASSEX);
-    wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = WindowProc;
-    wcex.cbClsExtra = 0;
-    wcex.cbWndExtra = 0;
-    wcex.hInstance = GetModuleHandle(nullptr);;
-    // wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
-    // wcex.hCursor  = LoadCursor(nullptr, IDC_ARROW);
-    // wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
-    // wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1);
-    std::wstring wstr(this->title.begin(), this->title.end());
-    wcex.lpszClassName = wstr.c_str();
+    // wc.style = CS_HREDRAW | CS_VREDRAW;
+    wc.lpfnWndProc = WindowProc;
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hInstance = GetModuleHandle(nullptr);;
+    // wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
+    // wc.hCursor  = LoadCursor(nullptr, IDC_ARROW);
+    // wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+    // wc.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1);
+    wc.lpszClassName = "MainWindow";
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-    RegisterClassExW(&wcex);
+    RegisterClassA(&wc);
 
-    handle = reinterpret_cast<Handle>(CreateWindowW(
-        wcex.lpszClassName , 
-        wcex.lpszClassName ,
+    handle = static_cast<Handle>(CreateWindowA(
+        wc.lpszClassName, 
+        this->title.c_str(),
         WS_OVERLAPPEDWINDOW,
         position.x, 
         position.y,
@@ -38,23 +36,24 @@ WinWindow::WinWindow(const std::string& title)
         size.height,
         nullptr,
         nullptr,
-        wcex.hInstance,
+        wc.hInstance,
         nullptr));
 
-    ShowWindow(reinterpret_cast<HWND>(handle), SW_SHOWDEFAULT);
-    UpdateWindow(reinterpret_cast<HWND>(handle));
+    ShowWindow(static_cast<HWND>(handle), SW_SHOWDEFAULT);
+    UpdateWindow(static_cast<HWND>(handle));
 }
 
 LRESULT CALLBACK WinWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message) {
         case WM_COMMAND:
             {
-                for (const auto& component : self->components) {
-                    if (component.getType() == BUTTON) {
-                        auto btn = (Button*)(&component);
+                for (const auto component : self->components) {
+                    if (component->getType() == BUTTON && component->getHandle() == reinterpret_cast<Handle>(lParam)) {
+                        auto btn = static_cast<WinButton*>(component);
                         btn->onClick();
                     }
                 }
+                break;
             }
         case WM_PAINT:
             {

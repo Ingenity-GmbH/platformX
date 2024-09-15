@@ -2,10 +2,10 @@
 
 #include "component.h"
 
-Component::Component(const std::string& title, const Position& position, const Size& size, const Type& type)
-: title(title), position(position), size(size), type(type), handle(NULL), parent(NULL) {}
+Component::Component(const std::string& title,  const Size& size, const Position& position, const Type& type)
+: title(title), size(size), position(position), type(type), handle(NULL), parent(NULL) {}
 
-void Component::addComponent(const Component& component) {
+void Component::addComponent(Component* component) {
     components.push_back(component);
 }
 
@@ -29,6 +29,6 @@ Type Component::getType() const {
     return type;
 }
 
-std::vector<Component> Component::getComponents() const {
+std::vector<Component*> Component::getComponents() const {
     return components;
 }

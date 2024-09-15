@@ -13,7 +13,7 @@ void WinApplication::runEventLoop() {
     }
 }
 
-std::shared_ptr<Component> WinApplication::getWindow() const {
+std::shared_ptr<Component> WinApplication::getMainWindow() const {
     return mainWindow;
 }
 

@@ -4,13 +4,14 @@
 
 class Window : public Component {
     public:
-        Window(const std::string& title, const Position& position, const Size& size) : Component(title, position, size) {}
+        Window(const std::string& title, const Size& size, const Position& position) : Component(title, size, position) {}
         virtual ~Window() = default;
 };
+Window* createWindow(const std::string& title);
 
 class Button : public Component {
     public:
-        Button(const std::string& title, const Position& position, const Size& size) : Component(title, position, size, BUTTON) {}
+        Button(const std::string& title, const Size& size, const Position& position) : Component(title, size, position, BUTTON) {}
         virtual ~Button() = default;
         virtual void onClick() = 0;
 

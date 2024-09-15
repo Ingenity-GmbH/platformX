@@ -9,7 +9,7 @@ class WinApplication : public Application {
     public:
         WinApplication(const std::string& title);
         void runEventLoop() override;
-        std::shared_ptr<Component> getWindow() const override;
+        std::shared_ptr<Component> getMainWindow() const override;
 
     protected:
         std::shared_ptr<Window> mainWindow;

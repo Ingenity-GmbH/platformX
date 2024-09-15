@@ -9,14 +9,15 @@
 
 class Component {
     public:
-        Component(const std::string& title, const Position& position, const Size& size, const Type& type=NONE);
-        void addComponent(const Component& component);
+        Component(const std::string& title, const Size& size, const Position& position, const Type& type=NONE);
+        virtual ~Component() = default;
+        void addComponent(Component* component);
         Handle getHandle() const;
         Handle getParent() const;
         Position getPosition() const;
         Size getSize() const;
         Type getType() const;
-        std::vector<Component> Component::getComponents() const;
+        std::vector<Component*> getComponents() const;
 
     protected:
         std::string title;
@@ -24,6 +25,6 @@ class Component {
         Handle parent;
         Position position;
         Size size;
-        std::vector<Component> components;
+        std::vector<Component*> components;
         Type type;
 };
