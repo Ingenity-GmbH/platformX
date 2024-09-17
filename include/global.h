@@ -1,6 +1,5 @@
 #pragma once
 
-#include <windows.h>
 #include <stdint.h>
 
 const float STD_WIN_SIZE_WIDTH = 1920.0;
@@ -8,7 +7,12 @@ const float STD_WIN_SIZE_HEIGHT = 1080.0;
 const uint32_t STD_BTN_SIZE_WIDTH = 75;
 const uint32_t STD_BTN_SIZE_HEIGHT = 35;
 
-typedef HWND Handle;
+#ifdef _WIN32
+    #include <windows.h>
+    typedef HWND Handle;
+#else
+    typedef uint32_t Handle;
+#endif
 
 enum Type {
     NONE,
