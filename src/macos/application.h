@@ -3,7 +3,8 @@
 #include <MetalKit/MetalKit.hpp>
 #include <CoreGraphics/CoreGraphics.h>
 
-#include "include/ui_interface.h"
+#include "include/application.h"
+#include "include/components.h"
 
 #pragma region Renderer
 class Renderer {
@@ -17,6 +18,7 @@ class Renderer {
         MTL::CommandQueue* pCommandQueue;
 };
 #pragma endregion Renderer
+
 #pragma region MTKViewDelegate
 class MTKViewDelegate : public MTK::ViewDelegate {
     public:
@@ -28,10 +30,11 @@ class MTKViewDelegate : public MTK::ViewDelegate {
         Renderer* pRenderer;
 };
 #pragma endregion MTKViewDelegate
+
 #pragma region AppDelegate
 class AppDelegate : public NS::ApplicationDelegate {
     public:
-        AppDelegate(const NS::String* title, const UIInterface* interface);
+        AppDelegate(const NS::String* title);
 
         NS::Menu* createMenuBar();
 
@@ -48,21 +51,21 @@ class AppDelegate : public NS::ApplicationDelegate {
         NS::Window* pWindow = nullptr;
 
         const NS::String* title = nullptr;
-        const UIInterface* interface = nullptr;
 };
 #pragma endregion AppDelegate
-#pragma region MacOSUI
-class MacOSUI : public UIInterface {
-    public:
-        ~MacOSUI();
-        void createWindow(const std::string& windowTitle) override;
-        void runEventLoop() override ;
 
-    private:
+#pragma region MacOSApplication
+class MacOSApplication : public PXApplication {
+    public:
+        MacOSApplication(const std::string& title);
+        ~MacOSApplication();
+        void runEventLoop() override;
+        std::shared_ptr<PXComponent> getMainWindow() const override;
+
+    protected:
+        std::shared_ptr<PXWindow> mainWindow;
         AppDelegate* appDelegate;
         NS::AutoreleasePool* pAutoreleasePool;
         NS::Application* pSharedApplication;
 };
-
-UIInterface* createUI();
-#pragma endregion MacOSUI
+#pragma endregion MacOSApplication

@@ -1,4 +1,4 @@
-#include "macos_ui.h"
+#include "application.h"
 
 #include "include/global.h"
 
@@ -26,6 +26,7 @@ void Renderer::draw(MTK::View* pView) {
     pPool->release();
 }
 #pragma endregion Renderer
+
 #pragma region MTKViewDelegate
 MTKViewDelegate::MTKViewDelegate(MTL::Device* pDevice)
 : MTK::ViewDelegate(), pRenderer(new Renderer(pDevice)) {}
@@ -38,9 +39,10 @@ void MTKViewDelegate::drawInMTKView(MTK::View* pView) {
     pRenderer->draw(pView);
 }
 #pragma endregion MTKViewDelegate
+
 #pragma region AppDelegate
-AppDelegate::AppDelegate(const NS::String* title, const UIInterface* interface)
-: NS::ApplicationDelegate(), title(title), interface(interface) {}
+AppDelegate::AppDelegate(const NS::String* title)
+: NS::ApplicationDelegate(), title(title) {}
 
 NS::Menu* AppDelegate::createMenuBar() {
     using NS::UTF8StringEncoding;
@@ -93,7 +95,7 @@ void AppDelegate::applicationWillFinishLaunching(NS::Notification* pNotification
 
  void AppDelegate::applicationWillTerminate(NS::Notification* pNotification) {
     delete pViewDelegate;
-    delete interface;
+    // delete application;
     pMtkView->release();
     pWindow->release();
     pDevice->release();
@@ -136,26 +138,30 @@ bool AppDelegate::applicationShouldTerminateAfterLastWindowClosed(NS::Applicatio
     return true;
 }
 #pragma endregion AppDelegate
-#pragma region MacOSUI
-MacOSUI::~MacOSUI() {
-    pSharedApplication->autorelease();
-    pAutoreleasePool->release();
-    delete appDelegate;
-}
-        
-void MacOSUI::createWindow(const std::string& windowTitle) {
-    appDelegate = new AppDelegate(NS::String::string(windowTitle.c_str(), NS::UTF8StringEncoding), this);
+
+#pragma region MacOSApplication
+MacOSApplication::MacOSApplication(const std::string& title) {
+    appDelegate = new AppDelegate(NS::String::string(title.c_str(), NS::UTF8StringEncoding));
     pAutoreleasePool = NS::AutoreleasePool::alloc()->init();
     pSharedApplication = NS::Application::sharedApplication();
     pSharedApplication->setDelegate(appDelegate);
 }
-             
-void MacOSUI::runEventLoop() {
-    // Event loop
+
+MacOSApplication::~MacOSApplication() {
+    pSharedApplication->autorelease();
+    pAutoreleasePool->release();
+    delete appDelegate;
+}
+         
+void MacOSApplication::runEventLoop() {
     pSharedApplication->run();
 }
 
-UIInterface* createUI() {
-    return new MacOSUI();
+std::shared_ptr<PXComponent> MacOSApplication::getMainWindow() const {
+    return mainWindow;
 }
-#pragma endregion MacOSUI
+
+PXApplication* createApplication(const std::string& title) {
+    return new MacOSApplication(title);
+}
+#pragma endregion MacOSApplication

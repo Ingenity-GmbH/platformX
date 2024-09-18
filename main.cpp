@@ -1,6 +1,4 @@
-#include "include/global.h"
 #include "include/application.h"
-#include "include/components.h"
 
 void button1click() {
     printf("button1 clicked\n");
@@ -11,8 +9,8 @@ void button2click() {
 
 int main() {
     std::unique_ptr<PXApplication> app(createApplication("platformX App"));
-    // std::unique_ptr<PXButton> btn(createButton("testbtn", PXPosition(10,10), app->getMainWindow(), button1click));
-    // std::unique_ptr<PXButton> btn2(createButton("testbtn", PXPosition(100,10), app->getMainWindow(), button2click));
+    std::unique_ptr<PXButton> btn(createButton("testbtn", PXPosition(10,10), app->getMainWindow(), button1click));
+    std::unique_ptr<PXButton> btn2(createButton("testbtn", PXPosition(100,10), app->getMainWindow(), button2click));
     app->runEventLoop();
 
     return EXIT_SUCCESS;
