@@ -2,13 +2,14 @@ package(default_visibility = ["//visibility:public"])
 
 cc_library(
     name = "macos_ui",
-    srcs = ["macos/macos_ui.cpp"],
+    srcs = ["macos/application.cpp",
+    ],
     hdrs = [
         "//include:global.h",
         "//include:application.h",
         "//include:component.h",
         "//include:components.h",
-        "macos/macos_ui.h",
+        "macos/application.h",
     ],
     copts = [
         "-std=c++17",

@@ -1,34 +1,34 @@
-#pragma once
+#include "components.h"
 
-#include "component.h"
+#pragma region PXComponent
+PXComponent::PXComponent(const std::string& title,  const PXSize& size, const PXPosition& position, const PXType& type)
+: title(title), size(size), position(position), type(type), handle(0), parent(0) {}
 
-Component::Component(const std::string& title,  const Size& size, const Position& position, const Type& type)
-: title(title), size(size), position(position), type(type), handle(NULL), parent(NULL) {}
-
-void Component::addComponent(Component* component) {
+void PXComponent::addComponent(PXComponent* component) {
     components.push_back(component);
 }
 
-Handle Component::getHandle() const {
+PXHandle PXComponent::getHandle() const {
     return handle;
 }
 
-Handle Component::getParent() const {
+PXHandle PXComponent::getParent() const {
     return parent;
 }
 
-Position Component::getPosition() const {
+PXPosition PXComponent::getPosition() const {
     return position;
 }
 
-Size Component::getSize() const {
+PXSize PXComponent::getSize() const {
     return size;
 }
 
-Type Component::getType() const {
+PXType PXComponent::getType() const {
     return type;
 }
 
-std::vector<Component*> Component::getComponents() const {
+std::vector<PXComponent*> PXComponent::getComponents() const {
     return components;
 }
+#pragma endregion PXComponent

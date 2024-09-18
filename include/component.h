@@ -7,24 +7,26 @@
 #include <vector>
 #include <memory>
 
-class Component {
+#pragma region PXComponent
+class PXComponent {
     public:
-        Component(const std::string& title, const Size& size, const Position& position, const Type& type=NONE);
-        virtual ~Component() = default;
-        void addComponent(Component* component);
-        Handle getHandle() const;
-        Handle getParent() const;
-        Position getPosition() const;
-        Size getSize() const;
-        Type getType() const;
-        std::vector<Component*> getComponents() const;
+        PXComponent(const std::string& title, const PXSize& size, const PXPosition& position, const PXType& type=NONE);
+        virtual ~PXComponent() = default;
+        void addComponent(PXComponent* component);
+        PXHandle getHandle() const;
+        PXHandle getParent() const;
+        PXPosition getPosition() const;
+        PXSize getSize() const;
+        PXType getType() const;
+        std::vector<PXComponent*> getComponents() const;
 
     protected:
         std::string title;
-        Handle handle;
-        Handle parent;
-        Position position;
-        Size size;
-        std::vector<Component*> components;
-        Type type;
+        PXSize size;
+        PXPosition position;
+        PXType type;
+        PXHandle handle;
+        PXHandle parent;
+        std::vector<PXComponent*> components;
 };
+#pragma endregion PXComponent

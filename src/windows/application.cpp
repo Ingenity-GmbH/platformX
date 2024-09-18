@@ -13,11 +13,11 @@ void WinApplication::runEventLoop() {
     }
 }
 
-std::shared_ptr<Component> WinApplication::getMainWindow() const {
+std::shared_ptr<PXComponent> WinApplication::getMainWindow() const {
     return mainWindow;
 }
 
-Application* createApplication(const std::string& title) {
+PXApplication* createApplication(const std::string& title) {
     return new WinApplication(title);
 }
 #pragma endregion WinApplication

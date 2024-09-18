@@ -4,7 +4,7 @@
 #include "include/components.h"
 
 #pragma region WinWindow
-class WinWindow : public Window {
+class WinWindow : public PXWindow {
     public:
         WinWindow(const std::string& title);
         static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -12,5 +12,4 @@ class WinWindow : public Window {
     protected:
         static inline WinWindow* self = nullptr;
 };
-Window* createWindow(const std::string& title);
 #pragma endregion WinWindow

@@ -7,10 +7,12 @@
 #include <string>
 #include <memory>
 
-class Application {
+#pragma region PXApplication
+class PXApplication {
     public:
-        virtual ~Application() = default;
+        virtual ~PXApplication() = default;
         virtual void runEventLoop() = 0;
-        virtual std::shared_ptr<Component> getMainWindow() const = 0;
+        virtual std::shared_ptr<PXComponent> getMainWindow() const = 0;
 };
-Application* createApplication(const std::string& title);
+PXApplication* createApplication(const std::string& title);
+#pragma endregion PXApplication

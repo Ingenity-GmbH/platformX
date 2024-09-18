@@ -13,6 +13,11 @@ cc_binary(
 
 cc_library(
     name = "macos_ui",
+    deps = [
+        "//third-party:metal-cpp",
+        "//include:headers",
+        "//src:macos_ui",
+    ],
     copts = [
         "-Wall",
         "-std=c++17",
@@ -22,11 +27,6 @@ cc_library(
         "-framework Foundation",
         "-framework Cocoa",
         "-framework CoreGraphics",
-    ],
-    deps = [
-        "//third-party:metal-cpp",
-        "//include:headers",
-        "//src:macos_ui",
     ],
 )
 

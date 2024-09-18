@@ -10,9 +10,9 @@ void button2click() {
 }
 
 int main() {
-    std::unique_ptr<Application> app(createApplication("platformX App"));
-    std::unique_ptr<Button> btn(createButton("testbtn", Position(10,10), app->getMainWindow(), button1click));
-    std::unique_ptr<Button> btn2(createButton("testbtn", Position(100,10), app->getMainWindow(), button2click));
+    std::unique_ptr<PXApplication> app(createApplication("platformX App"));
+    // std::unique_ptr<PXButton> btn(createButton("testbtn", PXPosition(10,10), app->getMainWindow(), button1click));
+    // std::unique_ptr<PXButton> btn2(createButton("testbtn", PXPosition(100,10), app->getMainWindow(), button2click));
     app->runEventLoop();
 
     return EXIT_SUCCESS;

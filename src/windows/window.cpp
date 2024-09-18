@@ -3,12 +3,12 @@
 #include "include/global.h"
 #include "button.h"
 
-#pragma region Window
+#pragma region WinWindow
 WinWindow::WinWindow(const std::string& title) 
-: Window(
+: PXWindow(
     title, 
-    Size(std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_WIDTH), std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_WIN_SIZE_HEIGHT)),
-    Position((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_WIN_SIZE_HEIGHT))/2.0)) {
+    PXSize(std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_WIDTH), std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_WIN_SIZE_HEIGHT)),
+    PXPosition((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_WIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_WIN_SIZE_HEIGHT))/2.0)) {
 
     self = this;
     WNDCLASSA wc = {};
@@ -26,7 +26,7 @@ WinWindow::WinWindow(const std::string& title)
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     RegisterClassA(&wc);
 
-    handle = static_cast<Handle>(CreateWindowA(
+    handle = static_cast<PXHandle>(CreateWindowA(
         wc.lpszClassName, 
         this->title.c_str(),
         WS_OVERLAPPEDWINDOW,
@@ -48,7 +48,7 @@ LRESULT CALLBACK WinWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, L
         case WM_COMMAND:
             {
                 for (const auto component : self->components) {
-                    if (component->getType() == BUTTON && component->getHandle() == reinterpret_cast<Handle>(lParam)) {
+                    if (component->getType() == BUTTON && component->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
                         auto btn = static_cast<WinButton*>(component);
                         btn->onClick();
                     }
@@ -71,7 +71,7 @@ LRESULT CALLBACK WinWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, L
     return DefWindowProc(hWnd, message, wParam, lParam); 
 }
 
-Window* createWindow(const std::string& title) {
+PXWindow* createWindow(const std::string& title) {
     return new WinWindow(title);
 }
-#pragma endregion Window
+#pragma endregion WinWindow

@@ -4,10 +4,9 @@
 #include "include/components.h"
 
 #pragma region WinButton
-class WinButton : public Button {
+class WinButton : public PXButton {
     public:
-        WinButton(const std::string& title, const Position& position, const Component& parent, const std::function<void()>& callback);
+        WinButton(const std::string& title, const PXPosition& position, const PXComponent& parent, const std::function<void()>& callback);
         void onClick() override;
 };
-Button* createButton(const std::string& title, const Position& position, std::shared_ptr<Component> parent, const std::function<void()>& callback);
-#pragma endregion Button
+#pragma endregion WinButton

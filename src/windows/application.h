@@ -5,14 +5,13 @@
 #include "include/components.h"
 
 #pragma region WinApplication
-class WinApplication : public Application {
+class WinApplication : public PXApplication {
     public:
         WinApplication(const std::string& title);
         void runEventLoop() override;
-        std::shared_ptr<Component> getMainWindow() const override;
+        std::shared_ptr<PXComponent> getMainWindow() const override;
 
     protected:
-        std::shared_ptr<Window> mainWindow;
+        std::shared_ptr<PXWindow> mainWindow;
 };
-Application* createApplication(const std::string& title);
 #pragma endregion WinApplication

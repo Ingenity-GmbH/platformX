@@ -2,20 +2,24 @@
 
 #include "component.h"
 
-class Window : public Component {
+#pragma region PXWindow
+class PXWindow : public PXComponent {
     public:
-        Window(const std::string& title, const Size& size, const Position& position) : Component(title, size, position) {}
-        virtual ~Window() = default;
+        PXWindow(const std::string& title, const PXSize& size, const PXPosition& position) : PXComponent(title, size, position) {}
+        virtual ~PXWindow() = default;
 };
-Window* createWindow(const std::string& title);
+PXWindow* createWindow(const std::string& title);
+#pragma endregion PXWindow
 
-class Button : public Component {
+#pragma region PXButton
+class PXButton : public PXComponent {
     public:
-        Button(const std::string& title, const Size& size, const Position& position) : Component(title, size, position, BUTTON) {}
-        virtual ~Button() = default;
+        PXButton(const std::string& title, const PXSize& size, const PXPosition& position) : PXComponent(title, size, position, BUTTON) {}
+        virtual ~PXButton() = default;
         virtual void onClick() = 0;
 
     protected:
         std::function<void()> callback;
 };
-Button* createButton(const std::string& title, const Position& position, std::shared_ptr<Component> parent, const std::function<void()>& callback);
+PXButton* createButton(const std::string& title, const PXPosition& position, std::shared_ptr<PXComponent> parent, const std::function<void()>& callback);
+#pragma endregion PXButton
