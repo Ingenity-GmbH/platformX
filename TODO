@@ -1,0 +1,24 @@
+// Here's a list of common Win32 controls:
+Listbox
+Combobox
+Scrollbar
+Progress Bar
+Slider (Trackbar)
+Spin (Up-Down)
+Tab
+Tree View
+List View
+Header
+Toolbar
+Status Bar
+Rich Edit
+Date and Time Picker
+Month Calendar
+IP Address
+Animation
+Hot Key
+Rebar
+Tooltip
+Page Scroller
+
+WIN32 common controls manifest
