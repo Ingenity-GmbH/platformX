@@ -6,10 +6,15 @@ const float STD_WIN_SIZE_WIDTH = 1920.0;
 const float STD_WIN_SIZE_HEIGHT = 1080.0;
 const uint32_t STD_BTN_SIZE_WIDTH = 75;
 const uint32_t STD_BTN_SIZE_HEIGHT = 35;
+const uint32_t STD_EDIT_SIZE_WIDTH = 100;
+const uint32_t STD_EDIT_SIZE_HEIGHT = 21;
+const uint32_t STD_TEXT_SIZE_WIDTH = 100;
+const uint32_t STD_TEXT_SIZE_HEIGHT = 18;
 
 #ifdef _WIN32
     #include <windows.h>
     typedef HWND PXHandle;
+    static LPCSTR WIN_STANDARD_FONT = "Segoe UI";
 #else
     typedef uint32_t PXHandle;
 #endif
@@ -19,6 +24,7 @@ const uint32_t STD_BTN_SIZE_HEIGHT = 35;
 enum PXType {
     NONE,
     BUTTON,
+    EDIT,
 };
 #pragma endregion PXType
 

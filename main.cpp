@@ -1,17 +1,31 @@
 #include "include/application.h"
 
+PXApplication* app;
+PXButton* btn;
+PXButton* btn2;
+PXEdit* edit;
+PXText* text;
+
 void button1click() {
-    printf("button1 clicked\n");
+    text->setTitle(edit->getTitle());
 }
 void button2click() {
-    printf("button2 clicked\n");
+    printf("title: %s\n", btn2->getTitle());
+}
+
+void editClick(const uint32_t& key) {
+    printf("%x clicked\n", key);
 }
 
 int main() {
-    std::unique_ptr<PXApplication> app(createApplication("platformX App"));
-    std::unique_ptr<PXButton> btn(createButton("testbtn", PXPosition(10,10), app->getMainWindow(), button1click));
-    std::unique_ptr<PXButton> btn2(createButton("testbtn", PXPosition(100,10), app->getMainWindow(), button2click));
+    app = createApplication("platformX App");
+    btn = createButton("testbtn", app->getMainWindow(), PXPosition(10,10), button1click);
+    btn2 = createButton("testbtn", app->getMainWindow(), PXPosition(100,10), button2click);
+    edit = createEdit("", app->getMainWindow(), PXPosition(10,60), editClick);
+    text = createText("Hello PlatformX", app->getMainWindow(), PXPosition(10,110));
     app->runEventLoop();
+
+    delete app, btn, btn2, edit, text;
 
     return EXIT_SUCCESS;
 }

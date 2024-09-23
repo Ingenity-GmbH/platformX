@@ -7,26 +7,27 @@
 #include <vector>
 #include <memory>
 
-#pragma region PXComponent
-class PXComponent {
+#pragma region PXControl
+class PXControl {
     public:
-        PXComponent(const std::string& title, const PXSize& size, const PXPosition& position, const PXType& type=NONE);
-        virtual ~PXComponent() = default;
-        void addComponent(PXComponent* component);
+        PXControl(const std::string& title, const PXPosition& position, const PXSize& size, const PXType& type=NONE);
+        virtual ~PXControl() = default;
+        void addControl(PXControl* control);
         PXHandle getHandle() const;
         PXHandle getParent() const;
         PXPosition getPosition() const;
         PXSize getSize() const;
         PXType getType() const;
-        std::vector<PXComponent*> getComponents() const;
+        std::vector<PXControl*> getControls() const;
+        virtual bool hasCallback() const = 0;
 
     protected:
         std::string title;
-        PXSize size;
         PXPosition position;
+        PXSize size;
         PXType type;
         PXHandle handle;
         PXHandle parent;
-        std::vector<PXComponent*> components;
+        std::vector<PXControl*> controls;
 };
-#pragma endregion PXComponent
+#pragma endregion PXControl

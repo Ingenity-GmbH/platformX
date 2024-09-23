@@ -13,7 +13,7 @@ void WinApplication::runEventLoop() {
     }
 }
 
-std::shared_ptr<PXComponent> WinApplication::getMainWindow() const {
+std::shared_ptr<PXControl> WinApplication::getMainWindow() const {
     return mainWindow;
 }
 

@@ -157,7 +157,7 @@ void MacOSApplication::runEventLoop() {
     pSharedApplication->run();
 }
 
-std::shared_ptr<PXComponent> MacOSApplication::getMainWindow() const {
+std::shared_ptr<PXControl> MacOSApplication::getMainWindow() const {
     return mainWindow;
 }
 

@@ -1,0 +1,34 @@
+#include "control.h"
+
+#pragma region PXControl
+PXControl::PXControl(const std::string& title, const PXPosition& position, const PXSize& size, const PXType& type)
+: title(title), position(position), size(size), type(type), handle(0), parent(0) {}
+
+void PXControl::addControl(PXControl* control) {
+    controls.push_back(control);
+}
+
+PXHandle PXControl::getHandle() const {
+    return handle;
+}
+
+PXHandle PXControl::getParent() const {
+    return parent;
+}
+
+PXPosition PXControl::getPosition() const {
+    return position;
+}
+
+PXSize PXControl::getSize() const {
+    return size;
+}
+
+PXType PXControl::getType() const {
+    return type;
+}
+
+std::vector<PXControl*> PXControl::getControls() const {
+    return controls;
+}
+#pragma endregion PXControl

@@ -7,8 +7,8 @@ cc_library(
     hdrs = [
         "//include:global.h",
         "//include:application.h",
-        "//include:component.h",
-        "//include:components.h",
+        "//include:control.h",
+        "//include:controls.h",
         "macos/application.h",
     ],
     copts = [
@@ -38,16 +38,16 @@ cc_library(
     srcs = [
         "windows/application.cpp",
         "windows/window.cpp",
-        "windows/button.cpp",
+        "windows/controls.cpp",
     ],
     hdrs = [
         "//include:global.h",
         "//include:application.h",
-        "//include:component.h",
-        "//include:components.h",
+        "//include:control.h",
+        "//include:controls.h",
         "windows/application.h",
         "windows/window.h",
-        "windows/button.h",
+        "windows/controls.h",
     ],
     copts = [
         "/std:c++17",
@@ -65,8 +65,8 @@ cc_library(
     hdrs = [
         "//include:global.h",
         "//include:application.h",
-        "//include:component.h",
-        "//include:components.h",
+        "//include:control.h",
+        "//include:controls.h",
         "linux/linux_ui.h",
     ],
     copts = [
