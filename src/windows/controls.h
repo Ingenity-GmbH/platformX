@@ -32,3 +32,14 @@ class WinText : public PXText {
         std::string getTitle() override;
 };
 #pragma endregion WinText
+
+#pragma region WinListBox
+class WinListBox : public PXListBox {
+    public:
+        WinListBox(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+        // void onKeyPress(const uint32_t& key) override;
+        void addItem(const std::string& title, const size_t& pos) override;
+        void removeItem(const size_t& pos) override;
+        size_t getSelectedItem() const override;
+};
+#pragma endregion WinListBox

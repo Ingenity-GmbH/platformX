@@ -3,11 +3,12 @@
 #include <windows.h>
 #include "include/application.h"
 #include "include/controls.h"
+#include "window.h"
 
 #pragma region WinApplication
 class WinApplication : public PXApplication {
     public:
-        WinApplication(const std::string& title);
+        WinApplication(WinWindow* window);
         void runEventLoop() override;
         std::shared_ptr<PXControl> getMainWindow() const override;
 

@@ -39,6 +39,7 @@ cc_library(
         "windows/application.cpp",
         "windows/window.cpp",
         "windows/controls.cpp",
+        "windows/util.cpp",
     ],
     hdrs = [
         "//include:global.h",
@@ -48,6 +49,7 @@ cc_library(
         "windows/application.h",
         "windows/window.h",
         "windows/controls.h",
+        "windows/util.h",
     ],
     copts = [
         "/std:c++17",

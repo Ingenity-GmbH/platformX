@@ -1,5 +1,6 @@
 #include "include/global.h"
 #include "controls.h"
+#include "util.h"
 
 #include <string>
 
@@ -21,24 +22,8 @@ WinButton::WinButton(const std::string& title, const PXControl& parent, const PX
         nullptr,
         (HINSTANCE)GetWindowLongPtr(this->parent, GWLP_HINSTANCE), 
         nullptr));
-
-    HFONT hFont = CreateFontA(
-        18,                        // Height
-        0,                         // Width
-        0,                         // Escapement
-        0,                         // Orientation
-        FW_NORMAL,                 // Weight
-        FALSE,                     // Italic
-        FALSE,                     // Underline
-        0,                         // StrikeOut
-        ANSI_CHARSET,              // CharSet
-        OUT_DEFAULT_PRECIS,        // OutPrecision
-        CLIP_DEFAULT_PRECIS,       // ClipPrecision
-        DEFAULT_QUALITY,           // Quality
-        DEFAULT_PITCH | FF_SWISS,  // PitchAndFamily
-        WIN_STANDARD_FONT          // Facename
-    );
-    SendMessage(static_cast<HWND>(handle), WM_SETFONT, (WPARAM)hFont, TRUE);
+    
+    util::setFont(handle);
 }
 
 void WinButton::onClick() {
@@ -47,18 +32,11 @@ void WinButton::onClick() {
 
 void WinButton::setTitle(const std::string& title) {
     this->title = title;
-    SendMessage(static_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(&this->title));
+    util::setTitle(handle ,title);
 }
 
 std::string WinButton::getTitle() {
-    int txtLen = SendMessage(static_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
-    std::unique_ptr<char> buffer(new char[txtLen+1]);
-    SendMessage(static_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(txtLen+1), (LPARAM)buffer.get());
-
-    if (!buffer)
-        this->title = "";
-    this->title = std::string(buffer.get());
-
+    this->title = util::getTitle(handle);
     return this->title;
 }
 
@@ -90,23 +68,7 @@ WinEdit::WinEdit(const std::string& title, const PXControl& parent, const PXPosi
         (HINSTANCE)GetWindowLongPtr(this->parent, GWLP_HINSTANCE), 
         nullptr));
 
-        HFONT hFont = CreateFontA(
-        18,                        // Height
-        0,                         // Width
-        0,                         // Escapement
-        0,                         // Orientation
-        FW_NORMAL,                 // Weight
-        FALSE,                     // Italic
-        FALSE,                     // Underline
-        0,                         // StrikeOut
-        ANSI_CHARSET,              // CharSet
-        OUT_DEFAULT_PRECIS,        // OutPrecision
-        CLIP_DEFAULT_PRECIS,       // ClipPrecision
-        DEFAULT_QUALITY,           // Quality
-        DEFAULT_PITCH | FF_SWISS,  // PitchAndFamily
-        WIN_STANDARD_FONT          // Facename
-    );
-    SendMessage(static_cast<HWND>(handle), WM_SETFONT, (WPARAM)hFont, TRUE);
+        util::setFont(handle);
 }
 
 void WinEdit::onKeyPress(const uint32_t& key) {
@@ -115,18 +77,11 @@ void WinEdit::onKeyPress(const uint32_t& key) {
 
 void WinEdit::setTitle(const std::string& title) {
     this->title = title;
-    SendMessage(static_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(&this->title));
+    util::setTitle(handle, title);
 }
 
 std::string WinEdit::getTitle() {
-    int txtLen = SendMessage(static_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
-    std::unique_ptr<char> buffer(new char[txtLen+1]);
-    SendMessage(static_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(txtLen+1), (LPARAM)buffer.get());
-
-    if (!buffer)
-        this->title = "";
-    this->title = std::string(buffer.get());
-
+    this->title = util::getTitle(handle);
     return this->title;
 }
 
@@ -158,23 +113,7 @@ WinText::WinText(const std::string& title, const PXControl& parent, const PXPosi
         (HINSTANCE)GetWindowLongPtr(this->parent, GWLP_HINSTANCE), 
         nullptr));
 
-    HFONT hFont = CreateFontA(
-        18,                        // Height
-        0,                         // Width
-        0,                         // Escapement
-        0,                         // Orientation
-        FW_NORMAL,                 // Weight
-        FALSE,                     // Italic
-        FALSE,                     // Underline
-        0,                         // StrikeOut
-        ANSI_CHARSET,              // CharSet
-        OUT_DEFAULT_PRECIS,        // OutPrecision
-        CLIP_DEFAULT_PRECIS,       // ClipPrecision
-        DEFAULT_QUALITY,           // Quality
-        DEFAULT_PITCH | FF_SWISS,  // PitchAndFamily
-        WIN_STANDARD_FONT          // Facename
-    );
-    SendMessage(static_cast<HWND>(handle), WM_SETFONT, (WPARAM)hFont, TRUE);
+    util::setFont(handle);
 }
 
 // void WinText::onKeyPress(const uint32_t& key) {
@@ -183,18 +122,11 @@ WinText::WinText(const std::string& title, const PXControl& parent, const PXPosi
 
 void WinText::setTitle(const std::string& title) {
     this->title = title;
-    SendMessage(static_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(&this->title));
+    util::setTitle(handle, title);
 }
 
 std::string WinText::getTitle() {
-    int txtLen = SendMessage(static_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
-    std::unique_ptr<char> buffer(new char[txtLen+1]);
-    SendMessage(static_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(txtLen+1), (LPARAM)buffer.get());
-
-    if (!buffer)
-        this->title = "";
-    this->title = std::string(buffer.get());
-
+    this->title = util::getTitle(handle);
     return this->title;
 }
 
@@ -206,3 +138,57 @@ PXText* createText(const std::string& title, std::shared_ptr<PXControl> parent, 
     return createText(title, parent, position, {STD_TEXT_SIZE_WIDTH,STD_TEXT_SIZE_HEIGHT}, callback);
 }
 #pragma endregion WinText
+
+#pragma region WinListBox
+WinListBox::WinListBox(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) 
+: PXListBox(title, position, size) {
+    this->parent = parent.getHandle();
+    this->callback = callback;
+
+    handle = static_cast<PXHandle>(CreateWindowA(
+        "LISTBOX",
+        this->title.c_str(),
+        WS_CHILD | WS_VISIBLE | LBS_STANDARD | LBS_NOTIFY,
+        position.x,
+        position.y,
+        size.width,
+        size.height,
+        this->parent,
+        nullptr,
+        (HINSTANCE)GetWindowLongPtr(this->parent, GWLP_HINSTANCE), 
+        nullptr));
+
+    util::setFont(handle);
+}
+
+// void WinText::onKeyPress(const uint32_t& key) {
+//     callback(key);
+// }
+
+void WinListBox::addItem(const std::string& title, const size_t& pos) {
+    if (pos < items.size())
+        items.insert(items.begin() + pos, title);
+    else
+        items.push_back(title);
+    util::addItems(handle, items);
+}
+        
+void WinListBox::removeItem(const size_t& pos) {
+    if (pos < items.size()) {
+        items.erase(items.begin() + pos);
+        util::addItems(handle, items);
+    }
+}
+
+size_t WinListBox::getSelectedItem() const {
+    return util::getSelectedItem(handle);
+}
+
+PXListBox* createListBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) {
+    parent->addControl(new WinListBox(title, *parent, position, size, callback));
+    return static_cast<PXListBox*>(parent->getControls().back());
+}
+PXListBox* createListBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback) {
+    return createListBox(title, parent, position, {STD_LISTBOX_SIZE_WIDTH,STD_LISTBOX_SIZE_HEIGHT}, callback);
+}
+#pragma endregion WinListBox

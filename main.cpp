@@ -1,31 +1,38 @@
 #include "include/application.h"
 
-PXApplication* app;
+/* controls */
+PXWindow* wnd;
 PXButton* btn;
 PXButton* btn2;
 PXEdit* edit;
 PXText* text;
+PXListBox* listbox;
 
+/* callbacks */
 void button1click() {
-    text->setTitle(edit->getTitle());
+    listbox->addItem(edit->getTitle(), 5);
 }
+
 void button2click() {
-    printf("title: %s\n", btn2->getTitle());
+    listbox->removeItem(listbox->getSelectedItem());
 }
 
 void editClick(const uint32_t& key) {
     printf("%x clicked\n", key);
 }
 
+
 int main() {
-    app = createApplication("platformX App");
+    wnd = createWindow("platformX App");
+    std::unique_ptr<PXApplication> app(createApplication(wnd));
+
     btn = createButton("testbtn", app->getMainWindow(), PXPosition(10,10), button1click);
     btn2 = createButton("testbtn", app->getMainWindow(), PXPosition(100,10), button2click);
     edit = createEdit("", app->getMainWindow(), PXPosition(10,60), editClick);
     text = createText("Hello PlatformX", app->getMainWindow(), PXPosition(10,110));
-    app->runEventLoop();
+    listbox = createListBox("Hello PlatformX", app->getMainWindow(), PXPosition(10,160));
 
-    delete app, btn, btn2, edit, text;
+    app->runEventLoop();
 
     return EXIT_SUCCESS;
 }

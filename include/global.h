@@ -10,6 +10,8 @@ const uint32_t STD_EDIT_SIZE_WIDTH = 100;
 const uint32_t STD_EDIT_SIZE_HEIGHT = 21;
 const uint32_t STD_TEXT_SIZE_WIDTH = 100;
 const uint32_t STD_TEXT_SIZE_HEIGHT = 18;
+const uint32_t STD_LISTBOX_SIZE_WIDTH = 100;
+const uint32_t STD_LISTBOX_SIZE_HEIGHT = 75;
 
 #ifdef _WIN32
     #include <windows.h>

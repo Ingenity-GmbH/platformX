@@ -13,5 +13,5 @@ class PXApplication {
         virtual void runEventLoop() = 0;
         virtual std::shared_ptr<PXControl> getMainWindow() const = 0;
 };
-PXApplication* createApplication(const std::string& title);
+PXApplication* createApplication(PXWindow* window);
 #pragma endregion PXApplication

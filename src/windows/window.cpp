@@ -2,6 +2,7 @@
 #include "include/global.h"
 #include "controls.h"
 #include "window.h"
+#include "util.h"
 
 #pragma region WinWindow
 WinWindow::WinWindow(const std::string& title) 
@@ -39,8 +40,19 @@ WinWindow::WinWindow(const std::string& title)
         wc.hInstance,
         nullptr));
 
+    util::setFont(handle);
+
     ShowWindow(static_cast<HWND>(handle), SW_SHOWDEFAULT);
     UpdateWindow(static_cast<HWND>(handle));
+}
+
+WinWindow::~WinWindow() {
+    for (PXControl* control : controls) {
+        if (control) {
+            delete control;
+            control = nullptr;
+        }
+    }
 }
 
 LRESULT CALLBACK WinWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -76,18 +88,11 @@ LRESULT CALLBACK WinWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 void WinWindow::setTitle(const std::string& title) {
     this->title = title;
-    SendMessage(static_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(&this->title));
+    util::setTitle(handle, title);
 }
 
 std::string WinWindow::getTitle() {
-    int txtLen = SendMessage(static_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
-    std::unique_ptr<char> buffer(new char[txtLen+1]);
-    SendMessage(static_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(txtLen+1), (LPARAM)buffer.get());
-
-    if (!buffer)
-        this->title = "";
-    this->title = std::string(buffer.get());
-
+    this->title = util::getTitle(handle);
     return this->title;
 }
 
