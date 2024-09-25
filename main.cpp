@@ -7,14 +7,17 @@ PXButton* btn2;
 PXEdit* edit;
 PXText* text;
 PXListBox* listbox;
+PXComboBox* combobox;
+PXProgressBar* progress;
 
 /* callbacks */
 void button1click() {
     listbox->addItem(edit->getTitle(), 5);
+    combobox->addItem(edit->getTitle(), 5);
 }
 
 void button2click() {
-    listbox->removeItem(listbox->getSelectedItem());
+    progress->incStep();
 }
 
 void editClick(const uint32_t& key) {
@@ -30,7 +33,12 @@ int main() {
     btn2 = createButton("testbtn", app->getMainWindow(), PXPosition(100,10), button2click);
     edit = createEdit("", app->getMainWindow(), PXPosition(10,60), editClick);
     text = createText("Hello PlatformX", app->getMainWindow(), PXPosition(10,110));
-    listbox = createListBox("Hello PlatformX", app->getMainWindow(), PXPosition(10,160));
+    listbox = createListBox("", app->getMainWindow(), PXPosition(10,160));
+    combobox = createComboBox("", app->getMainWindow(), PXPosition(10,230));
+    progress = createProgressBar("", app->getMainWindow(), PXPosition(10, 300));
+    progress->configure(0,100,1);
+    progress->setPos(25);
+    progress->setColor(PXColor(0x80,0xC8,0xB0), PXColor(0xF0,0xF0,0xF0));
 
     app->runEventLoop();
 

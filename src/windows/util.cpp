@@ -37,11 +37,20 @@ std::string util::getTitle(const PXHandle& handle) {
 
 void util::addItems(const PXHandle& handle, const std::vector<std::string>& items) {
     SendMessage(static_cast<HWND>(handle), LB_RESETCONTENT, 0, 0);
+    SendMessage(static_cast<HWND>(handle), CB_RESETCONTENT, 0, 0);
 
-    for (size_t i=0; i<items.size(); i++)
+    for (size_t i=0; i<items.size(); i++) {
         SendMessage(static_cast<HWND>(handle), LB_INSERTSTRING, (WPARAM)(i), (LPARAM)(&items[i]));
+        SendMessage(static_cast<HWND>(handle), CB_INSERTSTRING , (WPARAM)(i), (LPARAM)(&items[i]));
+    }
 }
 
-size_t util::getSelectedItem(const PXHandle& handle) {
-    return SendMessage(static_cast<HWND>(handle), LB_GETCURSEL, 0, 0);
+size_t util::getSelectedItem(const PXHandle& handle, const PXType& type) {
+    switch (type) {
+        case LISTBOX:
+            return SendMessage(static_cast<HWND>(handle), LB_GETCURSEL, 0, 0);
+        case COMBOBOX:
+            return SendMessage(static_cast<HWND>(handle), CB_GETCURSEL, 0, 0);
+    } 
+    return -1;
 }
