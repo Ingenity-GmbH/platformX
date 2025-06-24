@@ -3,3 +3,4 @@ System Volume Information
 .spice-clipboard
 bazel-*
 settings.json
+MODULE.bazel.lock
