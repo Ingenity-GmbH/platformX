@@ -5,7 +5,6 @@ cc_binary(
         "@bazel_tools//src/conditions:darwin": [":macos_ui"],
         "@bazel_tools//src/conditions:windows": [
             ":windows_ui", 
-            # ":com_github_grpc_grpc"
         ],
         "//conditions:default": [":linux_ui"],
     }),
@@ -43,6 +42,7 @@ cc_library(
     linkopts = [
         "-DEFAULTLIB:user32",
         "-DEFAULTLIB:gdi32",
+        "-DEFAULTLIB:UxTheme",
     ],
 )
 

@@ -3,6 +3,9 @@
 #include "controls.h"
 #include "window.h"
 #include "util.h"
+#include <uxtheme.h>
+#include <vssym32.h>
+
 
 #pragma region WinWindow
 WinWindow::WinWindow(const std::string& title) 
@@ -72,6 +75,13 @@ LRESULT CALLBACK WinWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, L
                 break;
             }
         case WM_PAINT:
+            {
+                PAINTSTRUCT ps;
+                HDC hdc = BeginPaint(hWnd, &ps);
+                EndPaint(hWnd, &ps);
+                break;
+            }
+        case WM_DRAWITEM:
             {
                 PAINTSTRUCT ps;
                 HDC hdc = BeginPaint(hWnd, &ps);
