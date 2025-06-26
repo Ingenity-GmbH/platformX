@@ -10,6 +10,7 @@ cc_binary(
     }),
 )
 
+# macos
 cc_library(
     name = "macos_ui",
     deps = [
@@ -29,23 +30,26 @@ cc_library(
     ],
 )
 
+# windows
+cc_import(
+    name = "platformX",
+    interface_library = "bazel-out/x64_windows-fastbuild/bin/src/platformX.if.lib",
+    shared_library = "bazel-out/x64_windows-fastbuild/bin/src/platformX.dll"
+)
+
 cc_library(
     name = "windows_ui",
     deps = [
         "//include:headers",
-        "//src:windows_ui",
+        ":platformX"
     ],
     copts = [
         "/Wall",
         "/std:c++17",
-    ],
-    linkopts = [
-        "-DEFAULTLIB:user32",
-        "-DEFAULTLIB:gdi32",
-        "-DEFAULTLIB:UxTheme",
-    ],
+    ]
 )
 
+# linux
 cc_library(
     name = "linux_ui",
     deps = [

@@ -1,4 +1,4 @@
-#include "control.h"
+#include "../include/control.h"
 
 #pragma region PXControl
 PXControl::PXControl(const std::string& title, const PXPosition& position, const PXSize& size, const PXType& type)

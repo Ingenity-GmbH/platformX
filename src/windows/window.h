@@ -4,7 +4,7 @@
 #include "include/controls.h"
 
 #pragma region WinWindow
-class WinWindow : public PXWindow {
+class LIB WinWindow : public PXWindow {
     public:
         WinWindow(const std::string& title);
         ~WinWindow() override;

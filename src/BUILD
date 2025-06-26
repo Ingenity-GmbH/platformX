@@ -33,30 +33,31 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+# windows
 cc_library(
-    name = "windows_ui",
-    srcs = [
-        "windows/application.cpp",
-        "windows/window.cpp",
-        "windows/controls.cpp",
-        "windows/util.cpp",
+    name = "windows_headers",
+    deps = [
+        "//include:headers"
     ],
-    hdrs = [
-        "//include:global.h",
-        "//include:application.h",
-        "//include:control.h",
-        "//include:controls.h",
-        "windows/application.h",
-        "windows/window.h",
-        "windows/controls.h",
-        "windows/util.h",
+    hdrs = glob(["windows/*.h"]),
+    visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "platformX",
+    deps = [
+        ":windows_headers"
     ],
+    srcs = glob(["*.cpp", "windows/*.cpp"]),
+    linkshared = True,
     copts = [
         "/std:c++17",
+        "/DBUILDING_DLL"
     ],
     linkopts = [
         "-DEFAULTLIB:user32",
         "-DEFAULTLIB:gdi32",
+        "-DEFAULTLIB:UxTheme"
     ],
     visibility = ["//visibility:public"],
 )

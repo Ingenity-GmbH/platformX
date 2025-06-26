@@ -8,7 +8,7 @@
 #include <memory>
 
 #pragma region PXControl
-class PXControl {
+class LIB PXControl {
     public:
         PXControl(const std::string& title, const PXPosition& position, const PXSize& size, const PXType& type=NONE);
         virtual ~PXControl() = default;

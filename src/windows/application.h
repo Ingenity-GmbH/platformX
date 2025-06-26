@@ -6,7 +6,7 @@
 #include "window.h"
 
 #pragma region WinApplication
-class WinApplication : public PXApplication {
+class LIB WinApplication : public PXApplication {
     public:
         WinApplication(WinWindow* window);
         void runEventLoop() override;

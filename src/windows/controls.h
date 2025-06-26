@@ -4,7 +4,7 @@
 #include <windows.h>
 
 #pragma region WinButton
-class WinButton : public PXButton {
+class LIB WinButton : public PXButton {
     public:
         WinButton(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
         void onClick() override;
@@ -14,7 +14,7 @@ class WinButton : public PXButton {
 #pragma endregion WinButton
 
 #pragma region WinEdit
-class WinEdit : public PXEdit {
+class LIB WinEdit : public PXEdit {
     public:
         WinEdit(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         void onKeyPress(const uint32_t& key);
@@ -24,7 +24,7 @@ class WinEdit : public PXEdit {
 #pragma endregion WinEdit
 
 #pragma region WinText
-class WinText : public PXText {
+class LIB WinText : public PXText {
     public:
         WinText(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
@@ -34,7 +34,7 @@ class WinText : public PXText {
 #pragma endregion WinText
 
 #pragma region WinListBox
-class WinListBox : public PXListBox {
+class LIB WinListBox : public PXListBox {
     public:
         WinListBox(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
@@ -45,7 +45,7 @@ class WinListBox : public PXListBox {
 #pragma endregion WinListBox
 
 #pragma region WinComboBox
-class WinComboBox : public PXComboBox {
+class LIB WinComboBox : public PXComboBox {
     public:
         WinComboBox(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
@@ -56,7 +56,7 @@ class WinComboBox : public PXComboBox {
 #pragma endregion WinComboBox
 
 #pragma region WinProgressBar
-class WinProgressBar : public PXProgressBar {
+class LIB WinProgressBar : public PXProgressBar {
     public:
         WinProgressBar(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
