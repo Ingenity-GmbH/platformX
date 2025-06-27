@@ -1,8 +1,8 @@
 
 #include "include/global.h"
+#include "include/util.h"
 #include "controls.h"
 #include "window.h"
-#include "util.h"
 #include <uxtheme.h>
 #include <vssym32.h>
 
@@ -59,6 +59,10 @@ WinWindow::~WinWindow() {
 }
 
 LRESULT CALLBACK WinWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    PAINTSTRUCT ps;
+    HDC hdc;
+    RECT rect;
+
     switch (message) {
         case WM_COMMAND:
             {
@@ -76,15 +80,17 @@ LRESULT CALLBACK WinWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, L
             }
         case WM_PAINT:
             {
-                PAINTSTRUCT ps;
-                HDC hdc = BeginPaint(hWnd, &ps);
+                hdc = BeginPaint(hWnd, &ps);
+                GetClientRect(hWnd, &rect);
+
                 EndPaint(hWnd, &ps);
                 break;
             }
         case WM_DRAWITEM:
             {
-                PAINTSTRUCT ps;
-                HDC hdc = BeginPaint(hWnd, &ps);
+                hdc = BeginPaint(hWnd, &ps);
+                GetClientRect(hWnd, &rect);
+
                 EndPaint(hWnd, &ps);
                 break;
             }
@@ -94,16 +100,6 @@ LRESULT CALLBACK WinWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, L
     }
 
     return DefWindowProc(hWnd, message, wParam, lParam); 
-}
-
-void WinWindow::setTitle(const std::string& title) {
-    this->title = title;
-    util::setTitle(handle, title);
-}
-
-std::string WinWindow::getTitle() {
-    this->title = util::getTitle(handle);
-    return this->title;
 }
 
 PXWindow* createWindow(const std::string& title) {

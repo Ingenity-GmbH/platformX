@@ -8,10 +8,12 @@ class LIB PXWindow : public PXControl {
         PXWindow(const std::string& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size) {}
         virtual ~PXWindow() {};
         bool hasCallback() const override { return false; }
-        virtual void setTitle(const std::string& title) = 0;
-        virtual std::string getTitle() = 0;
 };
-LIB PXWindow* createWindow(const std::string& title);
+LIB PXWindow* createMainWindow(const std::string& title);
+LIB PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size);
+LIB PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position);
+LIB PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXSize& size);
+LIB PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent);
 #pragma endregion PXWindow
 
 #pragma region PXButton
@@ -21,8 +23,6 @@ class LIB PXButton : public PXControl {
         virtual ~PXButton() = default;
         virtual void onClick() = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
-        virtual void setTitle(const std::string& title) = 0;
-        virtual std::string getTitle() = 0;
 
     protected:
         std::function<void()> callback;
@@ -38,8 +38,6 @@ class LIB PXEdit : public PXControl {
         virtual ~PXEdit() = default;
         virtual void onKeyPress(const uint32_t& key) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
-        virtual void setTitle(const std::string& title) = 0;
-        virtual std::string getTitle() = 0;
 
     protected:
         std::function<void(const uint32_t& key)> callback;
@@ -55,8 +53,6 @@ class LIB PXText : public PXControl {
         virtual ~PXText() = default;
         // virtual void onKeyPress(const uint32_t& key) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
-        virtual void setTitle(const std::string& title) = 0;
-        virtual std::string getTitle() = 0;
 
     protected:
         std::function<void(const uint32_t& key)> callback;

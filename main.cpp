@@ -18,6 +18,8 @@ void button1click() {
 
 void button2click() {
     progress->incStep();
+    edit->setTitle(btn2->getTitle());
+    btn2->setTitle("Button2");
 }
 
 void editClick(const uint32_t& key) {

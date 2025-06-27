@@ -1,4 +1,4 @@
-#include "util.h"
+#include "include/util.h"
 
 #include <memory>
 
@@ -29,10 +29,14 @@ std::string util::getTitle(const PXHandle& handle) {
     int txtLen = SendMessage(static_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
     std::unique_ptr<char> buffer(new char[txtLen+1]);
     SendMessage(static_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(txtLen+1), (LPARAM)buffer.get());
-
+    
     if (!buffer)
         return "";
     return std::string(buffer.get());
+}
+
+void util::setWindowState(const PXHandle& handle, int32_t state) {
+    ShowWindow(static_cast<HWND>(handle), (int)state);
 }
 
 void util::addItems(const PXHandle& handle, const std::vector<std::string>& items) {

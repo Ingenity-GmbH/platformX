@@ -18,6 +18,8 @@ class LIB PXControl {
         PXPosition getPosition() const;
         PXSize getSize() const;
         PXType getType() const;
+        void setTitle(const std::string& title);
+        std::string getTitle();
         std::vector<PXControl*> getControls() const;
         virtual bool hasCallback() const = 0;
 

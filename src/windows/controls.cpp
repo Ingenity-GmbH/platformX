@@ -1,6 +1,6 @@
 #include "include/global.h"
+#include "include/util.h"
 #include "controls.h"
-#include "util.h"
 
 #include <string>
 #include <CommCtrl.h>
@@ -29,16 +29,6 @@ WinButton::WinButton(const std::string& title, const PXControl& parent, const PX
 
 void WinButton::onClick() {
     callback();
-}
-
-void WinButton::setTitle(const std::string& title) {
-    this->title = title;
-    util::setTitle(handle ,title);
-}
-
-std::string WinButton::getTitle() {
-    this->title = util::getTitle(handle);
-    return this->title;
 }
 
 PXButton* createButton(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) {
@@ -76,16 +66,6 @@ void WinEdit::onKeyPress(const uint32_t& key) {
     callback(key);
 }
 
-void WinEdit::setTitle(const std::string& title) {
-    this->title = title;
-    util::setTitle(handle, title);
-}
-
-std::string WinEdit::getTitle() {
-    this->title = util::getTitle(handle);
-    return this->title;
-}
-
 PXEdit* createEdit(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) {
     parent->addControl(new WinEdit(title, *parent, position, size, callback));
     return static_cast<PXEdit*>(parent->getControls().back());
@@ -120,16 +100,6 @@ WinText::WinText(const std::string& title, const PXControl& parent, const PXPosi
 // void WinText::onKeyPress(const uint32_t& key) {
 //     callback(key);
 // }
-
-void WinText::setTitle(const std::string& title) {
-    this->title = title;
-    util::setTitle(handle, title);
-}
-
-std::string WinText::getTitle() {
-    this->title = util::getTitle(handle);
-    return this->title;
-}
 
 PXText* createText(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) {
     parent->addControl(new WinText(title, *parent, position, size, callback));

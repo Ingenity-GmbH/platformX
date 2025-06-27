@@ -1,4 +1,5 @@
 #include "../include/control.h"
+#include "../include/util.h"
 
 #pragma region PXControl
 PXControl::PXControl(const std::string& title, const PXPosition& position, const PXSize& size, const PXType& type)
@@ -26,6 +27,16 @@ PXSize PXControl::getSize() const {
 
 PXType PXControl::getType() const {
     return type;
+}
+
+void PXControl::setTitle(const std::string& title) {
+    this->title = title;
+    util::setTitle(handle, title);
+}
+
+std::string PXControl::getTitle() {
+    title = util::getTitle(handle);
+    return title;
 }
 
 std::vector<PXControl*> PXControl::getControls() const {

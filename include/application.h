@@ -2,6 +2,7 @@
 
 #include "include/global.h"
 #include "include/controls.h"
+#include "include/util.h"
 
 #include <string>
 #include <memory>

@@ -9,8 +9,6 @@ class LIB WinWindow : public PXWindow {
         WinWindow(const std::string& title);
         ~WinWindow() override;
         static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-        void setTitle(const std::string& title) override;
-        std::string getTitle() override;
 
     protected:
         static inline WinWindow* self = nullptr;
