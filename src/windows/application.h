@@ -8,7 +8,7 @@
 #pragma region WinApplication
 class LIB WinApplication : public PXApplication {
     public:
-        WinApplication(WinWindow* window);
+        WinApplication(WinMainWindow* window);
         void runEventLoop() override;
         std::shared_ptr<PXControl> getMainWindow() const override;
 

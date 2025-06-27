@@ -2,7 +2,7 @@
 #include "window.h"
 
 #pragma region WinApplication
-WinApplication::WinApplication(WinWindow* window)
+WinApplication::WinApplication(WinMainWindow* window)
 : mainWindow(window) {}
 
 void WinApplication::runEventLoop() {
@@ -18,6 +18,6 @@ std::shared_ptr<PXControl> WinApplication::getMainWindow() const {
 }
 
 PXApplication* createApplication(PXWindow* window) {
-    return new WinApplication(static_cast<WinWindow*>(window));
+    return new WinApplication(static_cast<WinMainWindow*>(window));
 }
 #pragma endregion WinApplication

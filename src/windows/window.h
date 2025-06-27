@@ -3,14 +3,28 @@
 #include <windows.h>
 #include "include/controls.h"
 
-#pragma region WinWindow
-class LIB WinWindow : public PXWindow {
+#pragma region WinMainWindow
+class LIB WinMainWindow : public PXWindow {
     public:
-        WinWindow(const std::string& title);
-        ~WinWindow() override;
+        WinMainWindow(const std::string& title);
+        ~WinMainWindow() override;
         static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+        std::shared_ptr<PXControl> getSelf() override;
 
     protected:
-        static inline WinWindow* self = nullptr;
+        static inline WinMainWindow* self = nullptr;
 };
-#pragma endregion WinWindow
+#pragma endregion WinMainWindow
+
+#pragma region WinChildWindow
+class LIB WinChildWindow : public PXWindow {
+    public:
+        WinChildWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size);
+        ~WinChildWindow() override;
+        static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+        std::shared_ptr<PXControl> getSelf() override;
+
+    protected:
+        static inline WinChildWindow* self = nullptr;
+};
+#pragma endregion WinChildWindow

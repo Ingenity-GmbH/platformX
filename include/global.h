@@ -13,8 +13,10 @@
 #endif
 
 #pragma region global variables
-const float STD_WIN_SIZE_WIDTH = 1920.0;
-const float STD_WIN_SIZE_HEIGHT = 1080.0;
+const float STD_MAINWIN_SIZE_WIDTH = 1920.0;
+const float STD_MAINWIN_SIZE_HEIGHT = 1080.0;
+const float STD_CHILDWIN_SIZE_WIDTH = 480;
+const float STD_CHILDWIN_SIZE_HEIGHT = 270;
 const uint32_t STD_BTN_SIZE_WIDTH = 75;
 const uint32_t STD_BTN_SIZE_HEIGHT = 35;
 const uint32_t STD_EDIT_SIZE_WIDTH = 100;

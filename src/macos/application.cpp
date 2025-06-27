@@ -103,9 +103,9 @@ void AppDelegate::applicationWillFinishLaunching(NS::Notification* pNotification
 
 void AppDelegate::applicationDidFinishLaunching(NS::Notification* pNotification) {
     CGRect screen = CGDisplayBounds(CGMainDisplayID());
-    CGRect frame = (CGRect){{   (screen.size.width-MIN(screen.size.width,STD_WIN_SIZE_WIDTH))/2.0, 
-                                (screen.size.height-MIN(screen.size.height,STD_WIN_SIZE_HEIGHT))/2.0},
-                                {MIN(screen.size.width,STD_WIN_SIZE_WIDTH), MIN(screen.size.height,STD_WIN_SIZE_HEIGHT)} };
+    CGRect frame = (CGRect){{   (screen.size.width-MIN(screen.size.width,STD_MAINWIN_SIZE_WIDTH))/2.0, 
+                                (screen.size.height-MIN(screen.size.height,STD_MAINWIN_SIZE_HEIGHT))/2.0},
+                                {MIN(screen.size.width,STD_MAINWIN_SIZE_WIDTH), MIN(screen.size.height,STD_MAINWIN_SIZE_HEIGHT)} };
 
     
     pWindow = NS::Window::alloc()->init(
