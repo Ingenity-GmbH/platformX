@@ -10,9 +10,8 @@
 #pragma region PXApplication
 class LIB PXApplication {
     public:
-        virtual ~PXApplication() = default;
         virtual void runEventLoop() = 0;
 };
 using PXApplUniquePtr = std::unique_ptr<PXApplication>;
-LIB PXApplication* createApplication(PXWindowSharedPtr window);
+LIB PXApplication* createApplication();
 #pragma endregion PXApplication

@@ -3,15 +3,26 @@
 #include <stdint.h>
 #include <memory>
 
-#ifdef _WIN32
+#pragma region base os specific definitions
+#if defined(_WIN32)
     // #pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
     #define LIB __declspec(dllexport)
     #include <windows.h>
-    typedef HWND PXHandle;
+    using PXHandle = HWND;
     static LPCSTR WIN_STANDARD_FONT = "Segoe UI";
+#elif defined(__APPLE__)
+    #define LIB __attribute__((visibility("default")))
+    #include <AppKit/NSWindow.h>
+    using PXHandle = NSWindow*;
+#elif defined(__linux__)
+    #define LIB __attribute__((visibility("default")))
+    #include <X11/Xlib.h>
+    using PXHandle = Window;
 #else
-    typedef uint32_t PXHandle;
+    #define LIB
+    using PXHandle = uint32_t;
 #endif
+#pragma endregion base os specific definitions
 
 #pragma region global definitions
 #define UNIQUE(type, var) std::unique_ptr<type>(var)

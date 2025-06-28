@@ -48,15 +48,6 @@ WinMainWindow::WinMainWindow(const std::string& title)
     UpdateWindow(static_cast<HWND>(handle));
 }
 
-WinMainWindow::~WinMainWindow() {
-    for (PXControl* control : controls) {
-        if (control) {
-            delete control;
-            control = nullptr;
-        }
-    }
-}
-
 LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     PAINTSTRUCT ps;
     HDC hdc;
@@ -143,15 +134,6 @@ WinChildWindow::WinChildWindow(const std::string& title, std::shared_ptr<PXContr
 
     SetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE, (GetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE) & ~WS_POPUP) | WS_CHILD);
     SetParent(reinterpret_cast<HWND>(handle), reinterpret_cast<HWND>(parent->getHandle()));
-}
-
-WinChildWindow::~WinChildWindow() {
-    for (PXControl* control : controls) {
-        if (control) {
-            delete control;
-            control = nullptr;
-        }
-    }
 }
 
 LRESULT CALLBACK WinChildWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {

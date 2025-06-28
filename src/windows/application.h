@@ -8,7 +8,6 @@
 #pragma region WinApplication
 class LIB WinApplication : public PXApplication {
     public:
-        WinApplication(PXWindowSharedPtr window);
         void runEventLoop() override;
 };
 #pragma endregion WinApplication

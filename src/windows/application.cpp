@@ -2,8 +2,6 @@
 #include "window.h"
 
 #pragma region WinApplication
-WinApplication::WinApplication(PXWindowSharedPtr window) {}
-
 void WinApplication::runEventLoop() {
     MSG msg;
     while (GetMessageW(&msg, nullptr, 0, 0)) {
@@ -12,7 +10,7 @@ void WinApplication::runEventLoop() {
     }
 }
 
-PXApplication* createApplication(PXWindowSharedPtr window) {
-    return new WinApplication(window);
+PXApplication* createApplication() {
+    return new WinApplication();
 }
 #pragma endregion WinApplication
