@@ -17,13 +17,13 @@ WinMainWindow::WinMainWindow(const std::string& title)
 
     WNDCLASSA wc = {};
     // wc.style = CS_HREDRAW | CS_VREDRAW;
-    wc.lpfnWndProc = WindowProc;
+    wc.lpfnWndProc = WndProc;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
     wc.hInstance = GetModuleHandle(nullptr);
     // wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
     // wc.hCursor  = LoadCursor(nullptr, IDC_ARROW);
-    // wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
     // wc.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1);
     wc.lpszClassName = "MainWindow";
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -32,7 +32,7 @@ WinMainWindow::WinMainWindow(const std::string& title)
     handle = static_cast<PXHandle>(CreateWindowA(
         wc.lpszClassName, 
         this->title.c_str(),
-        WS_OVERLAPPEDWINDOW,
+        WS_OVERLAPPEDWINDOW | WS_VSCROLL | WS_HSCROLL,
         position.x, 
         position.y,
         size.width,
@@ -57,30 +57,13 @@ WinMainWindow::~WinMainWindow() {
     }
 }
 
-LRESULT CALLBACK WinMainWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     PAINTSTRUCT ps;
     HDC hdc;
     RECT rect;
     HWND hwndChild;
 
     switch (message) {
-        // case WM_CREATE:
-        //     {
-        //         hwndChild = CreateWindowA(
-        //             "ChildWindow",
-        //             "Child",
-        //             WS_CHILD | WS_VISIBLE | WS_BORDER,
-        //             10, 10, 200, 100,
-        //             hWnd,
-        //             nullptr,
-        //             ((LPCREATESTRUCT)lParam)->hInstance,
-        //             nullptr
-        //         );
-        //         if (hwndChild == NULL) {
-        //             printf("CreateWindowA failed! Error code: %lu\n", GetLastError());
-        //         }
-        //         break;
-        //     }
         case WM_COMMAND:
             {
                 for (const auto control : self->controls) {
@@ -95,22 +78,18 @@ LRESULT CALLBACK WinMainWindow::WindowProc(HWND hWnd, UINT message, WPARAM wPara
                 }
                 break;
             }
-        case WM_PAINT:
-            {
-                hdc = BeginPaint(hWnd, &ps);
-                GetClientRect(hWnd, &rect);
-
-                EndPaint(hWnd, &ps);
-                break;
-            }
-        case WM_DRAWITEM:
-            {
-                hdc = BeginPaint(hWnd, &ps);
-                GetClientRect(hWnd, &rect);
-
-                EndPaint(hWnd, &ps);
-                break;
-            }
+        // case WM_PAINT:
+        //     {
+        //         hdc = BeginPaint(hWnd, &ps);
+        //         EndPaint(hWnd, &ps);
+        //         break;
+        //     }
+        // case WM_DRAWITEM:
+        //     {
+        //         hdc = BeginPaint(hWnd, &ps);
+        //         EndPaint(hWnd, &ps);
+        //         break;
+        //     }
         case WM_DESTROY:
             PostQuitMessage(0);
             return 0;
@@ -122,10 +101,6 @@ LRESULT CALLBACK WinMainWindow::WindowProc(HWND hWnd, UINT message, WPARAM wPara
 PXWindow* createMainWindow(const std::string& title) {
     return new WinMainWindow(title);
 }
-
-std::shared_ptr<PXControl> WinMainWindow::getSelf() {
-    return std::shared_ptr<PXControl>(self);
-}
 #pragma endregion WinMainWindow
 
 #pragma region WinChildWindow
@@ -136,16 +111,16 @@ WinChildWindow::WinChildWindow(const std::string& title, std::shared_ptr<PXContr
     size) {
 
     self = this;
-    WNDCLASSA wc = {};
 
+    WNDCLASSA wc = {};
     // wc.style = CS_HREDRAW | CS_VREDRAW;
-    wc.lpfnWndProc = WindowProc; //(WNDPROC)GetWindowLong(reinterpret_cast<HWND>(self->getParent()), GWLP_WNDPROC);
+    wc.lpfnWndProc = WndProc;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
     wc.hInstance = reinterpret_cast<HINSTANCE>(parent->getHandle());
     // wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
     // wc.hCursor  = LoadCursor(nullptr, IDC_ARROW);
-    // wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
     // wc.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1);
     wc.lpszClassName = "ChildWindow";
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -166,10 +141,8 @@ WinChildWindow::WinChildWindow(const std::string& title, std::shared_ptr<PXContr
 
     util::setFont(handle);
 
- 
-    SetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE, (GetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE) & ~WS_POPUP) | WS_CHILD | WS_VISIBLE);
+    SetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE, (GetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE) & ~WS_POPUP) | WS_CHILD);
     SetParent(reinterpret_cast<HWND>(handle), reinterpret_cast<HWND>(parent->getHandle()));
-    ShowWindow(reinterpret_cast<HWND>(handle), SW_HIDE);
 }
 
 WinChildWindow::~WinChildWindow() {
@@ -181,7 +154,7 @@ WinChildWindow::~WinChildWindow() {
     }
 }
 
-LRESULT CALLBACK WinChildWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK WinChildWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     PAINTSTRUCT ps;
     HDC hdc;
     RECT rect;
@@ -201,25 +174,6 @@ LRESULT CALLBACK WinChildWindow::WindowProc(HWND hWnd, UINT message, WPARAM wPar
                 }
                 break;
             }
-        case WM_PAINT:
-            {
-                hdc = BeginPaint(hWnd, &ps);
-                GetClientRect(hWnd, &rect);
-
-                RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-                RedrawWindow(reinterpret_cast<HWND>(self->getParent()), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-
-                EndPaint(hWnd, &ps);
-                break;
-            }
-        case WM_DRAWITEM:
-            {
-                hdc = BeginPaint(hWnd, &ps);
-                GetClientRect(hWnd, &rect);
-
-                EndPaint(hWnd, &ps);
-                break;
-            }
         case WM_DESTROY:
             PostQuitMessage(0);
             return 0;
@@ -229,10 +183,6 @@ LRESULT CALLBACK WinChildWindow::WindowProc(HWND hWnd, UINT message, WPARAM wPar
     }
 
     return DefWindowProc(hWnd, message, wParam, lParam); 
-}
-
-std::shared_ptr<PXControl> WinChildWindow::getSelf() {
-    return std::shared_ptr<PXControl>(self);
 }
 
 PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size) {
@@ -251,5 +201,4 @@ PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> pare
 PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent) {
     return createWindow(title, parent, PXPosition((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT))/2.0), PXSize(std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH), std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT)));
 }
-
 #pragma endregion WinMainWindow

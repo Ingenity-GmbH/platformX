@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <memory>
 
 #ifdef _WIN32
     // #pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -11,6 +12,11 @@
 #else
     typedef uint32_t PXHandle;
 #endif
+
+#pragma region global definitions
+#define UNIQUE(type, var) std::unique_ptr<type>(var)
+#define SHARED(type, var) std::shared_ptr<type>(var)
+#pragma endregion global defines
 
 #pragma region global variables
 const float STD_MAINWIN_SIZE_WIDTH = 1920.0;

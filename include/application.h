@@ -12,7 +12,7 @@ class LIB PXApplication {
     public:
         virtual ~PXApplication() = default;
         virtual void runEventLoop() = 0;
-        virtual std::shared_ptr<PXControl> getMainWindow() const = 0;
 };
-LIB PXApplication* createApplication(PXWindow* window);
+using PXApplUniquePtr = std::unique_ptr<PXApplication>;
+LIB PXApplication* createApplication(PXWindowSharedPtr window);
 #pragma endregion PXApplication

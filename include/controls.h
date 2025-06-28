@@ -8,8 +8,8 @@ class LIB PXWindow : public PXControl {
         PXWindow(const std::string& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size) {}
         virtual ~PXWindow() {};
         bool hasCallback() const override { return false; }
-        virtual std::shared_ptr<PXControl> getSelf() = 0;
 };
+using PXWindowSharedPtr = std::shared_ptr<PXWindow>;
 LIB PXWindow* createMainWindow(const std::string& title);
 LIB PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size);
 LIB PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position);

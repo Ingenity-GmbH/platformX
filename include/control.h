@@ -8,7 +8,7 @@
 #include <memory>
 
 #pragma region PXControl
-class LIB PXControl {
+class LIB PXControl : public std::enable_shared_from_this<PXControl> {
     public:
         PXControl(const std::string& title, const PXPosition& position, const PXSize& size, const PXType& type=NONE);
         virtual ~PXControl() = default;
@@ -22,6 +22,7 @@ class LIB PXControl {
         std::string getTitle();
         std::vector<PXControl*> getControls() const;
         virtual bool hasCallback() const = 0;
+        std::shared_ptr<PXControl> getSharedPtr();
 
     protected:
         std::string title;

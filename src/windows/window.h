@@ -8,8 +8,7 @@ class LIB WinMainWindow : public PXWindow {
     public:
         WinMainWindow(const std::string& title);
         ~WinMainWindow() override;
-        static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-        std::shared_ptr<PXControl> getSelf() override;
+        static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     protected:
         static inline WinMainWindow* self = nullptr;
@@ -21,8 +20,7 @@ class LIB WinChildWindow : public PXWindow {
     public:
         WinChildWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size);
         ~WinChildWindow() override;
-        static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-        std::shared_ptr<PXControl> getSelf() override;
+        static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     protected:
         static inline WinChildWindow* self = nullptr;

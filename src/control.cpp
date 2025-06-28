@@ -39,6 +39,10 @@ std::string PXControl::getTitle() {
     return title;
 }
 
+std::shared_ptr<PXControl> PXControl::getSharedPtr() {
+    return shared_from_this();
+}
+
 std::vector<PXControl*> PXControl::getControls() const {
     return controls;
 }
