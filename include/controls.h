@@ -5,7 +5,7 @@
 #pragma region PXWindow
 class LIB PXWindow : public PXControl {
     public:
-        PXWindow(const std::string& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size) {}
+        PXWindow(const std::string& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, WINDOW) {}
         virtual ~PXWindow() {};
         bool hasCallback() const override { return false; }
 };

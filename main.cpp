@@ -21,21 +21,20 @@ void button1click() {
     checkbox->toggleState();
     radioButton->toggleState();
     
-    char buffer[30] = {0};
-    listbox->addItem("main:");
+    listbox->addItem("main:");;
     for (const auto control : mainWnd->getControls()) {
-        sprintf(buffer, "  \t%s", control->getTitle());
-        listbox->addItem(buffer);
+        listbox->addItem(control->getTitle());
+        listbox->addItem("   " + (control->getParent() ? control->getParent()->getTitle() : "none"));
     }
     listbox->addItem("child:");
     for (const auto control : childWnd->getControls()) {
-        sprintf(buffer, "  \t%s", control->getTitle());
-        listbox->addItem(buffer);
+        listbox->addItem(control->getTitle());
+        listbox->addItem("   " + (control->getParent() ? control->getParent()->getTitle() : "none"));
     }
     listbox->addItem("group:");
     for (const auto control : groupbox->getControls()) {
-        sprintf(buffer, "  \t%s", control->getTitle());
-        listbox->addItem(buffer);
+        listbox->addItem(control->getTitle());
+        listbox->addItem("   " + (control->getParent() ? control->getParent()->getTitle() : "none"));
     }
 }
 

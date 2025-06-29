@@ -22,7 +22,7 @@ PXHandle PXControl::getHandle() const {
     return handle;
 }
 
-PXHandle PXControl::getParent() const {
+PXControl* PXControl::getParent() {
     return parent;
 }
 

@@ -14,7 +14,7 @@ class LIB PXControl : public std::enable_shared_from_this<PXControl> {
         ~PXControl();
         void addControl(PXControl* control);
         PXHandle getHandle() const;
-        PXHandle getParent() const;
+        PXControl* getParent();
         PXPosition getPosition() const;
         PXSize getSize() const;
         PXType getType() const;
@@ -30,7 +30,7 @@ class LIB PXControl : public std::enable_shared_from_this<PXControl> {
         PXSize size;
         PXType type;
         PXHandle handle;
-        PXHandle parent;
+        PXControl* parent;
         std::vector<PXControl*> controls;
 };
 #pragma endregion PXControl

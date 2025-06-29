@@ -57,6 +57,7 @@ const uint32_t STD_GROUPBOX_SIZE_HEIGHT = 300;
 #pragma region PXType
 enum PXType {
     NONE,
+    WINDOW,
     BUTTON,
     EDIT,
     TEXT,
@@ -71,6 +72,12 @@ struct PXPosition {
     PXPosition(uint32_t x, uint32_t y)
     : x(x), y(y) {}
     uint32_t x, y;
+
+    PXPosition& operator+=(const PXPosition& other) {
+        x += other.x;
+        y += other.y;
+        return *this;
+    }
 };
 #pragma endregion PXPosition
 
