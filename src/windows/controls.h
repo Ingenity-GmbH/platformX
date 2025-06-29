@@ -68,7 +68,17 @@ class LIB WinCheckBox : public PXCheckBox {
         void onClick() override;
         void setState(const bool& state) override;
         bool getState() const override;
-        void toggleState() override;
-        
+        void toggleState() override; 
 };
 #pragma endregion WinComboBox
+
+#pragma region WinRadioButton
+class LIB WinRadioButton : public PXRadioButton {
+    public:
+        WinRadioButton(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback);
+        void onClick() override;
+        void setState(const bool& state) override;
+        bool getState() const override;
+        void toggleState() override;       
+};
+#pragma endregion WinRadioButton 

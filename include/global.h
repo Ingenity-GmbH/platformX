@@ -48,6 +48,8 @@ const uint32_t STD_PROGRESSBAR_SIZE_WIDTH = 100;
 const uint32_t STD_PROGRESSBAR_SIZE_HEIGHT = 21;
 const uint32_t STD_CHECKBOX_SIZE_WIDTH = 100;
 const uint32_t STD_CHECKBOX_SIZE_HEIGHT = 21;
+const uint32_t STD_RADIOBUTTON_SIZE_WIDTH = 100;
+const uint32_t STD_RADIOBUTTON_SIZE_HEIGHT = 21;
 #pragma endregion global variables
 
 #pragma region PXType

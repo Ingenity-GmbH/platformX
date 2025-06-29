@@ -294,9 +294,8 @@ WinCheckBox::WinCheckBox(const std::string& title, const PXControl& parent, cons
     
     if (callback)
         this->callback = callback;
-    else {
+    else
         this->callback = util::toggleState;
-    }
 
     util::setFont(handle);
 }
@@ -325,3 +324,54 @@ PXCheckBox* createCheckBox(const std::string& title, std::shared_ptr<PXControl> 
     return createCheckBox(title, parent, position, {STD_CHECKBOX_SIZE_WIDTH,STD_CHECKBOX_SIZE_HEIGHT}, callback);
 }
 #pragma endregion WinText
+
+#pragma region WinRadioButton
+WinRadioButton::WinRadioButton(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback) 
+: PXRadioButton(title, position, size) {
+    this->parent = parent.getHandle();
+
+    handle = static_cast<PXHandle>(CreateWindowA( 
+        "BUTTON",
+        this->title.c_str(),
+        WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON,
+        position.x,
+        position.y,
+        size.width,
+        size.height,
+        this->parent,
+        nullptr,
+        (HINSTANCE)GetWindowLongPtr(this->parent, GWLP_HINSTANCE), 
+        nullptr));
+
+    if (callback)
+        this->callback = callback;
+    else
+        this->callback = util::toggleState;
+
+    util::setFont(handle);
+}
+
+void WinRadioButton::onClick() {
+	 callback(handle);
+}
+
+void WinRadioButton::setState(const bool& state) {
+    util::setState(handle, state);
+}
+
+bool WinRadioButton::getState() const {
+    return util::getState(handle);
+}
+
+void WinRadioButton::toggleState() {
+    util::toggleState(handle);
+}
+
+PXRadioButton* createRadioButton(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback) {
+    parent->addControl(new WinRadioButton(title, *parent, position, size, callback));
+    return static_cast<PXRadioButton*>(parent->getControls().back());
+}
+PXRadioButton* createRadioButton(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback) {
+    return createRadioButton(title, parent, position, {STD_RADIOBUTTON_SIZE_WIDTH,STD_RADIOBUTTON_SIZE_HEIGHT}, callback);
+}
+#pragma endregion WinRadioButton

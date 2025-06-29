@@ -143,3 +143,24 @@ using PXCheckBoxSharedPtr = std::shared_ptr<PXCheckBox>;
 LIB PXCheckBox* createCheckBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback=nullptr);
 LIB PXCheckBox* createCheckBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback=nullptr);
 #pragma endregion PXCheckBox
+
+#pragma region PXRadioButton
+class LIB PXRadioButton : public PXControl {
+    public:
+        PXRadioButton(const std::string& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, BUTTON) {}
+        virtual ~PXRadioButton() = default;
+        virtual void onClick() = 0;
+        bool hasCallback() const override { return callback == nullptr ? false : true; }
+        virtual void setState(const bool& state) = 0;
+        virtual bool getState() const = 0;
+        virtual void toggleState() = 0;
+
+    protected:
+        std::function<void(const PXHandle& handle)> callback;        
+};
+using PXRadioButtonSharedPtr = std::shared_ptr<PXRadioButton>;
+LIB PXRadioButton* createRadioButton(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback=nullptr);
+LIB PXRadioButton* createRadioButton(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback=nullptr);
+#pragma endregion PXRadioButton
+
+#pragma region PXRadioButton
