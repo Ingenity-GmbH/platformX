@@ -375,3 +375,34 @@ PXRadioButton* createRadioButton(const std::string& title, std::shared_ptr<PXCon
     return createRadioButton(title, parent, position, {STD_RADIOBUTTON_SIZE_WIDTH,STD_RADIOBUTTON_SIZE_HEIGHT}, callback);
 }
 #pragma endregion WinRadioButton
+
+#pragma region WinGroupBox
+WinGroupBox::WinGroupBox(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) 
+: PXGroupBox(title, position, size) {
+    this->parent = parent.getHandle();
+    this->callback = callback;
+
+    handle = static_cast<PXHandle>(CreateWindowA(
+        "BUTTON",
+        this->title.c_str(),
+        WS_CHILD | WS_VISIBLE | BS_GROUPBOX,
+        position.x,
+        position.y,
+        size.width,
+        size.height,
+        this->parent,
+        nullptr,
+        (HINSTANCE)GetWindowLongPtr(this->parent, GWLP_HINSTANCE), 
+        nullptr));
+
+    util::setFont(handle);
+}
+
+PXGroupBox* createGroupBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) {
+    parent->addControl(new WinGroupBox(title, *parent, position, size, callback));
+    return static_cast<PXGroupBox*>(parent->getControls().back());
+}
+PXGroupBox* createGroupBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback) {
+    return createGroupBox(title, parent, position, {STD_GROUPBOX_SIZE_WIDTH,STD_GROUPBOX_SIZE_HEIGHT}, callback);
+}
+#pragma endregion WinGroupBox

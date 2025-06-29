@@ -82,3 +82,11 @@ class LIB WinRadioButton : public PXRadioButton {
         void toggleState() override;       
 };
 #pragma endregion WinRadioButton 
+
+#pragma region WinGroupBox
+class LIB WinGroupBox : public PXGroupBox {
+    public:
+        WinGroupBox(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+        // void onClick() override;        
+};
+#pragma endregion WinGroupBox

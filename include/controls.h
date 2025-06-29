@@ -164,3 +164,19 @@ LIB PXRadioButton* createRadioButton(const std::string& title, std::shared_ptr<P
 #pragma endregion PXRadioButton
 
 #pragma region PXRadioButton
+
+#pragma region PXGroupBox
+class LIB PXGroupBox : public PXControl {
+    public:
+        PXGroupBox(const std::string& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, GROUPBOX) {}
+        virtual ~PXGroupBox() = default;
+        // virtual void onClick() = 0;
+        bool hasCallback() const override { return callback == nullptr ? false : true; }
+        
+    protected:
+        std::function<void()> callback;  
+};
+using PXGroupBoxSharedPtr = std::shared_ptr<PXGroupBox>;
+LIB PXGroupBox* createGroupBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
+LIB PXGroupBox* createGroupBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
+#pragma endregion PXGroupBox
