@@ -35,8 +35,27 @@ std::string util::getTitle(const PXHandle& handle) {
     return std::string(buffer.get());
 }
 
-void util::setWindowState(const PXHandle& handle, int32_t state) {
+void util::setWindowState(const PXHandle& handle, const int32_t& state) {
     ShowWindow(static_cast<HWND>(handle), (int)state);
+}
+
+void util::setState(const PXHandle& handle, const bool& state) {
+    if (state)
+        SendMessage(reinterpret_cast<HWND>(handle), BM_SETCHECK, BST_CHECKED, 0);
+    else
+        SendMessage(reinterpret_cast<HWND>(handle), BM_SETCHECK, BST_UNCHECKED, 0);
+}
+
+bool util::getState(const PXHandle& handle) {
+    auto state = SendMessage(reinterpret_cast<HWND>(handle), BM_GETCHECK, 0, 0);
+    return state==BST_CHECKED ? true : false;
+}
+
+void LIB util::toggleState(const PXHandle& handle) {
+    if (getState(handle))
+        setState(handle, false);
+    else
+        setState(handle, true);
 }
 
 void util::addItems(const PXHandle& handle, const std::vector<std::string>& items) {

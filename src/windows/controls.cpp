@@ -273,3 +273,55 @@ PXProgressBar* createProgressBar(const std::string& title, std::shared_ptr<PXCon
     return createProgressBar(title, parent, position, {STD_PROGRESSBAR_SIZE_WIDTH,STD_PROGRESSBAR_SIZE_HEIGHT}, callback);
 }
 #pragma endregion WinProgressBar
+
+#pragma region WinCheckBox
+WinCheckBox::WinCheckBox(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback) 
+: PXCheckBox(title, position, size) {
+    this->parent = parent.getHandle();
+
+    handle = reinterpret_cast<PXHandle>(CreateWindowA( 
+        "BUTTON",
+        this->title.c_str(),
+        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
+        position.x,
+        position.y,
+        size.width,
+        size.height,
+        this->parent,
+        nullptr,
+        (HINSTANCE)GetWindowLongPtr(this->parent, GWLP_HINSTANCE), 
+        nullptr));
+    
+    if (callback)
+        this->callback = callback;
+    else {
+        this->callback = util::toggleState;
+    }
+
+    util::setFont(handle);
+}
+
+void WinCheckBox::onClick() {
+    callback(handle);
+}
+
+void WinCheckBox::setState(const bool& state) {
+    util::setState(handle, state);
+}
+
+bool WinCheckBox::getState() const {
+    return util::getState(handle);
+}
+
+void WinCheckBox::toggleState() {
+    util::toggleState(handle);
+}
+
+PXCheckBox* createCheckBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback) {
+    parent->addControl(new WinCheckBox(title, *parent, position, size, callback));
+    return static_cast<PXCheckBox*>(parent->getControls().back());
+}
+PXCheckBox* createCheckBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback) {
+    return createCheckBox(title, parent, position, {STD_CHECKBOX_SIZE_WIDTH,STD_CHECKBOX_SIZE_HEIGHT}, callback);
+}
+#pragma endregion WinText

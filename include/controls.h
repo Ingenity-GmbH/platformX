@@ -105,7 +105,6 @@ LIB PXComboBox* createComboBox(const std::string& title, std::shared_ptr<PXContr
 LIB PXComboBox* createComboBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
 #pragma endregion PXComboBox
 
-
 #pragma region PXProgressBar
 class LIB PXProgressBar : public PXControl {
     public:
@@ -119,10 +118,28 @@ class LIB PXProgressBar : public PXControl {
         virtual void setColor(const PXColor& front, const PXColor& back) = 0;
 
     protected:
-        std::function<void(const uint32_t& key)> callback;
-        
+        std::function<void(const uint32_t& key)> callback; 
 };
 using PXProgressBarSharedPtr = std::shared_ptr<PXProgressBar>;
 LIB PXProgressBar* createProgressBar(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
 LIB PXProgressBar* createProgressBar(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
 #pragma endregion PXProgressBar
+
+#pragma region PXCheckBox
+class LIB PXCheckBox : public PXControl {
+    public:
+        PXCheckBox(const std::string& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, BUTTON) {}
+        virtual ~PXCheckBox() = default;
+        virtual void onClick() = 0;
+        bool hasCallback() const override { return callback == nullptr ? false : true; }
+        virtual void setState(const bool& state) = 0;
+        virtual bool getState() const = 0;
+        virtual void toggleState() = 0;
+
+    protected:
+        std::function<void(const PXHandle&)> callback;        
+};
+using PXCheckBoxSharedPtr = std::shared_ptr<PXCheckBox>;
+LIB PXCheckBox* createCheckBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback=nullptr);
+LIB PXCheckBox* createCheckBox(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback=nullptr);
+#pragma endregion PXCheckBox

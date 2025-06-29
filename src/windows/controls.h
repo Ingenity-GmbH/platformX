@@ -60,3 +60,15 @@ class LIB WinProgressBar : public PXProgressBar {
         void setColor(const PXColor& front, const PXColor& back) override;
 };
 #pragma endregion WinProgressBar
+
+#pragma region WinCheckBox
+class LIB WinCheckBox : public PXCheckBox {
+    public:
+        WinCheckBox(const std::string& title, const PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback);
+        void onClick() override;
+        void setState(const bool& state) override;
+        bool getState() const override;
+        void toggleState() override;
+        
+};
+#pragma endregion WinComboBox

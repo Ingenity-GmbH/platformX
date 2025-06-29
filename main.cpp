@@ -11,15 +11,19 @@ PXTextSharedPtr text;
 PXListBoxSharedPtr listbox;
 PXComboBoxSharedPtr combobox;
 PXProgressBarSharedPtr progress;
+PXCheckBoxSharedPtr checkbox;
 
 /* callbacks */
 void button1click() {
     listbox->addItem(edit->getTitle(), 5);
     combobox->addItem(edit->getTitle(), 5);
+    // checkbox->setState(false);
+    checkbox->toggleState();
 }
 
 void button2click() {
     util::setWindowState(childWnd->getHandle(), SW_NORMAL);
+    checkbox->setState(true);
 }
 
 void editClick(const uint32_t& key) {
@@ -42,6 +46,7 @@ int main() {
     progress->configure(0,100,1);
     progress->setPos(25);
     progress->setColor(PXColor(0x80,0xC8,0xB0), PXColor(0xF0,0xF0,0xF0));
+    checkbox = SHARED(PXCheckBox, createCheckBox("option", childWnd, PXPosition(40,40)));
 
     app->runEventLoop();
 
