@@ -19,20 +19,20 @@ void util::setFont(const PXHandle& handle) {
         DEFAULT_PITCH | FF_SWISS,  // PitchAndFamily
         WIN_STANDARD_FONT          // Facename
     );
-    SendMessage(static_cast<HWND>(handle), WM_SETFONT, (WPARAM)hFont, TRUE);
+    SendMessage(reinterpret_cast<HWND>(handle), WM_SETFONT, (WPARAM)hFont, TRUE);
 }
 void util::setTitle(const PXHandle& handle, const PXString& title) {
-    SendMessageW(static_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(title.toLPCWSTR()));
+    SendMessageW(reinterpret_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(title.toLPCWSTR()));
 }
 
 PXString util::getTitle(const PXHandle& handle) {
-    int titleLen = SendMessageW(static_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
+    int titleLen = SendMessageW(reinterpret_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
 
     if (titleLen <= 0)
         return PXString();
 
     std::wstring buffer(titleLen, L'\0');
-    SendMessageW(static_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(titleLen+1), (LPARAM)buffer.data());
+    SendMessageW(reinterpret_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(titleLen+1), (LPARAM)buffer.data());
     
     // remove any trailing nulls (if present)
     buffer.resize(wcsnlen(buffer.data(), buffer.size()));
@@ -41,7 +41,7 @@ PXString util::getTitle(const PXHandle& handle) {
 }
 
 void util::setWindowState(const PXHandle& handle, const int32_t& state) {
-    ShowWindow(static_cast<HWND>(handle), (int)state);
+    ShowWindow(reinterpret_cast<HWND>(handle), (int)state);
 }
 
 void util::setState(const PXHandle& handle, const bool& state) {
@@ -64,21 +64,21 @@ void LIB util::toggleState(const PXHandle& handle) {
 }
 
 void util::addItems(const PXHandle& handle, const std::vector<PXString>& items) {
-    SendMessage(static_cast<HWND>(handle), LB_RESETCONTENT, 0, 0);
-    SendMessage(static_cast<HWND>(handle), CB_RESETCONTENT, 0, 0);
+    SendMessage(reinterpret_cast<HWND>(handle), LB_RESETCONTENT, 0, 0);
+    SendMessage(reinterpret_cast<HWND>(handle), CB_RESETCONTENT, 0, 0);
 
     for (size_t i=0; i<items.size(); i++) {
-        SendMessage(static_cast<HWND>(handle), LB_INSERTSTRING, (WPARAM)(i), (LPARAM)(&items[i]));
-        SendMessage(static_cast<HWND>(handle), CB_INSERTSTRING , (WPARAM)(i), (LPARAM)(&items[i]));
+        SendMessage(reinterpret_cast<HWND>(handle), LB_INSERTSTRING, (WPARAM)(i), (LPARAM)(&items[i]));
+        SendMessage(reinterpret_cast<HWND>(handle), CB_INSERTSTRING , (WPARAM)(i), (LPARAM)(&items[i]));
     }
 }
 
 size_t util::getSelectedItem(const PXHandle& handle, const PXType& type) {
     switch (type) {
         case LISTBOX:
-            return SendMessage(static_cast<HWND>(handle), LB_GETCURSEL, 0, 0);
+            return SendMessage(reinterpret_cast<HWND>(handle), LB_GETCURSEL, 0, 0);
         case COMBOBOX:
-            return SendMessage(static_cast<HWND>(handle), CB_GETCURSEL, 0, 0);
+            return SendMessage(reinterpret_cast<HWND>(handle), CB_GETCURSEL, 0, 0);
     } 
     return -1;
 }

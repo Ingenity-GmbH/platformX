@@ -30,7 +30,7 @@ WinMainWindow::WinMainWindow(const PXString& title)
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     RegisterClassEx(&wc);
 
-    handle = static_cast<PXHandle>(CreateWindowEx(
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
         0,
         wc.lpszClassName,
         this->title.toLPCWSTR(),
@@ -46,8 +46,8 @@ WinMainWindow::WinMainWindow(const PXString& title)
 
     util::setFont(handle);
 
-    ShowWindow(static_cast<HWND>(handle), SW_SHOWDEFAULT);
-    UpdateWindow(static_cast<HWND>(handle));
+    ShowWindow(reinterpret_cast<HWND>(handle), SW_SHOWDEFAULT);
+    UpdateWindow(reinterpret_cast<HWND>(handle));
 }
 
 LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -61,12 +61,12 @@ LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
             {
                 for (const auto control : self->controls) {
                     if (control->hasCallback() && control->getType() == BUTTON && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
-                        auto btn = static_cast<WinButton*>(control);
+                        auto btn = reinterpret_cast<WinButton*>(control);
                         btn->onClick();
                     }
                     else if (control->hasCallback() && control->getType() == EDIT && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
-                        auto edit = static_cast<WinEdit*>(control);
-                        edit->onKeyPress(static_cast<const uint32_t&>(wParam));
+                        auto edit = reinterpret_cast<WinEdit*>(control);
+                        edit->onKeyPress(reinterpret_cast<const uint32_t&>(wParam));
                     }
                 }
                 break;
@@ -120,7 +120,7 @@ WinChildWindow::WinChildWindow(const PXString& title, std::shared_ptr<PXControl>
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     RegisterClassEx(&wc);
 
-    handle = static_cast<PXHandle>(CreateWindowEx(
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
         0,
         wc.lpszClassName, 
         this->title.toLPCWSTR(),
@@ -150,12 +150,12 @@ LRESULT CALLBACK WinChildWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam,
             {
                 for (const auto control : self->controls) {
                     if (control->hasCallback() && control->getType() == BUTTON && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
-                        auto btn = static_cast<WinButton*>(control);
+                        auto btn = reinterpret_cast<WinButton*>(control);
                         btn->onClick();
                     }
                     else if (control->hasCallback() && control->getType() == EDIT && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
-                        auto edit = static_cast<WinEdit*>(control);
-                        edit->onKeyPress(static_cast<const uint32_t&>(wParam));
+                        auto edit = reinterpret_cast<WinEdit*>(control);
+                        edit->onKeyPress(reinterpret_cast<const uint32_t&>(wParam));
                     }
                 }
                 break;
@@ -173,7 +173,7 @@ LRESULT CALLBACK WinChildWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam,
 
 PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size) {
     parent->addControl(new WinChildWindow(title, parent, position, size));
-    return static_cast<PXWindow*>(parent->getControls().back());
+    return reinterpret_cast<PXWindow*>(parent->getControls().back());
 }
 
 PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position) {

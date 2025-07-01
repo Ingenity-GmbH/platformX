@@ -11,7 +11,7 @@ WinButton::WinButton(const PXString& title, PXControl& parent, const PXPosition&
     this->parent = &parent;
     this->callback = callback;
 
-    handle = static_cast<PXHandle>(CreateWindowEx( 
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
         0,
         L"BUTTON",
         this->title.toLPCWSTR(),
@@ -41,7 +41,7 @@ PXButton* createButton(const PXString& title, std::shared_ptr<PXControl> parent,
         newParent = newParent->getParent();
     } 
     newParent->addControl(new WinButton(title, *newParent, newPosition, size, callback));
-    return static_cast<PXButton*>(newParent->getControls().back());
+    return reinterpret_cast<PXButton*>(newParent->getControls().back());
 }
 PXButton* createButton(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback) {
     return createButton(title,  parent,  position, {STD_BTN_SIZE_WIDTH,STD_BTN_SIZE_HEIGHT}, callback);
@@ -55,7 +55,7 @@ WinEdit::WinEdit(const PXString& title, PXControl& parent, const PXPosition& pos
     this->parent = &parent;
     this->callback = callback;
 
-    handle = static_cast<PXHandle>(CreateWindowEx( 
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
         0,
         L"EDIT",
         this->title.toLPCWSTR(),
@@ -85,7 +85,7 @@ PXEdit* createEdit(const PXString& title, std::shared_ptr<PXControl> parent, con
         newParent = newParent->getParent();
     } 
     newParent->addControl(new WinEdit(title, *newParent, newPosition, size, callback));
-    return static_cast<PXEdit*>(newParent->getControls().back());
+    return reinterpret_cast<PXEdit*>(newParent->getControls().back());
 }
 PXEdit* createEdit(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback) {
     return createEdit(title, parent, position, {STD_EDIT_SIZE_WIDTH,STD_EDIT_SIZE_HEIGHT}, callback);
@@ -99,7 +99,7 @@ WinText::WinText(const PXString& title, PXControl& parent, const PXPosition& pos
     this->parent = &parent;
     this->callback = callback;
 
-    handle = static_cast<PXHandle>(CreateWindowEx( 
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
         0,
         L"STATIC",
         this->title.toLPCWSTR(),
@@ -129,7 +129,7 @@ PXText* createText(const PXString& title, std::shared_ptr<PXControl> parent, con
         newParent = newParent->getParent();
     } 
     newParent->addControl(new WinText(title, *newParent, newPosition, size, callback));
-    return static_cast<PXText*>(newParent->getControls().back());
+    return reinterpret_cast<PXText*>(newParent->getControls().back());
 }
 PXText* createText(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback) {
     return createText(title, parent, position, {STD_TEXT_SIZE_WIDTH,STD_TEXT_SIZE_HEIGHT}, callback);
@@ -143,7 +143,7 @@ WinListBox::WinListBox(const PXString& title, PXControl& parent, const PXPositio
     this->parent = &parent;
     this->callback = callback;
 
-    handle = static_cast<PXHandle>(CreateWindowEx(
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
         0,
         L"LISTBOX",
         this->title.toLPCWSTR(),
@@ -192,7 +192,7 @@ PXListBox* createListBox(const PXString& title, std::shared_ptr<PXControl> paren
         newParent = newParent->getParent();
     } 
     newParent->addControl(new WinListBox(title, *newParent, newPosition, size, callback));
-    return static_cast<PXListBox*>(newParent->getControls().back());
+    return reinterpret_cast<PXListBox*>(newParent->getControls().back());
 }
 PXListBox* createListBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback) {
     return createListBox(title, parent, position, {STD_LISTBOX_SIZE_WIDTH,STD_LISTBOX_SIZE_HEIGHT}, callback);
@@ -206,7 +206,7 @@ WinComboBox::WinComboBox(const PXString& title, PXControl& parent, const PXPosit
     this->parent = &parent;
     this->callback = callback;
 
-    handle = static_cast<PXHandle>(CreateWindowEx(
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
         0,
         L"COMBOBOX",
         this->title.toLPCWSTR(),
@@ -255,7 +255,7 @@ PXComboBox* createComboBox(const PXString& title, std::shared_ptr<PXControl> par
         newParent = newParent->getParent();
     } 
     newParent->addControl(new WinComboBox(title, *newParent, newPosition, size, callback));
-    return static_cast<PXComboBox*>(newParent->getControls().back());
+    return reinterpret_cast<PXComboBox*>(newParent->getControls().back());
 }
 PXComboBox* createComboBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback) {
     return createComboBox(title, parent, position, {STD_COMBOBOX_SIZE_WIDTH,STD_COMBOBOX_SIZE_HEIGHT}, callback);
@@ -269,7 +269,7 @@ WinProgressBar::WinProgressBar(const PXString& title, PXControl& parent, const P
     this->parent = &parent;
     this->callback = callback;
 
-    handle = static_cast<PXHandle>(CreateWindowEx( 
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
         0,
         L"msctls_progress32",
         this->title.toLPCWSTR(),
@@ -285,8 +285,8 @@ WinProgressBar::WinProgressBar(const PXString& title, PXControl& parent, const P
 
     util::setFont(handle);
 
-    SetWindowLong(static_cast<HWND>(handle), GWL_STYLE, GetWindowLong(static_cast<HWND>(handle), GWL_STYLE) | PBS_MARQUEE);
-    SendMessage(static_cast<HWND>(handle), PBM_SETMARQUEE, (WPARAM)TRUE, (LPARAM)30);
+    SetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE, GetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE) | PBS_MARQUEE);
+    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETMARQUEE, (WPARAM)TRUE, (LPARAM)30);
 }
 
 // void WinProgressBar::onKeyPress(const uint32_t& key) {
@@ -294,21 +294,21 @@ WinProgressBar::WinProgressBar(const PXString& title, PXControl& parent, const P
 // }
 
 void WinProgressBar::configure(const uint32_t& min, const uint32_t& max, const uint32_t& step) {
-    SendMessage(static_cast<HWND>(handle), PBM_SETRANGE, 0, MAKELPARAM(min, max));
-    SendMessage(static_cast<HWND>(handle), PBM_SETSTEP, (WPARAM)(step), 0);
+    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETRANGE, 0, MAKELPARAM(min, max));
+    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETSTEP, (WPARAM)(step), 0);
 }
 
 void WinProgressBar::incStep() {
-    SendMessage(static_cast<HWND>(handle), PBM_STEPIT, 0, 0);
+    SendMessage(reinterpret_cast<HWND>(handle), PBM_STEPIT, 0, 0);
 }
 
 void WinProgressBar::setPos(const uint32_t& pos) {
-    SendMessage(static_cast<HWND>(handle), PBM_SETPOS, (WPARAM)(pos), 0);
+    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETPOS, (WPARAM)(pos), 0);
 }
 
 void WinProgressBar::setColor(const PXColor& front, const PXColor& back) {
-    SendMessage(static_cast<HWND>(handle), PBM_SETBARCOLOR, 0, (LPARAM)RGB(front.r, front.g, front.b));
-    SendMessage(static_cast<HWND>(handle), PBM_SETBKCOLOR, 0, (LPARAM)RGB(back.r, back.g, back.b));
+    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETBARCOLOR, 0, (LPARAM)RGB(front.r, front.g, front.b));
+    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETBKCOLOR, 0, (LPARAM)RGB(back.r, back.g, back.b));
 }
 
 PXProgressBar* createProgressBar(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) {
@@ -320,7 +320,7 @@ PXProgressBar* createProgressBar(const PXString& title, std::shared_ptr<PXContro
         newParent = newParent->getParent();
     } 
     newParent->addControl(new WinProgressBar(title, *newParent, newPosition, size, callback));
-    return static_cast<PXProgressBar*>(newParent->getControls().back());
+    return reinterpret_cast<PXProgressBar*>(newParent->getControls().back());
 }
 PXProgressBar* createProgressBar(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback) {
     return createProgressBar(title, parent, position, {STD_PROGRESSBAR_SIZE_WIDTH,STD_PROGRESSBAR_SIZE_HEIGHT}, callback);
@@ -379,7 +379,7 @@ PXCheckBox* createCheckBox(const PXString& title, std::shared_ptr<PXControl> par
         newParent = newParent->getParent();
     } 
     newParent->addControl(new WinCheckBox(title, *newParent, newPosition, size, callback));
-    return static_cast<PXCheckBox*>(newParent->getControls().back());
+    return reinterpret_cast<PXCheckBox*>(newParent->getControls().back());
 }
 PXCheckBox* createCheckBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback) {
     return createCheckBox(title, parent, position, {STD_CHECKBOX_SIZE_WIDTH,STD_CHECKBOX_SIZE_HEIGHT}, callback);
@@ -396,7 +396,7 @@ WinRadioButton::WinRadioButton(const PXString& title, PXControl& parent, const P
     else
         this->callback = util::toggleState;
 
-    handle = static_cast<PXHandle>(CreateWindowEx( 
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
         0,
         L"BUTTON",
         this->title.toLPCWSTR(),
@@ -438,7 +438,7 @@ PXRadioButton* createRadioButton(const PXString& title, std::shared_ptr<PXContro
         newParent = newParent->getParent();
     } 
     newParent->addControl(new WinRadioButton(title, *newParent, newPosition, size, callback));
-    return static_cast<PXRadioButton*>(newParent->getControls().back());
+    return reinterpret_cast<PXRadioButton*>(newParent->getControls().back());
 }
 PXRadioButton* createRadioButton(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback) {
     return createRadioButton(title, parent, position, {STD_RADIOBUTTON_SIZE_WIDTH,STD_RADIOBUTTON_SIZE_HEIGHT}, callback);
@@ -452,7 +452,7 @@ WinGroupBox::WinGroupBox(const PXString& title, PXControl& parent, const PXPosit
     this->parent = &parent;
     this->callback = callback;
 
-    handle = static_cast<PXHandle>(CreateWindowEx(
+    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
         0,
         L"BUTTON",
         this->title.toLPCWSTR(),
@@ -478,7 +478,7 @@ PXGroupBox* createGroupBox(const PXString& title, std::shared_ptr<PXControl> par
         newParent = newParent->getParent();
     } 
     newParent->addControl(new WinGroupBox(title, *newParent, newPosition, size, callback));
-    return static_cast<PXGroupBox*>(newParent->getControls().back());
+    return reinterpret_cast<PXGroupBox*>(newParent->getControls().back());
 }
 PXGroupBox* createGroupBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback) {
     return createGroupBox(title, parent, position, {STD_GROUPBOX_SIZE_WIDTH,STD_GROUPBOX_SIZE_HEIGHT}, callback);
