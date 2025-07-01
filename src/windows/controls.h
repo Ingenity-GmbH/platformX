@@ -6,7 +6,7 @@
 #pragma region WinButton
 class LIB WinButton : public PXButton {
     public:
-        WinButton(const std::string& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+        WinButton(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
         void onClick() override;
 };
 #pragma endregion WinButton
@@ -14,7 +14,7 @@ class LIB WinButton : public PXButton {
 #pragma region WinEdit
 class LIB WinEdit : public PXEdit {
     public:
-        WinEdit(const std::string& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+        WinEdit(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         void onKeyPress(const uint32_t& key);
 };
 #pragma endregion WinEdit
@@ -22,7 +22,7 @@ class LIB WinEdit : public PXEdit {
 #pragma region WinText
 class LIB WinText : public PXText {
     public:
-        WinText(const std::string& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+        WinText(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
 };
 #pragma endregion WinText
@@ -30,9 +30,9 @@ class LIB WinText : public PXText {
 #pragma region WinListBox
 class LIB WinListBox : public PXListBox {
     public:
-        WinListBox(const std::string& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+        WinListBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
-        void addItem(const std::string& title, const size_t& pos) override;
+        void addItem(const PXString& title, const size_t& pos) override;
         void removeItem(const size_t& pos) override;
         size_t getSelectedItem() const override;
 };
@@ -41,9 +41,9 @@ class LIB WinListBox : public PXListBox {
 #pragma region WinComboBox
 class LIB WinComboBox : public PXComboBox {
     public:
-        WinComboBox(const std::string& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+        WinComboBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
-        void addItem(const std::string& title, const size_t& pos) override;
+        void addItem(const PXString& title, const size_t& pos) override;
         void removeItem(const size_t& pos) override;
         size_t getSelectedItem() const override;
 };
@@ -52,7 +52,7 @@ class LIB WinComboBox : public PXComboBox {
 #pragma region WinProgressBar
 class LIB WinProgressBar : public PXProgressBar {
     public:
-        WinProgressBar(const std::string& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+        WinProgressBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
         void configure(const uint32_t& min, const uint32_t& max, const uint32_t& step) override;
         void incStep() override;
@@ -64,7 +64,7 @@ class LIB WinProgressBar : public PXProgressBar {
 #pragma region WinCheckBox
 class LIB WinCheckBox : public PXCheckBox {
     public:
-        WinCheckBox(const std::string& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback);
+        WinCheckBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback);
         void onClick() override;
         void setState(const bool& state) override;
         bool getState() const override;
@@ -75,7 +75,7 @@ class LIB WinCheckBox : public PXCheckBox {
 #pragma region WinRadioButton
 class LIB WinRadioButton : public PXRadioButton {
     public:
-        WinRadioButton(const std::string& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback);
+        WinRadioButton(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback);
         void onClick() override;
         void setState(const bool& state) override;
         bool getState() const override;
@@ -86,7 +86,7 @@ class LIB WinRadioButton : public PXRadioButton {
 #pragma region WinGroupBox
 class LIB WinGroupBox : public PXGroupBox {
     public:
-        WinGroupBox(const std::string& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+        WinGroupBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
         // void onClick() override;        
 };
 #pragma endregion WinGroupBox

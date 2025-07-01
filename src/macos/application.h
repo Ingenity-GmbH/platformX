@@ -57,7 +57,7 @@ class AppDelegate : public NS::ApplicationDelegate {
 #pragma region MacOSApplication
 class MacOSApplication : public PXApplication {
     public:
-        MacOSApplication(const std::string& title);
+        MacOSApplication(const PXString& title);
         ~MacOSApplication();
         void runEventLoop() override;
         std::shared_ptr<PXControl> getMainWindow() const override;

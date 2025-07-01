@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <string>
 #include <memory>
 
 #pragma region base os specific definitions
@@ -66,6 +67,30 @@ enum PXType {
     GROUPBOX
 };
 #pragma endregion PXType
+
+#pragma region PXString
+class LIB PXString {
+    private:
+        std::wstring local_toWstring() const;
+        std::string local_toString() const;
+        std::string str;
+        std::wstring wstr;
+
+    public:
+        PXString();
+        PXString(const std::string& str);
+        PXString(const std::wstring& str);
+        PXString(const char* str);
+
+        std::wstring toWstring() const;
+        std::string toString() const;
+        LPCWSTR toLPCWSTR() const;
+        LPCSTR toLPCSTR() const;
+       
+        friend LIB PXString operator+(const PXString& lhs, const PXString& rhs);
+};
+LIB PXString operator+(const PXString& lhs, const PXString& rhs);
+#pragma endregion PXString
 
 #pragma region PXPosition
 struct PXPosition {

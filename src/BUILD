@@ -52,7 +52,9 @@ cc_binary(
     linkshared = True,
     copts = [
         "/std:c++17",
-        "/DBUILDING_DLL"
+        "/utf-8",
+        "/DBUILDING_DLL",
+        "/DUNICODE"
     ],
     linkopts = [
         "-DEFAULTLIB:user32",

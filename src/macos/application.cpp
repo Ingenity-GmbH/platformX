@@ -140,7 +140,7 @@ bool AppDelegate::applicationShouldTerminateAfterLastWindowClosed(NS::Applicatio
 #pragma endregion AppDelegate
 
 #pragma region MacOSApplication
-MacOSApplication::MacOSApplication(const std::string& title) {
+MacOSApplication::MacOSApplication(const PXString& title) {
     appDelegate = new AppDelegate(NS::String::string(title.c_str(), NS::UTF8StringEncoding));
     pAutoreleasePool = NS::AutoreleasePool::alloc()->init();
     pSharedApplication = NS::Application::sharedApplication();
@@ -161,7 +161,7 @@ std::shared_ptr<PXControl> MacOSApplication::getMainWindow() const {
     return mainWindow;
 }
 
-PXApplication* createApplication(const std::string& title) {
+PXApplication* createApplication(const PXString& title) {
     return new MacOSApplication(title);
 }
 #pragma endregion MacOSApplication

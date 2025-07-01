@@ -1,11 +1,8 @@
 #pragma once
 
 #include "include/global.h"
-#include "include/controls.h"
 #include "include/util.h"
-
-#include <string>
-#include <memory>
+#include "include/controls.h"
 
 #pragma region PXApplication
 class LIB PXApplication {

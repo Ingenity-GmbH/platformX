@@ -2,7 +2,7 @@
 #include "../include/util.h"
 
 #pragma region PXControl
-PXControl::PXControl(const std::string& title, const PXPosition& position, const PXSize& size, const PXType& type)
+PXControl::PXControl(const PXString& title, const PXPosition& position, const PXSize& size, const PXType& type)
 : title(title), position(position), size(size), type(type), handle(0), parent(0) {}
 
 PXControl::~PXControl() {
@@ -38,12 +38,12 @@ PXType PXControl::getType() const {
     return type;
 }
 
-void PXControl::setTitle(const std::string& title) {
+void PXControl::setTitle(const PXString& title) {
     this->title = title;
     util::setTitle(handle, title);
 }
 
-std::string PXControl::getTitle() {
+PXString PXControl::getTitle() {
     title = util::getTitle(handle);
     return title;
 }

@@ -7,7 +7,7 @@
 #include <vssym32.h>
 
 #pragma region WinMainWindow
-WinMainWindow::WinMainWindow(const std::string& title) 
+WinMainWindow::WinMainWindow(const PXString& title) 
 : PXWindow(
     title, 
     PXPosition((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_MAINWIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_MAINWIN_SIZE_HEIGHT))/2.0),
@@ -15,7 +15,8 @@ WinMainWindow::WinMainWindow(const std::string& title)
 
     self = this;
 
-    WNDCLASSA wc = {};
+    WNDCLASSEX wc = {};
+    wc.cbSize = sizeof(wc);
     // wc.style = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = WndProc;
     wc.cbClsExtra = 0;
@@ -25,13 +26,14 @@ WinMainWindow::WinMainWindow(const std::string& title)
     // wc.hCursor  = LoadCursor(nullptr, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
     // wc.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1);
-    wc.lpszClassName = "MainWindow";
+    wc.lpszClassName = L"MainWindow";
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-    RegisterClassA(&wc);
+    RegisterClassEx(&wc);
 
-    handle = static_cast<PXHandle>(CreateWindowA(
-        wc.lpszClassName, 
-        this->title.c_str(),
+    handle = static_cast<PXHandle>(CreateWindowEx(
+        0,
+        wc.lpszClassName,
+        this->title.toLPCWSTR(),
         WS_OVERLAPPEDWINDOW | WS_VSCROLL | WS_HSCROLL,
         position.x, 
         position.y,
@@ -89,13 +91,13 @@ LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
     return DefWindowProc(hWnd, message, wParam, lParam); 
 }
 
-PXWindow* createMainWindow(const std::string& title) {
+PXWindow* createMainWindow(const PXString& title) {
     return new WinMainWindow(title);
 }
 #pragma endregion WinMainWindow
 
 #pragma region WinChildWindow
-WinChildWindow::WinChildWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size)
+WinChildWindow::WinChildWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size)
 : PXWindow(
     title,
     position,
@@ -103,7 +105,8 @@ WinChildWindow::WinChildWindow(const std::string& title, std::shared_ptr<PXContr
 
     self = this;
 
-    WNDCLASSA wc = {};
+    WNDCLASSEX wc = {};
+    wc.cbSize = sizeof(wc);
     // wc.style = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = WndProc;
     wc.cbClsExtra = 0;
@@ -113,13 +116,14 @@ WinChildWindow::WinChildWindow(const std::string& title, std::shared_ptr<PXContr
     // wc.hCursor  = LoadCursor(nullptr, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
     // wc.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1);
-    wc.lpszClassName = "ChildWindow";
+    wc.lpszClassName = L"ChildWindow";
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-    RegisterClassA(&wc);
+    RegisterClassEx(&wc);
 
-    handle = static_cast<PXHandle>(CreateWindowA(
+    handle = static_cast<PXHandle>(CreateWindowEx(
+        0,
         wc.lpszClassName, 
-        this->title.c_str(),
+        this->title.toLPCWSTR(),
         WS_OVERLAPPEDWINDOW,
         position.x, 
         position.y,
@@ -167,20 +171,20 @@ LRESULT CALLBACK WinChildWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam,
     return DefWindowProc(hWnd, message, wParam, lParam); 
 }
 
-PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size) {
+PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size) {
     parent->addControl(new WinChildWindow(title, parent, position, size));
     return static_cast<PXWindow*>(parent->getControls().back());
 }
 
-PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position) {
+PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position) {
     return createWindow(title, parent, position, PXSize(std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH), std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT)));
 }
 
-PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXSize& size) {
+PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXSize& size) {
     return createWindow(title, parent, PXPosition((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT))/2.0), size);
 }
 
-PXWindow* createWindow(const std::string& title, std::shared_ptr<PXControl> parent) {
+PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent) {
     return createWindow(title, parent, PXPosition((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT))/2.0), PXSize(std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH), std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT)));
 }
 #pragma endregion WinMainWindow

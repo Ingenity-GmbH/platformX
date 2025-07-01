@@ -6,7 +6,7 @@
 #pragma region WinMainWindow
 class LIB WinMainWindow : public PXWindow {
     public:
-        WinMainWindow(const std::string& title);
+        WinMainWindow(const PXString& title);
         static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     protected:
@@ -17,7 +17,7 @@ class LIB WinMainWindow : public PXWindow {
 #pragma region WinChildWindow
 class LIB WinChildWindow : public PXWindow {
     public:
-        WinChildWindow(const std::string& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size);
+        WinChildWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size);
         static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     protected:

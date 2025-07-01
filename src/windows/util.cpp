@@ -21,18 +21,23 @@ void util::setFont(const PXHandle& handle) {
     );
     SendMessage(static_cast<HWND>(handle), WM_SETFONT, (WPARAM)hFont, TRUE);
 }
-void util::setTitle(const PXHandle& handle, const std::string& title) {
-    SendMessage(static_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(&title));
+void util::setTitle(const PXHandle& handle, const PXString& title) {
+    SendMessageW(static_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(title.toLPCWSTR()));
 }
 
-std::string util::getTitle(const PXHandle& handle) {
-    int txtLen = SendMessage(static_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
-    std::unique_ptr<char> buffer(new char[txtLen+1]);
-    SendMessage(static_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(txtLen+1), (LPARAM)buffer.get());
+PXString util::getTitle(const PXHandle& handle) {
+    int titleLen = SendMessageW(static_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
+
+    if (titleLen <= 0)
+        return PXString();
+
+    std::wstring buffer(titleLen, L'\0');
+    SendMessageW(static_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(titleLen+1), (LPARAM)buffer.data());
     
-    if (!buffer)
-        return "";
-    return std::string(buffer.get());
+    // remove any trailing nulls (if present)
+    buffer.resize(wcsnlen(buffer.data(), buffer.size()));
+
+    return PXString(buffer);
 }
 
 void util::setWindowState(const PXHandle& handle, const int32_t& state) {
@@ -58,7 +63,7 @@ void LIB util::toggleState(const PXHandle& handle) {
         setState(handle, true);
 }
 
-void util::addItems(const PXHandle& handle, const std::vector<std::string>& items) {
+void util::addItems(const PXHandle& handle, const std::vector<PXString>& items) {
     SendMessage(static_cast<HWND>(handle), LB_RESETCONTENT, 0, 0);
     SendMessage(static_cast<HWND>(handle), CB_RESETCONTENT, 0, 0);
 
