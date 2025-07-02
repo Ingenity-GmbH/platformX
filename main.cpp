@@ -17,24 +17,24 @@ PXGroupBoxSharedPtr groupbox;
 
 /* callbacks */
 void button1click() {
-    combobox->addItem(edit->getTitle(), 5);
+    combobox->addItem(edit->getTitle());
     checkbox->toggleState();
     radioButton->toggleState();
     
     listbox->addItem("main:");;
     for (const auto control : mainWnd->getControls()) {
         listbox->addItem(control->getTitle());
-        listbox->addItem("   " + (control->getParent() ? control->getParent()->getTitle() : "none"));
+        listbox->addItem("   " + control->getParent()->getTitle());
     }
     listbox->addItem("child:");
     for (const auto control : childWnd->getControls()) {
         listbox->addItem(control->getTitle());
-        listbox->addItem("   " + (control->getParent() ? control->getParent()->getTitle() : "none"));
+        listbox->addItem("   " + control->getParent()->getTitle());
     }
     listbox->addItem("group:");
     for (const auto control : groupbox->getControls()) {
         listbox->addItem(control->getTitle());
-        listbox->addItem("   " + (control->getParent() ? control->getParent()->getTitle() : "none"));
+        listbox->addItem("   " + control->getParent()->getTitle());
     }
 }
 

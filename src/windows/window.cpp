@@ -104,6 +104,7 @@ WinChildWindow::WinChildWindow(const PXString& title, std::shared_ptr<PXControl>
     size) {
 
     self = this;
+    this->parent = parent.get();
 
     WNDCLASSEX wc = {};
     wc.cbSize = sizeof(wc);

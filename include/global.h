@@ -10,7 +10,7 @@
     #define LIB __declspec(dllexport)
     #include <windows.h>
     using PXHandle = HWND;
-    static LPCSTR WIN_STANDARD_FONT = "Segoe UI";
+    static LPCWSTR WIN_STANDARD_FONT = L"Segoe UI";
 #elif defined(__APPLE__)
     #define LIB __attribute__((visibility("default")))
     #include <AppKit/NSWindow.h>
@@ -71,16 +71,17 @@ enum PXType {
 #pragma region PXString
 class LIB PXString {
     private:
-        std::wstring local_toWstring() const;
-        std::string local_toString() const;
+        std::string castToString() const;
+        std::wstring castToWstring() const;
         std::string str;
         std::wstring wstr;
 
     public:
         PXString();
         PXString(const std::string& str);
-        PXString(const std::wstring& str);
+        PXString(const std::wstring& wstr);
         PXString(const char* str);
+        PXString(const wchar_t* wstr);
 
         std::wstring toWstring() const;
         std::string toString() const;

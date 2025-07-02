@@ -33,4 +33,5 @@ class LIB PXControl : public std::enable_shared_from_this<PXControl> {
         PXControl* parent;
         std::vector<PXControl*> controls;
 };
+using PXControlSharedPtr = std::shared_ptr<PXControl>;
 #pragma endregion PXControl

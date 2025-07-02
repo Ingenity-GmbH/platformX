@@ -3,7 +3,7 @@
 #include <memory>
 
 void util::setFont(const PXHandle& handle) {
-    HFONT hFont = CreateFontA(
+    HFONT hFont = CreateFont(
         18,                        // Height
         0,                         // Width
         0,                         // Escapement
@@ -22,17 +22,17 @@ void util::setFont(const PXHandle& handle) {
     SendMessage(reinterpret_cast<HWND>(handle), WM_SETFONT, (WPARAM)hFont, TRUE);
 }
 void util::setTitle(const PXHandle& handle, const PXString& title) {
-    SendMessageW(reinterpret_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(title.toLPCWSTR()));
+    SendMessage(reinterpret_cast<HWND>(handle), WM_SETTEXT, 0, (LPARAM)(title.toLPCWSTR()));
 }
 
 PXString util::getTitle(const PXHandle& handle) {
-    int titleLen = SendMessageW(reinterpret_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
+    int titleLen = SendMessage(reinterpret_cast<HWND>(handle), WM_GETTEXTLENGTH, 0, 0);
 
     if (titleLen <= 0)
         return PXString();
 
     std::wstring buffer(titleLen, L'\0');
-    SendMessageW(reinterpret_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(titleLen+1), (LPARAM)buffer.data());
+    SendMessage(reinterpret_cast<HWND>(handle), WM_GETTEXT, (WPARAM)(titleLen+1), (LPARAM)buffer.data());
     
     // remove any trailing nulls (if present)
     buffer.resize(wcsnlen(buffer.data(), buffer.size()));
@@ -68,8 +68,8 @@ void util::addItems(const PXHandle& handle, const std::vector<PXString>& items) 
     SendMessage(reinterpret_cast<HWND>(handle), CB_RESETCONTENT, 0, 0);
 
     for (size_t i=0; i<items.size(); i++) {
-        SendMessage(reinterpret_cast<HWND>(handle), LB_INSERTSTRING, (WPARAM)(i), (LPARAM)(&items[i]));
-        SendMessage(reinterpret_cast<HWND>(handle), CB_INSERTSTRING , (WPARAM)(i), (LPARAM)(&items[i]));
+        SendMessage(reinterpret_cast<HWND>(handle), LB_INSERTSTRING, (WPARAM)(i), (LPARAM)(items[i].toLPCWSTR()));
+        SendMessage(reinterpret_cast<HWND>(handle), CB_INSERTSTRING , (WPARAM)(i), (LPARAM)(items[i].toLPCWSTR()));
     }
 }
 
