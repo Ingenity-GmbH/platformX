@@ -11,7 +11,7 @@ namespace util {
     void LIB setState(const PXHandle& handle, const bool& state);
     bool LIB getState(const PXHandle& handle);
     void LIB toggleState(const PXHandle& handle);
-    void LIB addItems(const PXHandle& handle, const std::vector<PXString>& items);
-    size_t LIB getSelectedItem(const PXHandle& handle, const PXType& type);
+    void LIB addNodes(const PXHandle& handle, std::vector<PXNode>& nodes, const PXType& type);
+    size_t LIB getSelectedNode(const PXHandle& handle, const PXType& type);
 }
     

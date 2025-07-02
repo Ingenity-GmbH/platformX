@@ -32,9 +32,9 @@ class LIB WinListBox : public PXListBox {
     public:
         WinListBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
-        void addItem(const PXString& title, const size_t& pos) override;
-        void removeItem(const size_t& pos) override;
-        size_t getSelectedItem() const override;
+        void addNode(PXNode& node, const size_t& pos) override;
+        void removeNode(const size_t& pos) override;
+        const PXNode* getSelectedNode() const override;
 };
 #pragma endregion WinListBox
 
@@ -43,9 +43,9 @@ class LIB WinComboBox : public PXComboBox {
     public:
         WinComboBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
         // void onKeyPress(const uint32_t& key) override;
-        void addItem(const PXString& title, const size_t& pos) override;
-        void removeItem(const size_t& pos) override;
-        size_t getSelectedItem() const override;
+        void addNode(PXNode& node, const size_t& pos) override;
+        void removeNode(const size_t& pos) override;
+        const PXNode* getSelectedNode() const override;
 };
 #pragma endregion WinComboBox
 
@@ -90,3 +90,14 @@ class LIB WinGroupBox : public PXGroupBox {
         // void onClick() override;        
 };
 #pragma endregion WinGroupBox
+
+#pragma region WinTreeView
+class LIB WinTreeView : public PXTreeView {
+    public:
+        WinTreeView(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+        void onClick() override;
+        void addNode(PXNode& node, const size_t& pos) override;
+        void removeNode(const size_t& pos) override;
+        const PXNode* getSelectedNode() const override;
+};
+#pragma endregion WinTreeView

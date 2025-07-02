@@ -72,13 +72,13 @@ class LIB PXListBox : public PXControl {
         virtual ~PXListBox() = default;
         // virtual void onKeyPress(const uint32_t& key) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
-        virtual void addItem(const PXString& title, const size_t& pos=UINT64_MAX) = 0;
-        virtual void removeItem(const size_t& pos) = 0;
-        virtual size_t getSelectedItem() const = 0;
+        virtual void addNode(PXNode& node, const size_t& pos=UINT64_MAX) = 0;
+        virtual void removeNode(const size_t& pos) = 0;
+        virtual const PXNode* getSelectedNode() const = 0;
 
     protected:
         std::function<void(const uint32_t& key)> callback;
-        std::vector<PXString> items;
+        std::vector<PXNode> nodes;
 };
 using PXListBoxSharedPtr = std::shared_ptr<PXListBox>;
 LIB PXListBox* createListBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
@@ -92,13 +92,13 @@ class LIB PXComboBox : public PXControl {
         virtual ~PXComboBox() = default;
         // virtual void onKeyPress(const uint32_t& key) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
-        virtual void addItem(const PXString& title, const size_t& pos=UINT64_MAX) = 0;
-        virtual void removeItem(const size_t& pos) = 0;
-        virtual size_t getSelectedItem() const = 0;
+        virtual void addNode(PXNode& node, const size_t& pos=UINT64_MAX) = 0;
+        virtual void removeNode(const size_t& pos) = 0;
+        virtual const PXNode* getSelectedNode() const = 0;
 
     protected:
         std::function<void(const uint32_t& key)> callback;
-        std::vector<PXString> items;
+        std::vector<PXNode> nodes;
 };
 using PXComboBoxSharedPtr = std::shared_ptr<PXComboBox>;
 LIB PXComboBox* createComboBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
@@ -180,3 +180,24 @@ using PXGroupBoxSharedPtr = std::shared_ptr<PXGroupBox>;
 LIB PXGroupBox* createGroupBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
 LIB PXGroupBox* createGroupBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
 #pragma endregion PXGroupBox
+
+#pragma region PXTreeView
+class LIB PXTreeView : public PXControl {
+    public:
+        PXTreeView(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, TREEVIEW) {}
+        virtual ~PXTreeView() = default;
+        virtual void onClick() = 0;
+        bool hasCallback() const override { return callback == nullptr ? false : true; }
+        virtual void addNode(PXNode& node, const size_t& pos=UINT64_MAX) = 0;
+        virtual void removeNode(const size_t& pos) = 0;
+        virtual const PXNode* getSelectedNode() const = 0;
+
+    protected:
+        std::function<void()> callback;
+        std::vector<PXNode> nodes;
+        
+};
+using PXTreeViewSharedPtr = std::shared_ptr<PXTreeView>;
+LIB PXTreeView* createTreeView(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
+LIB PXTreeView* createTreeView(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
+#pragma endregion PXTreeView

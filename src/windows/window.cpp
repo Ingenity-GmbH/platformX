@@ -30,7 +30,7 @@ WinMainWindow::WinMainWindow(const PXString& title)
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     RegisterClassEx(&wc);
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
+    handle = CreateWindowEx(
         0,
         wc.lpszClassName,
         this->title.toLPCWSTR(),
@@ -42,12 +42,12 @@ WinMainWindow::WinMainWindow(const PXString& title)
         nullptr,
         nullptr,
         wc.hInstance,
-        nullptr));
+        nullptr);
 
     util::setFont(handle);
 
-    ShowWindow(reinterpret_cast<HWND>(handle), SW_SHOWDEFAULT);
-    UpdateWindow(reinterpret_cast<HWND>(handle));
+    ShowWindow(handle, SW_SHOWDEFAULT);
+    UpdateWindow(handle);
 }
 
 LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -59,7 +59,7 @@ LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
     switch (message) {
         case WM_COMMAND:
             {
-                for (const auto control : self->controls) {
+                for (const auto& control : self->controls) {
                     if (control->hasCallback() && control->getType() == BUTTON && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
                         auto btn = reinterpret_cast<WinButton*>(control);
                         btn->onClick();
@@ -67,6 +67,17 @@ LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
                     else if (control->hasCallback() && control->getType() == EDIT && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
                         auto edit = reinterpret_cast<WinEdit*>(control);
                         edit->onKeyPress(reinterpret_cast<const uint32_t&>(wParam));
+                    }
+                }
+                break;
+            }
+        case WM_NOTIFY:
+            {
+                LPNMHDR pnmhdr = (LPNMHDR)lParam;
+                for (const auto& control : self->controls) {
+                    if (control->hasCallback() && control->getType() == TREEVIEW && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == TVN_SELCHANGED) {
+                        auto treeview = reinterpret_cast<WinTreeView*>(control);
+                        treeview->onClick();
                     }
                 }
                 break;
@@ -121,7 +132,7 @@ WinChildWindow::WinChildWindow(const PXString& title, std::shared_ptr<PXControl>
     // wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     RegisterClassEx(&wc);
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
+    handle = CreateWindowEx(
         0,
         wc.lpszClassName, 
         this->title.toLPCWSTR(),
@@ -133,12 +144,12 @@ WinChildWindow::WinChildWindow(const PXString& title, std::shared_ptr<PXControl>
         nullptr,
         nullptr,
         wc.hInstance,
-        nullptr));
+        nullptr);
 
     util::setFont(handle);
 
-    SetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE, (GetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE) & ~WS_POPUP) | WS_CHILD);
-    SetParent(reinterpret_cast<HWND>(handle), reinterpret_cast<HWND>(parent->getHandle()));
+    SetWindowLong(handle, GWL_STYLE, (GetWindowLong(handle, GWL_STYLE) & ~WS_POPUP) | WS_CHILD);
+    SetParent(handle, reinterpret_cast<HWND>(parent->getHandle()));
 }
 
 LRESULT CALLBACK WinChildWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -157,6 +168,17 @@ LRESULT CALLBACK WinChildWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam,
                     else if (control->hasCallback() && control->getType() == EDIT && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
                         auto edit = reinterpret_cast<WinEdit*>(control);
                         edit->onKeyPress(reinterpret_cast<const uint32_t&>(wParam));
+                    }
+                }
+                break;
+            }
+        case WM_NOTIFY:
+            {
+                LPNMHDR pnmhdr = (LPNMHDR)lParam;
+                for (const auto& control : self->controls) {
+                    if (control->hasCallback() && control->getType() == TREEVIEW && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == TVN_SELCHANGED) {
+                        auto treeview = reinterpret_cast<WinTreeView*>(control);
+                        treeview->onClick();
                     }
                 }
                 break;

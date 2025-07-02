@@ -1,15 +1,18 @@
 #pragma once
 
 #include <stdint.h>
-#include <string>
-#include <memory>
 
 #pragma region base os specific definitions
 #if defined(_WIN32)
     // #pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
     #define LIB __declspec(dllexport)
     #include <windows.h>
+    #include <string>
+    #include <memory>
+    #include <CommCtrl.h>
+    #include <prsht.h>
     using PXHandle = HWND;
+    using PXNodeHandle = HTREEITEM;
     static LPCWSTR WIN_STANDARD_FONT = L"Segoe UI";
 #elif defined(__APPLE__)
     #define LIB __attribute__((visibility("default")))
@@ -41,18 +44,20 @@ const uint32_t STD_EDIT_SIZE_WIDTH = 100;
 const uint32_t STD_EDIT_SIZE_HEIGHT = 21;
 const uint32_t STD_TEXT_SIZE_WIDTH = 100;
 const uint32_t STD_TEXT_SIZE_HEIGHT = 18;
-const uint32_t STD_LISTBOX_SIZE_WIDTH = 100;
-const uint32_t STD_LISTBOX_SIZE_HEIGHT = 75;
-const uint32_t STD_COMBOBOX_SIZE_WIDTH = 100;
-const uint32_t STD_COMBOBOX_SIZE_HEIGHT = 75;
-const uint32_t STD_PROGRESSBAR_SIZE_WIDTH = 100;
+const uint32_t STD_LISTBOX_SIZE_WIDTH = 200;
+const uint32_t STD_LISTBOX_SIZE_HEIGHT = 200;
+const uint32_t STD_TREEVIEW_SIZE_WIDTH = 200;
+const uint32_t STD_TREEVIEW_SIZE_HEIGHT = 200;
+const uint32_t STD_COMBOBOX_SIZE_WIDTH = 200;
+const uint32_t STD_COMBOBOX_SIZE_HEIGHT = 200;
+const uint32_t STD_PROGRESSBAR_SIZE_WIDTH = 200;
 const uint32_t STD_PROGRESSBAR_SIZE_HEIGHT = 21;
 const uint32_t STD_CHECKBOX_SIZE_WIDTH = 100;
 const uint32_t STD_CHECKBOX_SIZE_HEIGHT = 21;
 const uint32_t STD_RADIOBUTTON_SIZE_WIDTH = 100;
 const uint32_t STD_RADIOBUTTON_SIZE_HEIGHT = 21;
 const uint32_t STD_GROUPBOX_SIZE_WIDTH = 200;
-const uint32_t STD_GROUPBOX_SIZE_HEIGHT = 300;
+const uint32_t STD_GROUPBOX_SIZE_HEIGHT = 200;
 #pragma endregion global variables
 
 #pragma region PXType
@@ -64,7 +69,8 @@ enum PXType {
     TEXT,
     LISTBOX,
     COMBOBOX,
-    GROUPBOX
+    GROUPBOX,
+    TREEVIEW
 };
 #pragma endregion PXType
 
@@ -122,3 +128,13 @@ struct PXColor {
     uint8_t r, g, b;
 };
 #pragma endregion PXColor
+
+#pragma region PXNode
+struct PXNode {
+    PXNode(PXString title, PXNode* parent=nullptr)
+    : title(title), parent(parent) {}
+    PXString title;
+    PXNodeHandle handle;
+    PXNode* parent;
+};
+#pragma endregion PXNode

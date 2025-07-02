@@ -2,8 +2,6 @@
 #include "include/util.h"
 #include "controls.h"
 
-#include <CommCtrl.h>
-
 #pragma region WinButton
 WinButton::WinButton(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) 
 : PXButton(title, position, size) {
@@ -11,7 +9,7 @@ WinButton::WinButton(const PXString& title, PXControl& parent, const PXPosition&
     this->parent = &parent;
     this->callback = callback;
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
+    handle = CreateWindowEx( 
         0,
         L"BUTTON",
         this->title.toLPCWSTR(),
@@ -23,7 +21,7 @@ WinButton::WinButton(const PXString& title, PXControl& parent, const PXPosition&
         parentHandle,
         nullptr,
         (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE), 
-        nullptr));
+        nullptr);
     
     util::setFont(handle);
 }
@@ -55,7 +53,7 @@ WinEdit::WinEdit(const PXString& title, PXControl& parent, const PXPosition& pos
     this->parent = &parent;
     this->callback = callback;
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
+    handle = CreateWindowEx( 
         0,
         L"EDIT",
         this->title.toLPCWSTR(),
@@ -67,7 +65,7 @@ WinEdit::WinEdit(const PXString& title, PXControl& parent, const PXPosition& pos
         parentHandle,
         nullptr,
         (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE), 
-        nullptr));
+        nullptr);
 
         util::setFont(handle);
 }
@@ -99,7 +97,7 @@ WinText::WinText(const PXString& title, PXControl& parent, const PXPosition& pos
     this->parent = &parent;
     this->callback = callback;
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
+    handle = CreateWindowEx( 
         0,
         L"STATIC",
         this->title.toLPCWSTR(),
@@ -111,7 +109,7 @@ WinText::WinText(const PXString& title, PXControl& parent, const PXPosition& pos
         parentHandle,
         nullptr,
         (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE), 
-        nullptr));
+        nullptr);
 
     util::setFont(handle);
 }
@@ -143,7 +141,7 @@ WinListBox::WinListBox(const PXString& title, PXControl& parent, const PXPositio
     this->parent = &parent;
     this->callback = callback;
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
+    handle = CreateWindowEx(
         0,
         L"LISTBOX",
         this->title.toLPCWSTR(),
@@ -155,7 +153,7 @@ WinListBox::WinListBox(const PXString& title, PXControl& parent, const PXPositio
         parentHandle,
         nullptr,
         (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE), 
-        nullptr));
+        nullptr);
 
     util::setFont(handle);
 }
@@ -164,23 +162,23 @@ WinListBox::WinListBox(const PXString& title, PXControl& parent, const PXPositio
 //     callback(key);
 // }
 
-void WinListBox::addItem(const PXString& title, const size_t& pos) {
-    if (pos < items.size())
-        items.insert(items.begin() + pos, title);
+void WinListBox::addNode(PXNode& node, const size_t& pos) {
+    if (pos < nodes.size())
+        nodes.insert(nodes.begin() + pos, node);
     else
-        items.push_back(title);
-    util::addItems(handle, items);
+        nodes.push_back(node);
+    util::addNodes(handle, nodes, type);
 }
         
-void WinListBox::removeItem(const size_t& pos) {
-    if (pos < items.size()) {
-        items.erase(items.begin() + pos);
-        util::addItems(handle, items);
+void WinListBox::removeNode(const size_t& pos) {
+    if (pos < nodes.size()) {
+        nodes.erase(nodes.begin() + pos);
+        util::addNodes(handle, nodes, type);
     }
 }
 
-size_t WinListBox::getSelectedItem() const {
-   return util::getSelectedItem(handle, this->getType());
+const PXNode* WinListBox::getSelectedNode() const {
+   return &(nodes.at(util::getSelectedNode(handle, type)));
 }
 
 PXListBox* createListBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) {
@@ -206,7 +204,7 @@ WinComboBox::WinComboBox(const PXString& title, PXControl& parent, const PXPosit
     this->parent = &parent;
     this->callback = callback;
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
+    handle = CreateWindowEx(
         0,
         L"COMBOBOX",
         this->title.toLPCWSTR(),
@@ -218,7 +216,7 @@ WinComboBox::WinComboBox(const PXString& title, PXControl& parent, const PXPosit
         parentHandle,
         nullptr,
         (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE), 
-        nullptr));
+        nullptr);
 
     util::setFont(handle);
 }
@@ -227,23 +225,23 @@ WinComboBox::WinComboBox(const PXString& title, PXControl& parent, const PXPosit
 //     callback(key);
 // }
 
-void WinComboBox::addItem(const PXString& title, const size_t& pos) {
-    if (pos < items.size())
-        items.insert(items.begin() + pos, title);
+void WinComboBox::addNode(PXNode& node, const size_t& pos) {
+    if (pos < nodes.size())
+        nodes.insert(nodes.begin() + pos, node);
     else
-        items.push_back(title);
-    util::addItems(handle, items);
+        nodes.push_back(node);
+    util::addNodes(handle, nodes, type);
 }
         
-void WinComboBox::removeItem(const size_t& pos) {
-    if (pos < items.size()) {
-        items.erase(items.begin() + pos);
-        util::addItems(handle, items);
+void WinComboBox::removeNode(const size_t& pos) {
+    if (pos < nodes.size()) {
+        nodes.erase(nodes.begin() + pos);
+        util::addNodes(handle, nodes, type);
     }
 }
 
-size_t WinComboBox::getSelectedItem() const {
-    return util::getSelectedItem(handle, this->getType());
+const PXNode* WinComboBox::getSelectedNode() const {
+    return &nodes.at(util::getSelectedNode(handle, type));
 }
 
 PXComboBox* createComboBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) {
@@ -269,7 +267,7 @@ WinProgressBar::WinProgressBar(const PXString& title, PXControl& parent, const P
     this->parent = &parent;
     this->callback = callback;
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
+    handle = CreateWindowEx( 
         0,
         L"msctls_progress32",
         this->title.toLPCWSTR(),
@@ -281,12 +279,12 @@ WinProgressBar::WinProgressBar(const PXString& title, PXControl& parent, const P
         parentHandle,
         nullptr,
         (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE), 
-        nullptr));
+        nullptr);
 
     util::setFont(handle);
 
-    SetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE, GetWindowLong(reinterpret_cast<HWND>(handle), GWL_STYLE) | PBS_MARQUEE);
-    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETMARQUEE, (WPARAM)TRUE, (LPARAM)30);
+    SetWindowLong(handle, GWL_STYLE, GetWindowLong(handle, GWL_STYLE) | PBS_MARQUEE);
+    SendMessage(handle, PBM_SETMARQUEE, (WPARAM)TRUE, (LPARAM)30);
 }
 
 // void WinProgressBar::onKeyPress(const uint32_t& key) {
@@ -294,21 +292,21 @@ WinProgressBar::WinProgressBar(const PXString& title, PXControl& parent, const P
 // }
 
 void WinProgressBar::configure(const uint32_t& min, const uint32_t& max, const uint32_t& step) {
-    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETRANGE, 0, MAKELPARAM(min, max));
-    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETSTEP, (WPARAM)(step), 0);
+    SendMessage(handle, PBM_SETRANGE, 0, MAKELPARAM(min, max));
+    SendMessage(handle, PBM_SETSTEP, (WPARAM)(step), 0);
 }
 
 void WinProgressBar::incStep() {
-    SendMessage(reinterpret_cast<HWND>(handle), PBM_STEPIT, 0, 0);
+    SendMessage(handle, PBM_STEPIT, 0, 0);
 }
 
 void WinProgressBar::setPos(const uint32_t& pos) {
-    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETPOS, (WPARAM)(pos), 0);
+    SendMessage(handle, PBM_SETPOS, (WPARAM)(pos), 0);
 }
 
 void WinProgressBar::setColor(const PXColor& front, const PXColor& back) {
-    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETBARCOLOR, 0, (LPARAM)RGB(front.r, front.g, front.b));
-    SendMessage(reinterpret_cast<HWND>(handle), PBM_SETBKCOLOR, 0, (LPARAM)RGB(back.r, back.g, back.b));
+    SendMessage(handle, PBM_SETBARCOLOR, 0, (LPARAM)RGB(front.r, front.g, front.b));
+    SendMessage(handle, PBM_SETBKCOLOR, 0, (LPARAM)RGB(back.r, back.g, back.b));
 }
 
 PXProgressBar* createProgressBar(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) {
@@ -337,7 +335,7 @@ WinCheckBox::WinCheckBox(const PXString& title, PXControl& parent, const PXPosit
     else
         this->callback = util::toggleState;
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
+    handle = CreateWindowEx( 
         0,
         L"BUTTON",
         this->title.toLPCWSTR(),
@@ -349,7 +347,7 @@ WinCheckBox::WinCheckBox(const PXString& title, PXControl& parent, const PXPosit
         parentHandle,
         nullptr,
         (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE), 
-        nullptr));
+        nullptr);
 
     util::setFont(handle);
 }
@@ -396,7 +394,7 @@ WinRadioButton::WinRadioButton(const PXString& title, PXControl& parent, const P
     else
         this->callback = util::toggleState;
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx( 
+    handle = CreateWindowEx( 
         0,
         L"BUTTON",
         this->title.toLPCWSTR(),
@@ -408,7 +406,7 @@ WinRadioButton::WinRadioButton(const PXString& title, PXControl& parent, const P
         parentHandle,
         nullptr,
         (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE), 
-        nullptr));
+        nullptr);
 
     util::setFont(handle);
 }
@@ -452,7 +450,7 @@ WinGroupBox::WinGroupBox(const PXString& title, PXControl& parent, const PXPosit
     this->parent = &parent;
     this->callback = callback;
 
-    handle = reinterpret_cast<PXHandle>(CreateWindowEx(
+    handle = CreateWindowEx(
         0,
         L"BUTTON",
         this->title.toLPCWSTR(),
@@ -464,7 +462,7 @@ WinGroupBox::WinGroupBox(const PXString& title, PXControl& parent, const PXPosit
         parentHandle,
         nullptr,
         (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE), 
-        nullptr));
+        nullptr);
 
     util::setFont(handle);
 }
@@ -484,3 +482,74 @@ PXGroupBox* createGroupBox(const PXString& title, std::shared_ptr<PXControl> par
     return createGroupBox(title, parent, position, {STD_GROUPBOX_SIZE_WIDTH,STD_GROUPBOX_SIZE_HEIGHT}, callback);
 }
 #pragma endregion WinGroupBox
+
+#pragma region WinTreeView
+WinTreeView::WinTreeView(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) 
+: PXTreeView(title, position, size) {
+    auto parentHandle = parent.getHandle();
+    this->parent = &parent;
+    this->callback = callback;
+
+    handle = CreateWindowEx(
+        0,
+        WC_TREEVIEW,
+        this->title.toLPCWSTR(),
+        WS_CHILD | WS_VISIBLE | WS_BORDER | TVS_HASBUTTONS | TVS_HASLINES,
+        position.x,
+        position.y,
+        size.width,
+        size.height,
+        parentHandle,
+        nullptr,
+        (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE),
+        nullptr);
+
+    util::setFont(handle);
+}
+
+void WinTreeView::onClick() {
+	 callback();
+}
+// void WinTreeView::onKeyPress(const uint32_t& key) {
+//	 callback(key);
+// }
+
+void WinTreeView::addNode(PXNode& node, const size_t& pos) {
+    if (pos < nodes.size())
+        nodes.insert(nodes.begin() + pos, node);
+    else
+        nodes.push_back(node);
+    util::addNodes(handle, nodes, type);
+}
+        
+void WinTreeView::removeNode(const size_t& pos) {
+    if (pos < nodes.size()) {
+        nodes.erase(nodes.begin() + pos);
+        util::addNodes(handle, nodes, type);
+    }
+}
+
+const PXNode* WinTreeView::getSelectedNode() const {
+    auto nodeHandle = reinterpret_cast<HTREEITEM>(util::getSelectedNode(handle, type));
+    for (const auto& node : nodes) {
+        if (node.handle == nodeHandle)
+            return &node;
+    }
+    return nullptr;
+}
+
+PXTreeView* createTreeView(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) {
+    PXControl* newParent = parent.get();
+    PXPosition newPosition = position;
+
+    while (newParent->getType() != WINDOW) {
+        newPosition += newParent->getPosition();
+        newParent = newParent->getParent();
+    }
+    newParent->addControl(new WinTreeView(title, *newParent, newPosition, size, callback));
+    return reinterpret_cast<PXTreeView*>(newParent->getControls().back());
+}
+PXTreeView* createTreeView(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback) {
+    return createTreeView(title, parent, position, {STD_TREEVIEW_SIZE_WIDTH,STD_TREEVIEW_SIZE_HEIGHT}, callback);
+}
+#pragma endregion WinTreeView
