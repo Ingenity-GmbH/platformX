@@ -29,6 +29,7 @@
 #pragma endregion base os specific definitions
 
 #pragma region global definitions
+#define EMPTY ""
 #define UNIQUE(type, var) std::unique_ptr<type>(var)
 #define SHARED(type, var) std::shared_ptr<type>(var)
 #pragma endregion global defines
@@ -70,7 +71,8 @@ enum PXType {
     LISTBOX,
     COMBOBOX,
     GROUPBOX,
-    TREEVIEW
+    TREEVIEW,
+    STATUSBAR
 };
 #pragma endregion PXType
 
@@ -138,3 +140,12 @@ struct PXNode {
     PXNode* parent;
 };
 #pragma endregion PXNode
+
+#pragma region PXStatusBarPart
+struct PXStatusBarPart {
+    PXStatusBarPart(const double& relEndPos, const PXString& text)
+    : relEndPos(relEndPos), text(text) {}
+    double relEndPos;
+    PXString text;
+};
+#pragma endregion PXStatusBarPart

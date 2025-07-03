@@ -15,6 +15,7 @@ PXCheckBoxSharedPtr checkbox;
 PXRadioButtonSharedPtr radioButton;
 PXGroupBoxSharedPtr groupbox;
 PXTreeViewSharedPtr treeview;
+PXStatusBarSharedPtr statusbar;
 
 /* callbacks */
 void button1click() {
@@ -74,6 +75,10 @@ int main() {
     groupbox = SHARED(PXGroupBox, createGroupBox("group", childWnd, PXPosition(10,50)));
     checkbox = SHARED(PXCheckBox, createCheckBox("option", groupbox, PXPosition(10,50)));
     radioButton = SHARED(PXRadioButton, createRadioButton("radio", groupbox, PXPosition(10,80)));
+    statusbar = SHARED(PXStatusBar, createStatusBar("statusbar", mainWnd));
+    statusbar->addPart(0.2, "status");
+    statusbar->addPart(0.8, "time");
+    statusbar->addPart(0.5, "p2");
 
     PXNode blubb1("blubb1");
     PXNode blubb2("blubb2");

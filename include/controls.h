@@ -201,3 +201,22 @@ using PXTreeViewSharedPtr = std::shared_ptr<PXTreeView>;
 LIB PXTreeView* createTreeView(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
 LIB PXTreeView* createTreeView(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
 #pragma endregion PXTreeView
+
+#pragma region PXStatusBar
+class LIB PXStatusBar : public PXControl {
+    public:
+        PXStatusBar(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, STATUSBAR) {}
+        virtual ~PXStatusBar() = default;
+        virtual void onClick() = 0;
+        bool hasCallback() const override { return callback == nullptr ? false : true; }
+        virtual void addPart(const double& relEndPos, const PXString& text) = 0;
+        virtual void updateParts(const PXString& text, const size_t& idx) = 0;
+        
+    protected:
+        std::function<void()> callback;
+        std::vector<PXStatusBarPart> parts;       
+};
+using PXStatusBarSharedPtr = std::shared_ptr<PXStatusBar>;
+LIB PXStatusBar* createStatusBar(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
+LIB PXStatusBar* createStatusBar(const PXString& title, std::shared_ptr<PXControl> parent, const std::function<void()>& callback=nullptr);
+#pragma endregion PXStatusBar

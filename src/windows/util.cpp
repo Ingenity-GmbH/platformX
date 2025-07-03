@@ -118,3 +118,25 @@ size_t util::getSelectedNode(const PXHandle& handle, const PXType& type) {
     } 
     return -1;
 }
+
+void util::addPart(PXControl& self, std::vector<PXStatusBarPart>& parts, const double& relEndPos, const PXString& text) {
+    auto it = std::find_if(parts.begin(), parts.end()-1, [&relEndPos](const PXStatusBarPart& part) { return relEndPos < part.relEndPos; });
+    double pos = std::min<double>(std::max<double>(0.0, relEndPos), 0.9);
+    parts.insert(it, {pos, text});
+    updateParts(self, parts);
+}
+
+void util::updateParts(PXControl& self, std::vector<PXStatusBarPart>& parts) {
+    uint32_t width = self.getSize().width;
+    PXHandle handle = self.getHandle();
+    size_t partsSize = parts.size();
+
+    int* pParts = new int[partsSize];
+    for (size_t i=0; i<parts.size(); i++)
+        pParts[i] = std::max<int>(parts[i].relEndPos * width, -1);
+    SendMessage(handle, SB_SETPARTS, partsSize, reinterpret_cast<LPARAM>(pParts));
+    delete[] pParts;
+
+    for (size_t idx=0; idx<partsSize; idx++)
+        SendMessage(handle, SB_SETTEXT, idx, reinterpret_cast<LPARAM>(parts[idx].text.toLPCWSTR()));
+}

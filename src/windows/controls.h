@@ -101,3 +101,13 @@ class LIB WinTreeView : public PXTreeView {
         const PXNode* getSelectedNode() const override;
 };
 #pragma endregion WinTreeView
+
+#pragma region WinStatusBar
+class LIB WinStatusBar : public PXStatusBar {
+    public:
+        WinStatusBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+        void onClick() override;
+        void addPart(const double& relEndPos, const PXString& text) override;
+        void updateParts(const PXString& text=EMPTY, const size_t& idx=-1) override;
+};
+#pragma endregion WinStatusBar

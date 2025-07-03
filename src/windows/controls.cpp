@@ -553,3 +553,61 @@ PXTreeView* createTreeView(const PXString& title, std::shared_ptr<PXControl> par
     return createTreeView(title, parent, position, {STD_TREEVIEW_SIZE_WIDTH,STD_TREEVIEW_SIZE_HEIGHT}, callback);
 }
 #pragma endregion WinTreeView
+
+#pragma region WinStatusBar
+WinStatusBar::WinStatusBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) 
+// WinStatusBar::WinStatusBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) 
+: PXStatusBar(title, position, size) {
+    auto parentHandle = parent.getHandle();
+    this->parent = &parent;
+    this->callback = callback;
+
+    handle = CreateWindowEx(
+        0,
+        STATUSCLASSNAME,
+        nullptr,
+        WS_CHILD | WS_VISIBLE,
+        position.x,
+        position.y,
+        size.width,
+        size.height,
+        parentHandle,
+        nullptr,
+        (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE),
+        nullptr);
+
+    util::setFont(handle);
+
+    parts.push_back({-1, title});
+    SendMessage(handle, SB_SETTEXT, 0, reinterpret_cast<LPARAM>(title.toLPCWSTR()));
+}
+
+void WinStatusBar::onClick() {
+	 callback();
+}
+
+void WinStatusBar::addPart(const double& relEndPos, const PXString& text) {
+    util::addPart(*this, parts, relEndPos, text);
+}
+
+void WinStatusBar::updateParts(const PXString& text, const size_t& idx) {
+    if (idx>-1)
+        parts.at(idx).text = text;
+    util::updateParts(*this, parts);
+}
+
+PXStatusBar* createStatusBar(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) {
+    PXControl* newParent = parent.get();
+    PXPosition newPosition = position;
+
+    while (newParent->getType() != WINDOW) {
+        newPosition += newParent->getPosition();
+        newParent = newParent->getParent();
+    }
+    newParent->addControl(new WinStatusBar(title, *newParent, newPosition, size, callback));
+    return static_cast<PXStatusBar*>(newParent->getControls().back());
+}
+PXStatusBar* createStatusBar(const PXString& title, std::shared_ptr<PXControl> parent, const std::function<void()>& callback) {
+    return createStatusBar(title, parent, {0,0}, {parent->getSize().width,0}, callback);
+}
+#pragma endregion WinStatusBar

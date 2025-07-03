@@ -1,6 +1,7 @@
 #pragma once
 
 #include "include/global.h"
+#include "include/control.h"
 #include <vector>
 
 namespace util {
@@ -13,5 +14,6 @@ namespace util {
     void LIB toggleState(const PXHandle& handle);
     void LIB addNodes(const PXHandle& handle, std::vector<PXNode>& nodes, const PXType& type);
     size_t LIB getSelectedNode(const PXHandle& handle, const PXType& type);
+    void LIB addPart(PXControl& self, std::vector<PXStatusBarPart>& parts, const double& relEndPos, const PXString& text);
+    void LIB updateParts(PXControl& self, std::vector<PXStatusBarPart>& parts);
 }
-    
