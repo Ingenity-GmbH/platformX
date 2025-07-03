@@ -15,8 +15,10 @@ class LIB PXControl : public std::enable_shared_from_this<PXControl> {
         void addControl(PXControl* control);
         PXHandle getHandle() const;
         PXControl* getParent();
-        PXPosition getPosition() const;
-        PXSize getSize() const;
+        virtual void setPosition(const PXPosition& position);
+        virtual PXPosition getPosition();
+        virtual void setSize(const PXSize& size);
+        virtual PXSize getSize();
         PXType getType() const;
         void setTitle(const PXString& title);
         PXString getTitle();

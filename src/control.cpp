@@ -26,11 +26,19 @@ PXControl* PXControl::getParent() {
     return parent;
 }
 
-PXPosition PXControl::getPosition() const {
+void PXControl::setPosition(const PXPosition& position) {
+    this->position = position;
+}
+
+PXPosition PXControl::getPosition() {
     return position;
 }
 
-PXSize PXControl::getSize() const {
+void PXControl::setSize(const PXSize& size) {
+    this->size = size;
+}
+
+PXSize PXControl::getSize() {
     return size;
 }
 

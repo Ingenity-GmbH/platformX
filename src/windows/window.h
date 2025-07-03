@@ -8,6 +8,10 @@ class LIB WinMainWindow : public PXWindow {
     public:
         WinMainWindow(const PXString& title);
         static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+        void setPosition(const PXPosition& position) override;
+        PXPosition getPosition() override;
+        void setSize(const PXSize& size) override;
+        PXSize getSize() override;
 
     protected:
         static inline WinMainWindow* self = nullptr;

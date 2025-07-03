@@ -82,6 +82,18 @@ LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
                 }
                 break;
             }
+        case WM_SIZE:
+            {
+                for (const auto& control : self->controls) {
+                    if (control->getType() == STATUSBAR) {
+                        auto statusbar = reinterpret_cast<WinStatusBar*>(control);
+                        SendMessage(statusbar->getHandle(), WM_SIZE, 0, 0);
+                        statusbar->setSize({static_cast<uint32_t>(LOWORD(lParam)), statusbar->getSize().height});
+                        statusbar->updateParts();
+                    }
+                }
+                break;
+            }
         // case WM_PAINT:
         //     {
         //         hdc = BeginPaint(hWnd, &ps);
@@ -100,6 +112,29 @@ LRESULT CALLBACK WinMainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
     }
 
     return DefWindowProc(hWnd, message, wParam, lParam); 
+}
+
+void WinMainWindow::setPosition(const PXPosition& position) {
+    PXControl::setPosition(position);
+    SetWindowPos(handle, NULL, position.x, position.y, size.width, size.height, SWP_NOZORDER | SWP_SHOWWINDOW);
+}
+
+PXPosition WinMainWindow::getPosition() {
+    RECT rect;
+    GetWindowRect(handle, &rect);
+    size = {static_cast<uint32_t>(rect.right - rect.left), static_cast<uint32_t>(rect.bottom - rect.top)};
+    position = {static_cast<uint32_t>(rect.left), static_cast<uint32_t>(rect.top)};
+    return PXControl::getPosition();
+}
+
+void WinMainWindow::setSize(const PXSize& size) {
+    PXControl::setSize(size);
+    setPosition(position);
+}
+
+PXSize WinMainWindow::getSize() {
+    getPosition();
+    return PXControl::getSize();
 }
 
 PXWindow* createMainWindow(const PXString& title) {
@@ -179,6 +214,18 @@ LRESULT CALLBACK WinChildWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam,
                     if (control->hasCallback() && control->getType() == TREEVIEW && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == TVN_SELCHANGED) {
                         auto treeview = reinterpret_cast<WinTreeView*>(control);
                         treeview->onClick();
+                    }
+                }
+                break;
+            }
+        case WM_SIZE:
+            {
+                for (const auto& control : self->controls) {
+                    if (control->getType() == STATUSBAR) {
+                        auto statusbar = reinterpret_cast<WinStatusBar*>(control);
+                        SendMessage(statusbar->getHandle(), WM_SIZE, 0, 0);
+                        statusbar->setSize({static_cast<uint32_t>(LOWORD(lParam)), statusbar->getSize().height});
+                        statusbar->updateParts();
                     }
                 }
                 break;
