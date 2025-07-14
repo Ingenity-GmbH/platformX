@@ -6,7 +6,7 @@ PXControl::PXControl(const PXString& title, const PXPosition& position, const PX
 : title(title), position(position), size(size), type(type), handle(0), parent(0) {}
 
 PXControl::~PXControl() {
-    for (PXControl* control : controls) {
+    for (auto& control : controls) {
         if (control) {
             delete control;
             control = nullptr;
