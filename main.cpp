@@ -90,7 +90,6 @@ int main() {
     treeview->addNode(PXNode("blubb12", &blubb1));
     treeview->addNode(PXNode("blubb31", &blubb3));
     
-    app->runEventLoop();
 
-    return EXIT_SUCCESS;
+    return app->runEventLoop();
 }

@@ -6,6 +6,7 @@
 #if defined(_WIN32)
     // #pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
     #define LIB __declspec(dllexport)
+    #define CALL WINAPI 
     #include <windows.h>
     #include <string>
     #include <memory>
@@ -16,10 +17,12 @@
     static LPCWSTR WIN_STANDARD_FONT = L"Segoe UI";
 #elif defined(__APPLE__)
     #define LIB __attribute__((visibility("default")))
+    #define CALL
     #include <AppKit/NSWindow.h>
     using PXHandle = NSWindow*;
-#elif defined(__linux__)
+    #elif defined(__linux__)
     #define LIB __attribute__((visibility("default")))
+    #define CALL
     #include <X11/Xlib.h>
     using PXHandle = Window;
 #else
