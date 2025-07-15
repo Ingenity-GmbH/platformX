@@ -55,7 +55,7 @@ void treeviewClick() {
 }
 
 int main() {
-    app = UNIQUE(PXApplication, createApplication());
+    app = createApplication();
     
     mainWnd = SHARED(PXWindow, createMainWindow("platformX App"));
     childWnd = SHARED(PXWindow, createWindow("child win", mainWnd));

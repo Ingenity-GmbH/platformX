@@ -12,7 +12,7 @@ int WINAPI WinApplication::runEventLoop() {
     return (int)msg.wParam;
 }
 
-PXApplication* createApplication() {
-    return new WinApplication();
+PXApplUniquePtr createApplication() {
+    return std::unique_ptr<PXApplication>(new WinApplication());
 }
 #pragma endregion WinApplication
