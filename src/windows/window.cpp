@@ -7,7 +7,7 @@
 #include <vssym32.h>
 
 #pragma region WinWindow
-WinWindow::WinWindow(const PXString& title, const bool& isChildWindow, const std::shared_ptr<PXControl> parent) 
+WinWindow::WinWindow(const PXString& title, const bool& isChildWindow, const PXControlSharedPtr& parent) 
 : PXWindow(
     title, 
     PXPosition((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_MAINWIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_MAINWIN_SIZE_HEIGHT))/2.0),
@@ -162,31 +162,31 @@ PXSize WinWindow::getSize() {
 #pragma region WinMainWindow
 WinMainWindow::WinMainWindow(const PXString& title) : WinWindow(title, false) {}
 
-PXWindow* createMainWindow(const PXString& title) {
-    return new WinMainWindow(title);
+PXWindowSharedPtr createMainWindow(const PXString& title) {
+    return PXWindowSharedPtr(new WinMainWindow(title));
 }
 #pragma endregion WinMainWindow
 
 #pragma region WinChildWindow
-WinChildWindow::WinChildWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size) :  WinWindow(title, true, parent) {
+WinChildWindow::WinChildWindow(const PXString& title, PXControlSharedPtr& parent, const PXPosition& position, const PXSize& size) :  WinWindow(title, true, parent) {
     setPosition(position);
     setSize(size);
 }
 
-PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size) {
+PXWindowSharedPtr createWindow(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size) {
     parent->addControl(new WinChildWindow(title, parent, position, size));
-    return reinterpret_cast<PXWindow*>(parent->getControls().back());
+    return PXWindowSharedPtr(reinterpret_cast<PXWindow*>(parent->getControls().back()));
 }
 
-PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position) {
+PXWindowSharedPtr createWindow(const PXString& title, PXControlSharedPtr parent, const PXPosition& position) {
     return createWindow(title, parent, position, PXSize(std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH), std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT)));
 }
 
-PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXSize& size) {
+PXWindowSharedPtr createWindow(const PXString& title, PXControlSharedPtr parent, const PXSize& size) {
     return createWindow(title, parent, PXPosition((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT))/2.0), size);
 }
 
-PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent) {
+PXWindowSharedPtr createWindow(const PXString& title, PXControlSharedPtr parent) {
     return createWindow(title, parent, PXPosition((GetSystemMetrics(SM_CXSCREEN)-std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH))/2.0, (GetSystemMetrics(SM_CYSCREEN)-std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT))/2.0), PXSize(std::min<int>(GetSystemMetrics(SM_CXSCREEN),STD_CHILDWIN_SIZE_WIDTH), std::min<int>(GetSystemMetrics(SM_CYSCREEN),STD_CHILDWIN_SIZE_HEIGHT)));
 }
 #pragma endregion WinMainWindow

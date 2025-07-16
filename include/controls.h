@@ -10,11 +10,11 @@ class LIB PXWindow : public PXControl {
         bool hasCallback() const override { return false; }
 };
 using PXWindowSharedPtr = std::shared_ptr<PXWindow>;
-LIB PXWindow* createMainWindow(const PXString& title);
-LIB PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size);
-LIB PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position);
-LIB PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXSize& size);
-LIB PXWindow* createWindow(const PXString& title, std::shared_ptr<PXControl> parent);
+LIB PXWindowSharedPtr createMainWindow(const PXString& title);
+LIB PXWindowSharedPtr createWindow(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size);
+LIB PXWindowSharedPtr createWindow(const PXString& title, PXControlSharedPtr parent, const PXPosition& position);
+LIB PXWindowSharedPtr createWindow(const PXString& title, PXControlSharedPtr parent, const PXSize& size);
+LIB PXWindowSharedPtr createWindow(const PXString& title, PXControlSharedPtr parent);
 #pragma endregion PXWindow
 
 #pragma region PXButton
@@ -29,8 +29,8 @@ class LIB PXButton : public PXControl {
         std::function<void()> callback;
 };
 using PXButtonSharedPtr = std::shared_ptr<PXButton>;
-LIB PXButton* createButton(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
-LIB PXButton* createButton(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
+LIB PXButtonSharedPtr createButton(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
+LIB PXButtonSharedPtr createButton(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
 #pragma endregion PXButton
 
 #pragma region PXEdit
@@ -45,8 +45,8 @@ class LIB PXEdit : public PXControl {
         std::function<void(const uint32_t& key)> callback;
 };
 using PXEditSharedPtr = std::shared_ptr<PXEdit>;
-LIB PXEdit* createEdit(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
-LIB PXEdit* createEdit(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXEditSharedPtr createEdit(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXEditSharedPtr createEdit(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
 #pragma endregion PXEdit
 
 #pragma region PXText
@@ -61,8 +61,8 @@ class LIB PXText : public PXControl {
         std::function<void(const uint32_t& key)> callback;
 };
 using PXTextSharedPtr = std::shared_ptr<PXText>;
-LIB PXText* createText(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
-LIB PXText* createText(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXTextSharedPtr createText(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXTextSharedPtr createText(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
 #pragma endregion PXText
 
 #pragma region PXListBox
@@ -81,8 +81,8 @@ class LIB PXListBox : public PXControl {
         std::vector<PXNode> nodes;
 };
 using PXListBoxSharedPtr = std::shared_ptr<PXListBox>;
-LIB PXListBox* createListBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
-LIB PXListBox* createListBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXListBoxSharedPtr createListBox(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXListBoxSharedPtr createListBox(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
 #pragma endregion PXListBox
 
 #pragma region PXComboBox
@@ -101,8 +101,8 @@ class LIB PXComboBox : public PXControl {
         std::vector<PXNode> nodes;
 };
 using PXComboBoxSharedPtr = std::shared_ptr<PXComboBox>;
-LIB PXComboBox* createComboBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
-LIB PXComboBox* createComboBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXComboBoxSharedPtr createComboBox(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXComboBoxSharedPtr createComboBox(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
 #pragma endregion PXComboBox
 
 #pragma region PXProgressBar
@@ -121,8 +121,8 @@ class LIB PXProgressBar : public PXControl {
         std::function<void(const uint32_t& key)> callback; 
 };
 using PXProgressBarSharedPtr = std::shared_ptr<PXProgressBar>;
-LIB PXProgressBar* createProgressBar(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
-LIB PXProgressBar* createProgressBar(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXProgressBarSharedPtr createProgressBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
+LIB PXProgressBarSharedPtr createProgressBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
 #pragma endregion PXProgressBar
 
 #pragma region PXCheckBox
@@ -140,8 +140,8 @@ class LIB PXCheckBox : public PXControl {
         std::function<void(const PXHandle&)> callback;        
 };
 using PXCheckBoxSharedPtr = std::shared_ptr<PXCheckBox>;
-LIB PXCheckBox* createCheckBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback=nullptr);
-LIB PXCheckBox* createCheckBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback=nullptr);
+LIB PXCheckBoxSharedPtr createCheckBox(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback=nullptr);
+LIB PXCheckBoxSharedPtr createCheckBox(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback=nullptr);
 #pragma endregion PXCheckBox
 
 #pragma region PXRadioButton
@@ -159,8 +159,8 @@ class LIB PXRadioButton : public PXControl {
         std::function<void(const PXHandle& handle)> callback;        
 };
 using PXRadioButtonSharedPtr = std::shared_ptr<PXRadioButton>;
-LIB PXRadioButton* createRadioButton(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback=nullptr);
-LIB PXRadioButton* createRadioButton(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback=nullptr);
+LIB PXRadioButtonSharedPtr createRadioButton(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback=nullptr);
+LIB PXRadioButtonSharedPtr createRadioButton(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const PXHandle& handle)>& callback=nullptr);
 #pragma endregion PXRadioButton
 
 #pragma region PXRadioButton
@@ -177,8 +177,8 @@ class LIB PXGroupBox : public PXControl {
         std::function<void()> callback;  
 };
 using PXGroupBoxSharedPtr = std::shared_ptr<PXGroupBox>;
-LIB PXGroupBox* createGroupBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
-LIB PXGroupBox* createGroupBox(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
+LIB PXGroupBoxSharedPtr createGroupBox(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
+LIB PXGroupBoxSharedPtr createGroupBox(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
 #pragma endregion PXGroupBox
 
 #pragma region PXTreeView
@@ -198,8 +198,8 @@ class LIB PXTreeView : public PXControl {
         
 };
 using PXTreeViewSharedPtr = std::shared_ptr<PXTreeView>;
-LIB PXTreeView* createTreeView(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
-LIB PXTreeView* createTreeView(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
+LIB PXTreeViewSharedPtr createTreeView(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
+LIB PXTreeViewSharedPtr createTreeView(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
 #pragma endregion PXTreeView
 
 #pragma region PXStatusBar
@@ -217,6 +217,6 @@ class LIB PXStatusBar : public PXControl {
         std::vector<PXStatusBarPart> parts;       
 };
 using PXStatusBarSharedPtr = std::shared_ptr<PXStatusBar>;
-LIB PXStatusBar* createStatusBar(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
-LIB PXStatusBar* createStatusBar(const PXString& title, std::shared_ptr<PXControl> parent, const std::function<void()>& callback=nullptr);
+LIB PXStatusBarSharedPtr createStatusBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
+LIB PXStatusBarSharedPtr createStatusBar(const PXString& title, PXControlSharedPtr parent, const std::function<void()>& callback=nullptr);
 #pragma endregion PXStatusBar

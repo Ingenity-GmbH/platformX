@@ -9,6 +9,6 @@ class LIB PXApplication {
     public:
         virtual int CALL runEventLoop() = 0;
 };
-using PXApplUniquePtr = std::unique_ptr<PXApplication>;
-LIB PXApplUniquePtr createApplication();
+using PXApplicationUniquePtr = std::unique_ptr<PXApplication>;
+LIB PXApplicationUniquePtr createApplication();
 #pragma endregion PXApplication

@@ -59,8 +59,4 @@ PXString PXControl::getTitle() {
 std::vector<PXControl*> PXControl::getControls() const {
     return controls;
 }
-
-std::shared_ptr<PXControl> PXControl::getSharedPtr() {
-    return shared_from_this();
-}
 #pragma endregion PXControl

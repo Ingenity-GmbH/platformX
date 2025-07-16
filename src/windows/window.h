@@ -7,7 +7,7 @@
 #pragma region WinWindow
 class LIB WinWindow : public PXWindow {
     public:
-        WinWindow(const PXString& title, const bool& isChildWindow, const std::shared_ptr<PXControl> parent=nullptr);
+        WinWindow(const PXString& title, const bool& isChildWindow, const PXControlSharedPtr& parent=nullptr);
         static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
         void setPosition(const PXPosition& position) override;
         PXPosition getPosition() override;
@@ -32,6 +32,6 @@ class LIB WinMainWindow : public WinWindow {
 #pragma region WinChildWindow
 class LIB WinChildWindow : public WinWindow {
     public:
-        WinChildWindow(const PXString& title, std::shared_ptr<PXControl> parent, const PXPosition& position, const PXSize& size);
+        WinChildWindow(const PXString& title, PXControlSharedPtr& parent, const PXPosition& position, const PXSize& size);
 };
 #pragma endregion WinChildWindow

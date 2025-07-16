@@ -1,7 +1,7 @@
 #include "include/application.h"
 
 /* controls */
-PXApplUniquePtr app;
+PXApplicationUniquePtr app;
 PXWindowSharedPtr mainWnd;
 PXWindowSharedPtr childWnd;
 PXButtonSharedPtr btn;
@@ -57,25 +57,25 @@ void treeviewClick() {
 int main() {
     app = createApplication();
     
-    mainWnd = SHARED(PXWindow, createMainWindow("platformX App"));
-    childWnd = SHARED(PXWindow, createWindow("child win", mainWnd));
+    mainWnd = createMainWindow("platformX App");
+    childWnd = createWindow("child win", mainWnd);
     
-    btn2 = SHARED(PXButton, createButton("btn2", mainWnd, PXPosition(100,10), button2click));
-    edit = SHARED(PXEdit, createEdit("edit", mainWnd, PXPosition(10,60), editClick));
-    text = SHARED(PXText, createText("Hello PlatformX", mainWnd, PXPosition(10,110)));
-    treeview = SHARED(PXTreeView, createTreeView("tree view", mainWnd, PXPosition(10, 450), treeviewClick));
-    combobox = SHARED(PXComboBox, createComboBox("combobox", mainWnd, PXPosition(10,230)));
-    progress = SHARED(PXProgressBar, createProgressBar("progressbar", mainWnd, PXPosition(10, 300)));
+    btn2 = createButton("btn2", mainWnd, PXPosition(100,10), button2click);
+    edit = createEdit("edit", mainWnd, PXPosition(10,60), editClick);
+    text = createText("Hello PlatformX", mainWnd, PXPosition(10,110));
+    treeview = createTreeView("tree view", mainWnd, PXPosition(10, 450), treeviewClick);
+    combobox = createComboBox("combobox", mainWnd, PXPosition(10,230));
+    progress = createProgressBar("progressbar", mainWnd, PXPosition(10, 300));
     progress->configure(0,100,1);
     progress->setPos(25);
     progress->setColor(PXColor(0x80,0xC8,0xB0), PXColor(0xF0,0xF0,0xF0));
     
-    btn = SHARED(PXButton, createButton("btn child", childWnd, PXPosition(10,10), button1click));
-    listbox = SHARED(PXListBox, createListBox("listbox", childWnd, PXPosition(10,160), PXSize(300,400)));
-    groupbox = SHARED(PXGroupBox, createGroupBox("group", childWnd, PXPosition(10,50)));
-    checkbox = SHARED(PXCheckBox, createCheckBox("option", groupbox, PXPosition(10,50)));
-    radioButton = SHARED(PXRadioButton, createRadioButton("radio", groupbox, PXPosition(10,80)));
-    statusbar = SHARED(PXStatusBar, createStatusBar("statusbar", mainWnd));
+    btn = createButton("btn child", childWnd, PXPosition(10,10), button1click);
+    listbox = createListBox("listbox", childWnd, PXPosition(10,160), PXSize(300,400));
+    groupbox = createGroupBox("group", childWnd, PXPosition(10,50));
+    checkbox = createCheckBox("option", groupbox, PXPosition(10,50));
+    radioButton = createRadioButton("radio", groupbox, PXPosition(10,80));
+    statusbar = createStatusBar("statusbar", mainWnd);
     statusbar->addPart(0.2, "status");
     statusbar->addPart(0.8, "time");
     statusbar->addPart(0.5, "p2");
