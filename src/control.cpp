@@ -5,15 +5,6 @@
 PXControl::PXControl(const PXString& title, const PXPosition& position, const PXSize& size, const PXType& type)
 : title(title), position(position), size(size), type(type), handle(0), parent(0) {}
 
-PXControl::~PXControl() {
-    for (auto& control : controls) {
-        if (control) {
-            delete control;
-            control = nullptr;
-        }
-    }
-}
-
 void PXControl::addControl(PXControl* control) {
     controls.push_back(control);
 }
