@@ -1,3 +1,10 @@
+# debug config
+config_setting(
+    name = "debug_build",
+    values = {"compilation_mode": "dbg"},
+)
+
+# example app related to current OS
 cc_binary(
     name = "native_ui_app",
     srcs = ["main.cpp"],
@@ -33,8 +40,14 @@ cc_library(
 # windows
 cc_import(
     name = "platformX",
-    interface_library = "bazel-out/x64_windows-fastbuild/bin/src/platformX.if.lib",
-    shared_library = "bazel-out/x64_windows-fastbuild/bin/src/platformX.dll"
+    interface_library = select({
+        ":debug_build":         "bazel-out/x64_windows-dbg/bin/src/platformX.if.lib",
+        "//conditions:default": "bazel-out/x64_windows-fastbuild/bin/src/platformX.if.lib",
+    }),
+    shared_library = select({
+        ":debug_build":         "bazel-out/x64_windows-dbg/bin/src/platformX.dll",
+        "//conditions:default": "bazel-out/x64_windows-fastbuild/bin/src/platformX.dll",
+    })
 )
 
 cc_library(

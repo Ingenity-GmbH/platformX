@@ -4,31 +4,30 @@
     {
       "label": "Bazel Build platformX DLL",
       "type": "shell",
-      "command": "bazel build -c dbg //src:platformX"
+      "command": "bazel build --compilation_mode=dbg --strip=never //src:platformX"
     },
     {
       "label": "Bazel Build native_ui_app",
       "type": "shell",
-      "command": "bazel build -c dbg //:native_ui_app"
+      "command": "bazel build --compilation_mode=dbg --strip=never //:native_ui_app"
+    },
+    {
+        "label": "Bazel Build Debug",
+        "dependsOn": [
+            "Bazel Build platformX DLL",
+            "Bazel Build native_ui_app"
+        ],
+        "dependsOrder": "sequence",
+        "problemMatcher": [],
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        }
     },
     {
       "label": "Bazel Run native_ui_app",
       "type": "shell",
       "command": "bazel run //:native_ui_app"
-    },
-    {
-      "label": "Bazel All",
-      "dependsOn": [
-        "Bazel Build platformX DLL",
-        "Bazel Build native_ui_app",
-        "Bazel Run native_ui_app"
-      ],
-      "dependsOrder": "sequence",
-      "problemMatcher": [],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
     }
   ]
 }
