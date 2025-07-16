@@ -105,6 +105,10 @@ LRESULT CALLBACK WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPAR
                         SendMessage(statusbar->getHandle(), WM_SIZE, 0, 0);
                         statusbar->setSize({static_cast<uint32_t>(LOWORD(lParam)), statusbar->getSize().height});
                         statusbar->updateParts();
+                    }else if(control->getType() == TOOLBAR){
+                        auto toolbar = reinterpret_cast<WinToolBar*>(control);
+                        SendMessage(toolbar->getHandle(), WM_SIZE, 0, 0);
+                        toolbar->setSize({static_cast<uint32_t>(LOWORD(lParam)), toolbar->getSize().height});
                     }
                 }
                 break;

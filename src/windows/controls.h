@@ -111,3 +111,14 @@ class LIB WinStatusBar : public PXStatusBar {
         void updateParts(const PXString& text=EMPTY, const size_t& idx=-1) override;
 };
 #pragma endregion WinStatusBar
+
+#pragma region WinToolBar
+class LIB WinToolBar : public PXToolBar {
+    public:
+        WinToolBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+        void onClick() override;
+        // WinToolBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+        // void onKeyPress(const uint32_t& key) override;
+        
+};
+#pragma endregion WinToolBar

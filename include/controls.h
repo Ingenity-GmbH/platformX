@@ -220,3 +220,25 @@ using PXStatusBarSharedPtr = std::shared_ptr<PXStatusBar>;
 LIB PXStatusBarSharedPtr createStatusBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
 LIB PXStatusBarSharedPtr createStatusBar(const PXString& title, PXControlSharedPtr parent, const std::function<void()>& callback=nullptr);
 #pragma endregion PXStatusBar
+
+#pragma region PXToolBar
+class LIB PXToolBar : public PXControl {
+    public:
+        PXToolBar(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, TOOLBAR) {}
+        // PXToolBar(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, EDIT) {}
+        virtual ~PXToolBar() = default;
+        virtual void onClick() = 0;
+        // virtual void onKeyPress(const uint32_t& key) = 0;
+        bool hasCallback() const override { return callback == nullptr ? false : true; }
+        
+    protected:
+        std::function<void()> callback;
+        // std::function<void(const uint32_t& key)> callback;
+        
+};
+using PXToolBarSharedPtr = std::shared_ptr<PXToolBar>;
+LIB PXToolBarSharedPtr createToolBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
+LIB PXToolBarSharedPtr createToolBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void()>& callback=nullptr);
+// LIB PXToolBarSharedPtr createToolBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback=nullptr);
+// LIB PXToolBarSharedPtr createToolBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback=nullptr);
+#pragma endregion PXToolBar

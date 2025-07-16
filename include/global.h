@@ -62,6 +62,8 @@ const uint32_t STD_RADIOBUTTON_SIZE_WIDTH = 100;
 const uint32_t STD_RADIOBUTTON_SIZE_HEIGHT = 21;
 const uint32_t STD_GROUPBOX_SIZE_WIDTH = 200;
 const uint32_t STD_GROUPBOX_SIZE_HEIGHT = 200;
+const uint32_t STD_TOOLBAR_SIZE_HEIGHT = 50;
+const uint32_t STD_TOOLBAR_SIZE_WIDTH = 200;
 #pragma endregion global variables
 
 #pragma region PXType
@@ -75,7 +77,8 @@ enum PXType {
     COMBOBOX,
     GROUPBOX,
     TREEVIEW,
-    STATUSBAR
+    STATUSBAR,
+    TOOLBAR
 };
 #pragma endregion PXType
 

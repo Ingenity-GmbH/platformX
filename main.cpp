@@ -16,6 +16,7 @@ PXRadioButtonSharedPtr radioButton;
 PXGroupBoxSharedPtr groupbox;
 PXTreeViewSharedPtr treeview;
 PXStatusBarSharedPtr statusbar;
+PXToolBarSharedPtr toolbar;
 
 /* callbacks */
 void button1click() {
@@ -79,6 +80,7 @@ int main() {
     statusbar->addPart(0.2, "status");
     statusbar->addPart(0.8, "time");
     statusbar->addPart(0.5, "p2");
+    toolbar = createToolBar("TestToolBar", childWnd, PXPosition(0,0));
 
     PXNode blubb1("blubb1");
     PXNode blubb2("blubb2");

@@ -611,3 +611,59 @@ PXStatusBarSharedPtr createStatusBar(const PXString& title, PXControlSharedPtr p
     return createStatusBar(title, parent, {0,0}, {parent->getSize().width,0}, callback);
 }
 #pragma endregion WinStatusBar
+
+
+#pragma region WinToolBar
+WinToolBar::WinToolBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) 
+// WinToolBar::WinToolBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) 
+: PXToolBar(title, position, size) {
+    auto parentHandle = parent.getHandle();
+    this->parent = &parent;
+    this->callback = callback;
+
+    handle = CreateWindowEx(
+        0,
+        TOOLBARCLASSNAME,
+        this->title.toLPCWSTR(),
+        WS_CHILD | WS_VISIBLE,
+        position.x,
+        position.y,
+        size.width,
+        size.height,
+        parentHandle,
+        nullptr,
+        (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE),
+        nullptr);
+
+    util::setFont(handle);
+}
+
+void WinToolBar::onClick() {
+	 callback();
+}
+// void WinToolBar::onKeyPress(const uint32_t& key) {
+//	 callback(key);
+// }
+
+PXToolBarSharedPtr createToolBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) {
+    PXControl* newParent = parent.get();
+    PXPosition newPosition = position;
+
+    while (newParent->getType() != WINDOW) {
+        newPosition += newParent->getPosition();
+        newParent = newParent->getParent();
+    }
+    newParent->addControl(new WinToolBar(title, *newParent, newPosition, size, callback));
+    return PXToolBarSharedPtr(static_cast<PXToolBar*>(newParent->getControls().back()));
+}
+PXToolBarSharedPtr createToolBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void()>& callback) {
+    return createToolBar(title, parent, position, {STD_TOOLBAR_SIZE_WIDTH,STD_TOOLBAR_SIZE_HEIGHT}, callback);
+}
+// PXToolBarSharedPtr createToolBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback) {
+    // parent->addControl(new WinToolBar(title, *parent, position, size, callback));
+    // return static_cast<PXToolBarSharedPtr>(parent->getControls().back());
+// }
+// PXToolBarSharedPtr createToolBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const uint32_t& key)>& callback) {
+    // return createToolBar(title, parent, position, {STD_ ToolBar_SIZE_WIDTH,STD_ ToolBar_SIZE_HEIGHT}, callback);
+// }
+#pragma endregion WinToolBar
