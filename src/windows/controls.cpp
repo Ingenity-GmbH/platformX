@@ -611,3 +611,47 @@ PXStatusBarSharedPtr createStatusBar(const PXString& title, PXControlSharedPtr p
     return createStatusBar(title, parent, {0,0}, {parent->getSize().width,0}, callback);
 }
 #pragma endregion WinStatusBar
+
+#pragma region WinSpin
+WinSpin::WinSpin(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const bool& up)>& callback) 
+: PXSpin(title, position, size) {
+    auto parentHandle = parent.getHandle();
+    this->parent = &parent;
+    this->callback = callback;
+
+    handle = CreateWindowEx(
+        0,
+        UPDOWN_CLASS,
+        this->title.toLPCWSTR(),
+        WS_CHILD | WS_VISIBLE | UDS_ALIGNRIGHT | UDS_SETBUDDYINT,
+        position.x,
+        position.y,
+        size.width,
+        size.height,
+        parentHandle,
+        nullptr,
+        (HINSTANCE)GetWindowLongPtr(parentHandle, GWLP_HINSTANCE),
+        nullptr);
+
+    util::setFont(handle);
+}
+
+void WinSpin::onClick(const bool& up) {
+	 callback(up);
+}
+
+PXSpinSharedPtr createSpin(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const bool& up)>& callback) {
+    PXControl* newParent = parent.get();
+    PXPosition newPosition = position;
+
+    while (newParent->getType() != WINDOW) {
+        newPosition += newParent->getPosition();
+        newParent = newParent->getParent();
+    }
+    newParent->addControl(new WinSpin(title, *newParent, newPosition, size, callback));
+    return PXSpinSharedPtr(static_cast<PXSpin*>(newParent->getControls().back()));
+}
+PXSpinSharedPtr createSpin(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const bool& up)>& callback) {
+    return createSpin(title, parent, position, {STD_SPIN_SIZE_WIDTH,STD_SPIN_SIZE_HEIGHT}, callback);
+}
+#pragma endregion WinSpin

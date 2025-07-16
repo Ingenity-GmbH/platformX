@@ -111,3 +111,11 @@ class LIB WinStatusBar : public PXStatusBar {
         void updateParts(const PXString& text=EMPTY, const size_t& idx=-1) override;
 };
 #pragma endregion WinStatusBar
+
+#pragma region WinSpin
+class LIB WinSpin : public PXSpin {
+    public:
+        WinSpin(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const bool& up)>& callback);
+        void onClick(const bool& up) override;        
+};
+#pragma endregion WinSpin

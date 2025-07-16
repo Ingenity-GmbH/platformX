@@ -16,6 +16,7 @@ PXRadioButtonSharedPtr radioButton;
 PXGroupBoxSharedPtr groupbox;
 PXTreeViewSharedPtr treeview;
 PXStatusBarSharedPtr statusbar;
+// PXSpinSharedPtr spin; <-- locally declared in main
 
 /* callbacks */
 void button1click() {
@@ -54,6 +55,19 @@ void treeviewClick() {
     edit->setTitle(treeview->getSelectedNode()->title);
 }
 
+void spinClick(const bool& up) {
+    std::string t = edit->getTitle().toString();
+    int d = std::stoi(t);
+    if (up)
+        ++d;
+    else
+        --d;
+    char buffer[20];
+    sprintf(buffer, "%d", d);
+    PXString t2(buffer);
+    edit->setTitle(t2);
+}
+
 int main() {
     app = createApplication();
     
@@ -61,7 +75,7 @@ int main() {
     childWnd = createWindow("child win", mainWnd);
     
     btn2 = createButton("btn2", mainWnd, PXPosition(100,10), button2click);
-    edit = createEdit("edit", mainWnd, PXPosition(10,60), editClick);
+    edit = createEdit("6", mainWnd, PXPosition(10,60), editClick);
     text = createText("Hello PlatformX", mainWnd, PXPosition(10,110));
     treeview = createTreeView("tree view", mainWnd, PXPosition(10, 450), treeviewClick);
     combobox = createComboBox("combobox", mainWnd, PXPosition(10,230));
@@ -90,6 +104,8 @@ int main() {
     treeview->addNode(PXNode("blubb12", &blubb1));
     treeview->addNode(PXNode("blubb31", &blubb3));
     
+    // in this case generated locally
+    PXSpinSharedPtr spin = createSpin("spin", mainWnd, PXPosition(120,60), spinClick);
 
     return app->runEventLoop();
 }

@@ -90,7 +90,15 @@ LRESULT CALLBACK WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPAR
             {
                 LPNMHDR pnmhdr = (LPNMHDR)lParam;
                 for (const auto& control : self->controls) {
-                    if (control->hasCallback() && control->getType() == TREEVIEW && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == TVN_SELCHANGED) {
+                    if (control->hasCallback() && control->getType() == BUTTON && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == UDN_DELTAPOS) {
+                        auto spin = reinterpret_cast<WinSpin*>(control);
+                        LPNMUPDOWN updown = (LPNMUPDOWN)lParam;
+                        if (updown->iDelta < 0)
+                            spin->onClick(true);
+                        else 
+                            spin->onClick(false);
+                    }                    
+                    else if (control->hasCallback() && control->getType() == TREEVIEW && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == TVN_SELCHANGED) {
                         auto treeview = reinterpret_cast<WinTreeView*>(control);
                         treeview->onClick();
                     }

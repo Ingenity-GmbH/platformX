@@ -220,3 +220,20 @@ using PXStatusBarSharedPtr = std::shared_ptr<PXStatusBar>;
 LIB PXStatusBarSharedPtr createStatusBar(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback=nullptr);
 LIB PXStatusBarSharedPtr createStatusBar(const PXString& title, PXControlSharedPtr parent, const std::function<void()>& callback=nullptr);
 #pragma endregion PXStatusBar
+
+#pragma region PXSpin
+class LIB PXSpin : public PXControl {
+    public:
+        PXSpin(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, BUTTON) {}
+        virtual ~PXSpin() = default;
+        virtual void onClick(const bool& up) = 0;
+        bool hasCallback() const override { return callback == nullptr ? false : true; }
+        
+    protected:
+        std::function<void(const bool& up)> callback;
+        
+};
+using PXSpinSharedPtr = std::shared_ptr<PXSpin>;
+LIB PXSpinSharedPtr createSpin(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const PXSize& size, const std::function<void(const bool& up)>& callback=nullptr);
+LIB PXSpinSharedPtr createSpin(const PXString& title, PXControlSharedPtr parent, const PXPosition& position, const std::function<void(const bool& up)>& callback=nullptr);
+#pragma endregion PXSpin

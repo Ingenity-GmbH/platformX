@@ -62,6 +62,8 @@ const uint32_t STD_RADIOBUTTON_SIZE_WIDTH = 100;
 const uint32_t STD_RADIOBUTTON_SIZE_HEIGHT = 21;
 const uint32_t STD_GROUPBOX_SIZE_WIDTH = 200;
 const uint32_t STD_GROUPBOX_SIZE_HEIGHT = 200;
+const uint32_t STD_SPIN_SIZE_WIDTH = 35;
+const uint32_t STD_SPIN_SIZE_HEIGHT = 21;
 #pragma endregion global variables
 
 #pragma region PXType
