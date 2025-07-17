@@ -7,39 +7,22 @@ config_setting(
 # example app related to current OS
 cc_binary(
     name = "native_ui_app",
-    srcs = ["main.cpp"],
-    deps = select({
-        "@bazel_tools//src/conditions:darwin": [":macos_ui"],
-        "@bazel_tools//src/conditions:windows": [
-            ":windows_ui", 
-        ],
-        "//conditions:default": [":linux_ui"],
+    # srcs = ["main.cpp"],
+    srcs = select({
+        "@platforms//os:windows": ["main_windows.cpp"],
+        "@platforms//os:linux":   ["main_linux.cpp"],
+        "@platforms//os:macos":   ["main_macos.cpp"],
     }),
-)
-
-# macos
-cc_library(
-    name = "macos_ui",
-    deps = [
-        "//third-party:metal-cpp",
-        "//include:headers",
-        "//src:macos_ui",
-    ],
-    copts = [
-        "-Wall",
-        "-std=c++17",
-    ],
-    linkopts = [
-        "-framework Metal",
-        "-framework Foundation",
-        "-framework Cocoa",
-        "-framework CoreGraphics",
-    ],
+    deps = select({
+        "@platforms//os:windows": [":windows_ui"],
+        "@platforms//os:linux":   [":linux_ui"],
+        "@platforms//os:macos":   [":macos_ui"],
+    }),
 )
 
 # windows
 cc_import(
-    name = "platformX",
+    name = "platformX.dll",
     interface_library = select({
         ":debug_build":         "bazel-out/x64_windows-dbg/bin/src/platformX.if.lib",
         "//conditions:default": "bazel-out/x64_windows-fastbuild/bin/src/platformX.if.lib",
@@ -54,7 +37,7 @@ cc_library(
     name = "windows_ui",
     deps = [
         "//include:headers",
-        ":platformX"
+        ":platformX.dll"
     ],
     copts = [
         "/Wall",
@@ -63,14 +46,53 @@ cc_library(
 )
 
 # linux
+cc_import(
+    name = "platformX.so",
+    interface_library = None,
+    shared_library = select({
+        ":debug_build":         "bazel-out/k8-dbg/bin/src/platformX.so",
+        "//conditions:default": "bazel-out/k8-fastbuild/bin/src/platformX.so",
+    })
+)
+
 cc_library(
     name = "linux_ui",
     deps = [
         "//include:headers",
-        "//src:linux_ui",
+        "//:platformX.so",
     ],
     copts = [
         "-Wall",
         "-std=c++17",
+    ],
+)
+
+# macos
+cc_import(
+    name = "platformX.dylib",
+    interface_library = None,
+    shared_library = select({
+        # todo: adapt links
+        ":debug_build":         "bazel-out/<os>-dbg/bin/src/platformX.so",
+        "//conditions:default": "bazel-out/<os>-fastbuild/bin/src/platformX.so",
+    })
+)
+
+cc_library(
+    name = "macos_ui",
+    deps = [
+        "//third-party:metal-cpp",
+        "//include:headers",
+        ":platformX.dylib",
+    ],
+    copts = [
+        "-Wall",
+        "-std=c++17",
+    ],
+    linkopts = [
+        "-framework Metal",
+        "-framework Foundation",
+        "-framework Cocoa",
+        "-framework CoreGraphics",
     ],
 )
