@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <string>
 
 #pragma region base os specific definitions
 #if defined(_WIN32)
@@ -8,36 +9,37 @@
     #define LIB __declspec(dllexport)
     #define CALL WINAPI 
     #include <windows.h>
-    #include <string>
     #include <memory>
     #include <CommCtrl.h>
     #include <prsht.h>
     using PXHandle = HWND;
     using PXNodeHandle = HTREEITEM;
     static LPCWSTR WIN_STANDARD_FONT = L"Segoe UI";
-#elif defined(__APPLE__)
-    #define LIB __attribute__((visibility("default")))
-    #define CALL
-    #include <AppKit/NSWindow.h>
-    using PXHandle = NSWindow*;
-    #elif defined(__linux__)
-    #define LIB __attribute__((visibility("default")))
+#elif defined(__linux__)
+    #define LIB
     #define CALL
     #include <X11/Xlib.h>
     using PXHandle = Window;
+    using PXNodeHandle = XID;
+#elif defined(__APPLE__)
+    #define LIB
+    #define CALL
+    #include <AppKit/NSWindow.h>
+    using PXHandle = NSWindow*;
+    using PXNodeHandle = uint32_t;
 #else
     #define LIB
+    #define CALL
     using PXHandle = uint32_t;
+    using PXNodeHandle = uint32_t;
 #endif
 #pragma endregion base os specific definitions
 
 #pragma region global definitions
 #define EMPTY ""
-#define UNIQUE(type, var) std::unique_ptr<type>(var)
-#define SHARED(type, var) std::shared_ptr<type>(var)
 #pragma endregion global defines
 
-#pragma region global variables
+#pragma region general control dimensions
 const float STD_MAINWIN_SIZE_WIDTH = 1920.0;
 const float STD_MAINWIN_SIZE_HEIGHT = 1080.0;
 const float STD_CHILDWIN_SIZE_WIDTH = 480;
@@ -64,7 +66,7 @@ const uint32_t STD_GROUPBOX_SIZE_WIDTH = 200;
 const uint32_t STD_GROUPBOX_SIZE_HEIGHT = 200;
 const uint32_t STD_SPIN_SIZE_WIDTH = 35;
 const uint32_t STD_SPIN_SIZE_HEIGHT = 21;
-#pragma endregion global variables
+#pragma endregion general control dimensions
 
 #pragma region PXType
 enum PXType {
@@ -98,8 +100,10 @@ class LIB PXString {
 
         std::wstring toWstring() const;
         std::string toString() const;
-        LPCWSTR toLPCWSTR() const;
-        LPCSTR toLPCSTR() const;
+        #if defined(_WIN32)
+            LPCWSTR toLPCWSTR() const;
+            LPCSTR toLPCSTR() const;
+        #endif
        
         friend LIB PXString operator+(const PXString& lhs, const PXString& rhs);
 };
