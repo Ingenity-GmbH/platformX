@@ -17,7 +17,7 @@ void LinuxUI::createWindow() {
     XMapWindow(display, window);
 }
 
-void LinuxUI::runEventLoop() {
+int LinuxUI::runEventLoop() {
     XEvent event;
     while (true) {
         XNextEvent(display, &event);
@@ -25,7 +25,7 @@ void LinuxUI::runEventLoop() {
     }
 }
 
-UIInterface* createUI() {
+PXApplication* createUI() {
     return new LinuxUI();
 }
 #pragma endregion LinuxUI

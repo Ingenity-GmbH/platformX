@@ -2,18 +2,18 @@
 
 #include <X11/Xlib.h>
 
-#include "include/ui_interface.h"
+#include "include/application.h"
 
 #pragma region LinuxUI
-class LinuxUI : public UIInterface {
+class LinuxUI : public PXApplication {
     public:
-        void createWindow() override;
-        void runEventLoop() override;
+        void createWindow();
+        int runEventLoop() override;
     
     private:
         Display* display;
         Window window;
 };
 
-UIInterface* createNativeUI();
+PXApplication* createNativeUI();
 #pragma endregion LinuxUI

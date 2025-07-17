@@ -68,18 +68,17 @@ cc_library(
     name = "linux_ui",
     srcs = ["linux/linux_ui.cpp"],
     hdrs = [
-        "//include:global.h",
-        "//include:application.h",
-        "//include:control.h",
-        "//include:controls.h",
         "linux/linux_ui.h",
+    ],
+    deps = [
+        "//include:headers"
     ],
     copts = [
         "-std=c++17",
     ],
     linkopts = [
         "-lX11",
-        "lXext",
+        "-lXext",
     ],
     visibility = ["//visibility:public"],
 )

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <string>
 
 #pragma region base os specific definitions
 #if defined(_WIN32)
@@ -8,26 +9,26 @@
     #define LIB __declspec(dllexport)
     #define CALL WINAPI 
     #include <windows.h>
-    #include <string>
     #include <memory>
     #include <CommCtrl.h>
     #include <prsht.h>
     using PXHandle = HWND;
     using PXNodeHandle = HTREEITEM;
     static LPCWSTR WIN_STANDARD_FONT = L"Segoe UI";
-#elif defined(__APPLE__)
+#else
     #define LIB __attribute__((visibility("default")))
     #define CALL
+    using PXNodeHandle = char; // stub
+
+#endif
+#if defined(__APPLE__)
     #include <AppKit/NSWindow.h>
     using PXHandle = NSWindow*;
-    #elif defined(__linux__)
-    #define LIB __attribute__((visibility("default")))
-    #define CALL
+#elif defined(__linux__)
     #include <X11/Xlib.h>
     using PXHandle = Window;
 #else
-    #define LIB
-    using PXHandle = uint32_t;
+    using PXHandle = uint32_t; // stub
 #endif
 #pragma endregion base os specific definitions
 
@@ -96,8 +97,10 @@ class LIB PXString {
 
         std::wstring toWstring() const;
         std::string toString() const;
-        LPCWSTR toLPCWSTR() const;
-        LPCSTR toLPCSTR() const;
+        #if defined(_WIN32)
+            LPCWSTR toLPCWSTR() const;
+            LPCSTR toLPCSTR() const;
+        #endif
        
         friend LIB PXString operator+(const PXString& lhs, const PXString& rhs);
 };
