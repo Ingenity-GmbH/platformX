@@ -20,7 +20,7 @@ void util::setFont(const PXHandle& handle) {
     SendMessage(handle, WM_SETFONT, (WPARAM)hFont, TRUE);
 }
 void util::setTitle(const PXHandle& handle, const PXString& title) {
-    SendMessage(handle, WM_SETTEXT, 0, (LPARAM)(title.toLPCWSTR()));
+    SendMessage(handle, WM_SETTEXT, 0, (LPARAM)(title.toUnicode()));
 }
 
 PXString util::getTitle(const PXHandle& handle) {
@@ -80,7 +80,7 @@ void local_addNode(const PXHandle& handle, PXNode& node) {
 
     tvis.hInsertAfter = TVI_LAST;
     tvis.item.mask = TVIF_TEXT;
-    tvis.item.pszText = (LPWSTR)node.title.toLPCWSTR();
+    tvis.item.pszText = (LPWSTR)node.title.toUnicode();
     node.handle = reinterpret_cast<PXNodeHandle>(SendMessage(handle, TVM_INSERTITEMW, 0, (LPARAM)&tvis));
 
     if (node.parent)
@@ -100,8 +100,8 @@ void util::addNodes(const PXHandle& handle, std::vector<PXNode>& nodes, const PX
             SendMessage(handle, CB_RESETCONTENT, 0, 0);
 
             for (size_t i=0; i<nodes.size(); i++) {
-                SendMessageW(handle, LB_INSERTSTRING, static_cast<WPARAM>(i), reinterpret_cast<LPARAM>(nodes[i].title.toLPCWSTR()));
-                SendMessageW(handle, CB_INSERTSTRING, static_cast<WPARAM>(i), reinterpret_cast<LPARAM>(nodes[i].title.toLPCWSTR()));
+                SendMessageW(handle, LB_INSERTSTRING, static_cast<WPARAM>(i), reinterpret_cast<LPARAM>(nodes[i].title.toUnicode()));
+                SendMessageW(handle, CB_INSERTSTRING, static_cast<WPARAM>(i), reinterpret_cast<LPARAM>(nodes[i].title.toUnicode()));
             }
         }
     }
@@ -138,5 +138,5 @@ void util::updateParts(PXControl& self, std::vector<PXStatusBarPart>& parts) {
     delete[] pParts;
 
     for (size_t idx=0; idx<partsSize; idx++)
-        SendMessage(handle, SB_SETTEXT, idx, reinterpret_cast<LPARAM>(parts[idx].text.toLPCWSTR()));
+        SendMessage(handle, SB_SETTEXT, idx, reinterpret_cast<LPARAM>(parts[idx].text.toUnicode()));
 }

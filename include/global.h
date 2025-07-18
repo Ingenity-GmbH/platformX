@@ -24,8 +24,7 @@
 #elif defined(__APPLE__)
     #define LIB
     #define CALL
-    #include <AppKit/NSWindow.h>
-    using PXHandle = NSWindow*;
+    using PXHandle = uint32_t;
     using PXNodeHandle = uint32_t;
 #else
     #define LIB
@@ -37,6 +36,8 @@
 
 #pragma region global definitions
 #define EMPTY ""
+using UTF8_t = const char*;
+using Unicode_t = const wchar_t*;
 #pragma endregion global defines
 
 #pragma region general control dimensions
@@ -86,8 +87,7 @@ enum PXType {
 #pragma region PXString
 class LIB PXString {
     private:
-        std::string castToString() const;
-        std::wstring castToWstring() const;
+        void cast();
         std::string str;
         std::wstring wstr;
 
@@ -98,29 +98,23 @@ class LIB PXString {
         PXString(const char* str);
         PXString(const wchar_t* wstr);
 
-        std::wstring toWstring() const;
         std::string toString() const;
-        #if defined(_WIN32)
-            LPCWSTR toLPCWSTR() const;
-            LPCSTR toLPCSTR() const;
-        #endif
+        std::wstring toWstring() const;
+        UTF8_t toUTF8() const;
+        Unicode_t toUnicode() const;
        
+        PXString& operator=(const PXString& other);
         friend LIB PXString operator+(const PXString& lhs, const PXString& rhs);
 };
 LIB PXString operator+(const PXString& lhs, const PXString& rhs);
 #pragma endregion PXString
 
 #pragma region PXPosition
-struct PXPosition {
-    PXPosition(uint32_t x, uint32_t y)
-    : x(x), y(y) {}
+struct LIB PXPosition {
+    PXPosition(uint32_t x, uint32_t y);
     uint32_t x, y;
 
-    PXPosition& operator+=(const PXPosition& other) {
-        x += other.x;
-        y += other.y;
-        return *this;
-    }
+    PXPosition& operator+=(const PXPosition& other);
 };
 #pragma endregion PXPosition
 

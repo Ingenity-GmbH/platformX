@@ -12,7 +12,7 @@ WinButton::WinButton(const PXString& title, PXControl& parent, const PXPosition&
     handle = CreateWindowEx( 
         0,
         L"BUTTON",
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
         position.x,
         position.y,
@@ -56,7 +56,7 @@ WinEdit::WinEdit(const PXString& title, PXControl& parent, const PXPosition& pos
     handle = CreateWindowEx( 
         0,
         L"EDIT",
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_CHILD | WS_VISIBLE | WS_BORDER,
         position.x,
         position.y,
@@ -100,7 +100,7 @@ WinText::WinText(const PXString& title, PXControl& parent, const PXPosition& pos
     handle = CreateWindowEx( 
         0,
         L"STATIC",
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_CHILD | WS_VISIBLE | SS_LEFT | TRANSPARENT,
         position.x,
         position.y,
@@ -144,7 +144,7 @@ WinListBox::WinListBox(const PXString& title, PXControl& parent, const PXPositio
     handle = CreateWindowEx(
         0,
         L"LISTBOX",
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_CHILD | WS_VISIBLE | LBS_STANDARD | LBS_NOTIFY,
         position.x,
         position.y,
@@ -207,7 +207,7 @@ WinComboBox::WinComboBox(const PXString& title, PXControl& parent, const PXPosit
     handle = CreateWindowEx(
         0,
         L"COMBOBOX",
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_CHILD | WS_VISIBLE | LBS_STANDARD | LBS_NOTIFY,
         position.x,
         position.y,
@@ -270,7 +270,7 @@ WinProgressBar::WinProgressBar(const PXString& title, PXControl& parent, const P
     handle = CreateWindowEx( 
         0,
         L"msctls_progress32",
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_CHILD | WS_VISIBLE,
         position.x,
         position.y,
@@ -338,7 +338,7 @@ WinCheckBox::WinCheckBox(const PXString& title, PXControl& parent, const PXPosit
     handle = CreateWindowEx( 
         0,
         L"BUTTON",
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_CHECKBOX,
         position.x,
         position.y,
@@ -397,7 +397,7 @@ WinRadioButton::WinRadioButton(const PXString& title, PXControl& parent, const P
     handle = CreateWindowEx( 
         0,
         L"BUTTON",
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON,
         position.x,
         position.y,
@@ -453,7 +453,7 @@ WinGroupBox::WinGroupBox(const PXString& title, PXControl& parent, const PXPosit
     handle = CreateWindowEx(
         0,
         L"BUTTON",
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_CHILD | WS_VISIBLE | BS_GROUPBOX,
         position.x,
         position.y,
@@ -493,7 +493,7 @@ WinTreeView::WinTreeView(const PXString& title, PXControl& parent, const PXPosit
     handle = CreateWindowEx(
         0,
         WC_TREEVIEW,
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_CHILD | WS_VISIBLE | WS_BORDER | TVS_HASBUTTONS | TVS_HASLINES,
         position.x,
         position.y,
@@ -579,7 +579,7 @@ WinStatusBar::WinStatusBar(const PXString& title, PXControl& parent, const PXPos
     util::setFont(handle);
 
     parts.push_back({-1, title});
-    SendMessage(handle, SB_SETTEXT, 0, reinterpret_cast<LPARAM>(title.toLPCWSTR()));
+    SendMessage(handle, SB_SETTEXT, 0, reinterpret_cast<LPARAM>(title.toUnicode()));
 }
 
 void WinStatusBar::onClick() {
@@ -622,7 +622,7 @@ WinSpin::WinSpin(const PXString& title, PXControl& parent, const PXPosition& pos
     handle = CreateWindowEx(
         0,
         UPDOWN_CLASS,
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_CHILD | WS_VISIBLE | UDS_ALIGNRIGHT | UDS_SETBUDDYINT,
         position.x,
         position.y,

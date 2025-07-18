@@ -38,7 +38,7 @@ WinWindow::WinWindow(const PXString& title, const bool& isChildWindow, const PXC
     handle = CreateWindowEx(
         0,
         wc.lpszClassName,
-        this->title.toLPCWSTR(),
+        this->title.toUnicode(),
         WS_OVERLAPPEDWINDOW | WS_VSCROLL | WS_HSCROLL,
         position.x, 
         position.y,
