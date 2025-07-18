@@ -24,8 +24,8 @@ cc_binary(
 cc_import(
     name = "platformX.dll",
     interface_library = select({
-        ":debug_build":         "bazel-out/x64_windows-dbg/bin/src/platformX.if.lib",
-        "//conditions:default": "bazel-out/x64_windows-fastbuild/bin/src/platformX.if.lib",
+        ":debug_build":         "bazel-out/x64_windows-dbg/bin/src/platformX.dll.if.lib",
+        "//conditions:default": "bazel-out/x64_windows-fastbuild/bin/src/platformX.dll.if.lib",
     }),
     shared_library = select({
         ":debug_build":         "bazel-out/x64_windows-dbg/bin/src/platformX.dll",
@@ -72,9 +72,8 @@ cc_import(
     name = "platformX.dylib",
     interface_library = None,
     shared_library = select({
-        # todo: adapt links
-        ":debug_build":         "bazel-out/<os>-dbg/bin/src/platformX.so",
-        "//conditions:default": "bazel-out/<os>-fastbuild/bin/src/platformX.so",
+        ":debug_build":         "bazel-out/darwin_x86_64-dbg/bin/src/platformX.dylib",
+        "//conditions:default": "bazel-out/darwin_x86_64-fastbuild/bin/src/platformX.dylib",
     })
 )
 
