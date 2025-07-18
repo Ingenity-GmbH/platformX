@@ -8,9 +8,36 @@
             "program": "${workspaceFolder}/bazel-out/x64_windows-dbg/bin/native_ui_app.exe",
             "symbolSearchPath": "${workspaceFolder}/bazel-out/x64_windows-dbg/bin/",
             "preLaunchTask": "Bazel Build Debug",
-            "stopAtEntry": true,
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "console": "externalTerminal"
+        },
+        {
+            "name": "Debug Linux App (GDB)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bazel-out/k8-dbg/bin/native_ui_app",
+            "preLaunchTask": "Bazel Build Debug",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing"
+                }
+            ]
+        },
+        {
+            "name": "Debug macOS App (LLDB)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bazel-out/darwin_x86_64-dbg/bin/native_ui_app",
+            "preLaunchTask": "Bazel Build Debug",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "MIMode": "lldb"
         }
     ]
 }

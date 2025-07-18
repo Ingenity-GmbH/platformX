@@ -2,20 +2,22 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Bazel Build platformX DLL",
+      "label": "Bazel Build platformX Lib",
       "type": "shell",
-      "command": "bazel build --compilation_mode=dbg --strip=never //src:platformX"
+      "windows": { "command": "bazel build --compilation_mode=dbg --strip=never //src:platformX.dll" },
+      "linux":   { "command": "bazel build --compilation_mode=dbg --strip=never //src:platformX.so" },
+      "osx":     { "command": "bazel build --compilation_mode=dbg --strip=never //src:platformX.dylib" },
     },
     {
-      "label": "Bazel Build native_ui_app",
+      "label": "Bazel Build native_ui_app Example App",
       "type": "shell",
       "command": "bazel build --compilation_mode=dbg --strip=never //:native_ui_app"
     },
     {
         "label": "Bazel Build Debug",
         "dependsOn": [
-            "Bazel Build platformX DLL",
-            "Bazel Build native_ui_app"
+            "Bazel Build platformX Lib",
+            "Bazel Build native_ui_app Example App"
         ],
         "dependsOrder": "sequence",
         "problemMatcher": [],
