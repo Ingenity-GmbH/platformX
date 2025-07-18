@@ -80,7 +80,6 @@ cc_import(
 cc_library(
     name = "macos_ui",
     deps = [
-        "//third-party:metal-cpp",
         "//include:headers",
         ":platformX.dylib",
     ],

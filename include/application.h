@@ -7,6 +7,7 @@
 #pragma region PXApplication
 class LIB PXApplication {
     public:
+        virtual ~PXApplication() {}
         virtual int CALL runEventLoop() = 0;
 };
 using PXApplicationUniquePtr = std::unique_ptr<PXApplication>;
