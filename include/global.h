@@ -24,8 +24,10 @@
 #elif defined(__APPLE__)
     #define LIB
     #define CALL
+    #include <AppKit/AppKit.h>
     using PXHandle = uint32_t;
     using PXNodeHandle = uint32_t;
+    using ID = void*;
 #else
     #define LIB
     #define CALL

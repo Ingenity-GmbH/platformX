@@ -18,6 +18,10 @@ cc_binary(
         "@platforms//os:linux":   [":linux_ui"],
         "@platforms//os:macos":   [":macos_ui"],
     }),
+    copts = select({
+        "@platforms//os:macos":   [ "-xobjective-c++"],
+        "//conditions:default":   [],
+    }),
 )
 
 # windows
@@ -30,7 +34,7 @@ cc_import(
     shared_library = select({
         ":debug_build":         "bazel-out/x64_windows-dbg/bin/src/platformX.dll",
         "//conditions:default": "bazel-out/x64_windows-fastbuild/bin/src/platformX.dll",
-    })
+    }),
 )
 
 cc_library(
@@ -42,7 +46,7 @@ cc_library(
     copts = [
         "/Wall",
         "/std:c++17",
-    ]
+    ],
 )
 
 # linux
@@ -52,7 +56,7 @@ cc_import(
     shared_library = select({
         ":debug_build":         "bazel-out/k8-dbg/bin/src/platformX.so",
         "//conditions:default": "bazel-out/k8-fastbuild/bin/src/platformX.so",
-    })
+    }),
 )
 
 cc_library(
@@ -74,7 +78,7 @@ cc_import(
     shared_library = select({
         ":debug_build":         "bazel-out/darwin_x86_64-dbg/bin/src/platformX.dylib",
         "//conditions:default": "bazel-out/darwin_x86_64-fastbuild/bin/src/platformX.dylib",
-    })
+    }),
 )
 
 cc_library(
@@ -86,11 +90,5 @@ cc_library(
     copts = [
         "-Wall",
         "-std=c++17",
-    ],
-    linkopts = [
-        "-framework Metal",
-        "-framework Foundation",
-        "-framework Cocoa",
-        "-framework CoreGraphics",
     ],
 )

@@ -6,3 +6,4 @@
 ###############################################################################
 
 bazel_dep(name = "platforms", version = "1.0.0") 
+bazel_dep(name = "apple_support", version = "1.22.1")

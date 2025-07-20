@@ -2,15 +2,15 @@
 cc_library(
     name = "windows_headers",
     deps = [
-        "//include:headers"
+        "//include:headers",
     ],
-    hdrs = glob(["windows/*.h"])
+    hdrs = glob(["windows/*.h"]),
 )
 
 cc_binary(
     name = "platformX.dll",
     deps = [
-        ":windows_headers"
+        ":windows_headers",
     ],
     srcs = glob(["*.cpp", "windows/*.cpp"]),
     linkshared = True,
@@ -18,28 +18,28 @@ cc_binary(
         "/std:c++17",
         "/utf-8",
         "/DBUILDING_DLL",
-        "/DUNICODE"
+        "/DUNICODE",
     ],
     linkopts = [
         "-DEFAULTLIB:user32",
         "-DEFAULTLIB:gdi32",
-        "-DEFAULTLIB:UxTheme"
-    ]
+        "-DEFAULTLIB:UxTheme",
+    ],
 )
 
 # linux
 cc_library(
     name = "linux_headers",
     deps = [
-        "//include:headers"
+        "//include:headers",
     ],
-    hdrs = glob(["linux/*.h"])
+    hdrs = glob(["linux/*.h"]),
 )
 
 cc_binary(
     name = "platformX.so",
     deps = [
-        ":linux_headers"
+        ":linux_headers",
     ],
     srcs = glob(["*.cpp", "linux/*.cpp"]),
     linkshared = True,
@@ -49,40 +49,34 @@ cc_binary(
     linkopts = [
         "-lX11",
         "-lXext",
-    ]
+    ],
 )
 
 # macos
-cc_library(
-    name = "macos_headers",
+objc_library(
+    name = "macos_sources",
     deps = [
-        "//include:headers"
+        "//include:headers",
     ],
-    hdrs = glob(["macos/*.h"]),
+    hdrs = glob(["macos/*.h", "macos/*.hh"]),
+    srcs = glob(["macos/*.mm"]),
+    copts = [
+        "-fno-objc-arc",
+    ],
 )
 
 cc_binary(
     name = "platformX.dylib",
     deps = [
-        ":macos_headers",
-        "//third-party:metal-cpp",
+        ":macos_sources",
     ],
     srcs = glob(["*.cpp", "macos/*.cpp"]),
     linkshared = True,
     copts = [
         "-std=c++17",
-        "-I./third-party/metal-cpp",
-        "-fno-objc-arc",
+        "-xobjective-c++",
     ],
     linkopts = [
-        "-framework Metal",
-        "-framework Foundation",
-        "-framework Cocoa",
-        "-framework CoreGraphics",
+        "-framework AppKit",
     ],
-    defines = [
-        "NS_PRIVATE_IMPLEMENTATION",
-        "MTL_PRIVATE_IMPLEMENTATION",
-        "MTK_PRIVATE_IMPLEMENTATION",
-    ]
 )
