@@ -2,5 +2,4 @@ System Volume Information
 .DS_Store
 .spice-clipboard
 bazel-*
-settings.json
 MODULE.bazel.lock

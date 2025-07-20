@@ -10,7 +10,7 @@
             "preLaunchTask": "Bazel Build Debug",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "console": "externalTerminal"
+            "console": "externalTerminal",
         },
         {
             "name": "Debug Linux App (GDB)",
@@ -25,9 +25,9 @@
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing"
-                }
-            ]
+                    "text": "-enable-pretty-printing",
+                },
+            ],
         },
         {
             "name": "Debug macOS App (LLDB)",
@@ -37,7 +37,7 @@
             "preLaunchTask": "Bazel Build Debug",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "MIMode": "lldb"
+            "MIMode": "lldb",
         }
     ]
 }

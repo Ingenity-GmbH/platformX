@@ -176,7 +176,7 @@ PXWindowSharedPtr createMainWindow(const PXString& title) {
 #pragma endregion WinMainWindow
 
 #pragma region WinChildWindow
-WinChildWindow::WinChildWindow(const PXString& title, PXControlSharedPtr& parent, const PXPosition& position, const PXSize& size) :  WinWindow(title, true, parent) {
+WinChildWindow::WinChildWindow(const PXString& title, PXControlSharedPtr& parent, const PXPosition& position, const PXSize& size) : WinWindow(title, true, parent) {
     setPosition(position);
     setSize(size);
 }

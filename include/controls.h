@@ -21,7 +21,7 @@ LIB PXWindowSharedPtr createWindow(const PXString& title, PXControlSharedPtr par
 class LIB PXButton : public PXControl {
     public:
         PXButton(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, BUTTON) {}
-        virtual ~PXButton() = default;
+        virtual ~PXButton() {};
         virtual void onClick() = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
 
@@ -37,7 +37,7 @@ LIB PXButtonSharedPtr createButton(const PXString& title, PXControlSharedPtr par
 class LIB PXEdit : public PXControl {
     public:
         PXEdit(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, EDIT) {}
-        virtual ~PXEdit() = default;
+        virtual ~PXEdit() {}
         virtual void onKeyPress(const uint32_t& key) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
 
@@ -53,7 +53,7 @@ LIB PXEditSharedPtr createEdit(const PXString& title, PXControlSharedPtr parent,
 class LIB PXText : public PXControl {
     public:
         PXText(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, TEXT) {}
-        virtual ~PXText() = default;
+        virtual ~PXText() {}
         // virtual void onKeyPress(const uint32_t& key) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
 
@@ -69,7 +69,7 @@ LIB PXTextSharedPtr createText(const PXString& title, PXControlSharedPtr parent,
 class LIB PXListBox : public PXControl {
     public:
         PXListBox(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, LISTBOX) {}
-        virtual ~PXListBox() = default;
+        virtual ~PXListBox() {}
         // virtual void onKeyPress(const uint32_t& key) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
         virtual void addNode(PXNode& node, const size_t& pos=UINT64_MAX) = 0;
@@ -89,7 +89,7 @@ LIB PXListBoxSharedPtr createListBox(const PXString& title, PXControlSharedPtr p
 class LIB PXComboBox : public PXControl {
     public:
         PXComboBox(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, COMBOBOX) {}
-        virtual ~PXComboBox() = default;
+        virtual ~PXComboBox() {}
         // virtual void onKeyPress(const uint32_t& key) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
         virtual void addNode(PXNode& node, const size_t& pos=UINT64_MAX) = 0;
@@ -109,7 +109,7 @@ LIB PXComboBoxSharedPtr createComboBox(const PXString& title, PXControlSharedPtr
 class LIB PXProgressBar : public PXControl {
     public:
         PXProgressBar(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, COMBOBOX) {}
-        virtual ~PXProgressBar() = default;
+        virtual ~PXProgressBar() {}
         // virtual void onKeyPress(const uint32_t& key) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
         virtual void configure(const uint32_t& min, const uint32_t& max, const uint32_t& step) = 0;
@@ -129,7 +129,7 @@ LIB PXProgressBarSharedPtr createProgressBar(const PXString& title, PXControlSha
 class LIB PXCheckBox : public PXControl {
     public:
         PXCheckBox(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, BUTTON) {}
-        virtual ~PXCheckBox() = default;
+        virtual ~PXCheckBox() {}
         virtual void onClick() = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
         virtual void setState(const bool& state) = 0;
@@ -148,7 +148,7 @@ LIB PXCheckBoxSharedPtr createCheckBox(const PXString& title, PXControlSharedPtr
 class LIB PXRadioButton : public PXControl {
     public:
         PXRadioButton(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, BUTTON) {}
-        virtual ~PXRadioButton() = default;
+        virtual ~PXRadioButton() {}
         virtual void onClick() = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
         virtual void setState(const bool& state) = 0;
@@ -169,7 +169,7 @@ LIB PXRadioButtonSharedPtr createRadioButton(const PXString& title, PXControlSha
 class LIB PXGroupBox : public PXControl {
     public:
         PXGroupBox(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, GROUPBOX) {}
-        virtual ~PXGroupBox() = default;
+        virtual ~PXGroupBox() {}
         // virtual void onClick() = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
         
@@ -185,7 +185,7 @@ LIB PXGroupBoxSharedPtr createGroupBox(const PXString& title, PXControlSharedPtr
 class LIB PXTreeView : public PXControl {
     public:
         PXTreeView(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, TREEVIEW) {}
-        virtual ~PXTreeView() = default;
+        virtual ~PXTreeView() {}
         virtual void onClick() = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
         virtual void addNode(PXNode& node, const size_t& pos=UINT64_MAX) = 0;
@@ -206,7 +206,7 @@ LIB PXTreeViewSharedPtr createTreeView(const PXString& title, PXControlSharedPtr
 class LIB PXStatusBar : public PXControl {
     public:
         PXStatusBar(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, STATUSBAR) {}
-        virtual ~PXStatusBar() = default;
+        virtual ~PXStatusBar() {}
         virtual void onClick() = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
         virtual void addPart(const double& relEndPos, const PXString& text) = 0;
@@ -225,7 +225,7 @@ LIB PXStatusBarSharedPtr createStatusBar(const PXString& title, PXControlSharedP
 class LIB PXSpin : public PXControl {
     public:
         PXSpin(const PXString& title, const PXPosition& position, const PXSize& size) : PXControl(title, position, size, BUTTON) {}
-        virtual ~PXSpin() = default;
+        virtual ~PXSpin() {}
         virtual void onClick(const bool& up) = 0;
         bool hasCallback() const override { return callback == nullptr ? false : true; }
         

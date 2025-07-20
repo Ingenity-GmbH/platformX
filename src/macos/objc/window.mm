@@ -8,8 +8,8 @@
 #pragma region MacOSWindow
 @implementation View
 - (void)drawRect:(NSRect)rect {
-    [[NSColor whiteColor] setFill];
-    NSRectFill(rect);
+    // [[NSColor labelColor] setFill];
+    // NSRectFill(rect);
 }
 @end
 
