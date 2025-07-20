@@ -1,14 +1,8 @@
 #include "include/global.h"
-#include "application.h"
+#include "../application.h"
 #include "application.hh"
 
-@implementation MainView
-- (void)drawRect:(NSRect)dirtyRect {
-    [[NSColor whiteColor] setFill];
-    NSRectFill(dirtyRect);
-}
-@end
-
+#pragma region macOSApplication
 @implementation AppDelegate
 - (NSMenu*)createMenuBar {
     NSMenu *mainMenu = [NSMenu new];
@@ -23,28 +17,11 @@
     return mainMenu;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    NSRect screen = CGDisplayBounds(CGMainDisplayID());
-    NSRect frame = (NSRect){{   (screen.size.width-MIN(screen.size.width,STD_MAINWIN_SIZE_WIDTH))/2.0, 
-                                (screen.size.height-MIN(screen.size.height,STD_MAINWIN_SIZE_HEIGHT))/2.0},
-                                {MIN(screen.size.width,STD_MAINWIN_SIZE_WIDTH), MIN(screen.size.height,STD_MAINWIN_SIZE_HEIGHT)} };
-
-    self.window = [[NSWindow alloc] initWithContentRect:frame
-                                    styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable)
-                                    backing:NSBackingStoreBuffered
-                                    defer:NO];
-
-    [self.window setTitle:@"AppKit Demo"];
-    [self.window setContentView:[[MainView alloc] initWithFrame:frame]];
-    [self.window makeKeyAndOrderFront:nil];
-}
-
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) sender {
     return YES;
 }
 @end
 
-#pragma region macOSApplication
 MacOSApplication::MacOSApplication() {
     pApp = ID_t([NSApplication sharedApplication]);
     pAppDelegate = ID_t([AppDelegate new]);

@@ -58,8 +58,8 @@ objc_library(
     deps = [
         "//include:headers",
     ],
-    hdrs = glob(["macos/*.h", "macos/*.hh"]),
-    srcs = glob(["macos/*.mm"]),
+    hdrs = glob(["macos/*.h", "macos/objc/*.hh"]),
+    srcs = glob(["macos/objc/*.mm"]),
     copts = [
         "-fno-objc-arc",
     ],

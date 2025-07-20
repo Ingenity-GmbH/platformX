@@ -9,6 +9,7 @@ namespace util {
     void LIB setTitle(const PXHandle& handle, const PXString& title);
     PXString LIB getTitle(const PXHandle& handle);
     void LIB setWindowState(const PXHandle& handle, const int32_t& state);
+    void LIB setSizePosition(const PXHandle& handle, const PXSize& size, const PXPosition& position);
     void LIB setState(const PXHandle& handle, const bool& state);
     bool LIB getState(const PXHandle& handle);
     void LIB toggleState(const PXHandle& handle);

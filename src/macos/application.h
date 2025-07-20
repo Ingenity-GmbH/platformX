@@ -10,7 +10,7 @@ class MacOSApplication : public PXApplication {
 
     protected:
         std::shared_ptr<PXWindow> mainWindow;
-        ID pApp;
-        ID pAppDelegate;
+        PXHandle pApp;
+        PXHandle pAppDelegate;
 };
 #pragma endregion MacOSApplication
