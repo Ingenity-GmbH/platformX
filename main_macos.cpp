@@ -1,22 +1,15 @@
 #include "include/application.h"
 
-/* controls */
-PXApplicationUniquePtr app;
-PXWindowSharedPtr mainWnd;
-PXWindowSharedPtr childWnd;
-PXButtonSharedPtr button;
- 
-void buttonClick() {
-    printf("Button clicked!\n");
-}
-
 int main() {
-    app = createApplication();
+    PXApplicationUniquePtr app = createApplication();
 
-    mainWnd = createMainWindow("platformX App");
-    childWnd = createWindow("child win", mainWnd);
+    PXWindowSharedPtr mainWnd = createMainWindow("platformX App");
+    PXWindowSharedPtr childWnd = createWindow("child win", mainWnd);
 
-    button = createButton("Click Me", childWnd, PXPosition(50, 150), buttonClick);
+    PXButtonSharedPtr button = createButton("Click Me", childWnd, PXPosition(50, 150), [childWnd](void* arg) {
+        printf("arg:%p\n", arg);
+        childWnd->setPosition(PXPosition(100, 200));
+    });
 
     return app->runEventLoop();
 }

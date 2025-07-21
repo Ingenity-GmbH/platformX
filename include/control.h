@@ -23,6 +23,7 @@ class LIB PXControl : public std::enable_shared_from_this<PXControl> {
         PXString getTitle();
         std::vector<PXControl*> getControls() const;
         virtual bool hasCallback() const = 0;
+        std::function<void(void*)> callback;
 
     protected:
         PXString title;

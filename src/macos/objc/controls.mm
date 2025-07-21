@@ -6,11 +6,11 @@
 #pragma region MacOSButton
 @implementation Selector
 - (void)selectorCallback:(id)sender {
-    reinterpret_cast<PXButton*>(_control)->onClick();
+    _control->callback(_arg);
 }
 @end
 
-MacOSButton::MacOSButton(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback) 
+MacOSButton::MacOSButton(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback) 
 : PXButton(title, position, size) {
     auto parentHandle = parent.getHandle();
     this->parent = &parent;
@@ -26,6 +26,7 @@ MacOSButton::MacOSButton(const PXString& title, PXControl& parent, const PXPosit
 
     selector = ID_t([Selector new]);
     [id_t(selector) setControl:this];
+    // [id_t(selector) setArg:reinterpret_cast<void*>(SOMETHING)];
 
     handle = ID_t([[NSButton alloc] initWithFrame:frame]);
     [id_t(handle) setTarget:id_t(selector)];

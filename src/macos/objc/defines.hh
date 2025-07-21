@@ -7,6 +7,7 @@
 
 @interface Selector : NSObject
 @property (nonatomic, assign) PXControl* control;
+@property (nonatomic, assign) void* arg;
 - (void)selectorCallback:(id)sender;
 @end
 #pragma endregion base os local specific definitions

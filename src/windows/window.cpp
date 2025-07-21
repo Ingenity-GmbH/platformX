@@ -75,13 +75,8 @@ LRESULT CALLBACK WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPAR
         case WM_COMMAND:
             {
                 for (const auto& control : self->controls) {
-                    if (control->hasCallback() && control->getType() == BUTTON && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
-                        auto btn = reinterpret_cast<WinButton*>(control);
-                        btn->onClick();
-                    }
-                    else if (control->hasCallback() && control->getType() == EDIT && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
-                        auto edit = reinterpret_cast<WinEdit*>(control);
-                        edit->onKeyPress(reinterpret_cast<const uint32_t&>(wParam));
+                    if (control->hasCallback() && control->getHandle() == reinterpret_cast<PXHandle>(lParam)) {
+                        control->callback(reinterpret_cast<void*>(wParam));
                     }
                 }
                 break;
@@ -90,17 +85,15 @@ LRESULT CALLBACK WinWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPAR
             {
                 LPNMHDR pnmhdr = (LPNMHDR)lParam;
                 for (const auto& control : self->controls) {
-                    if (control->hasCallback() && control->getType() == BUTTON && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == UDN_DELTAPOS) {
-                        auto spin = reinterpret_cast<WinSpin*>(control);
+                    if (control->hasCallback() && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == UDN_DELTAPOS) {
                         LPNMUPDOWN updown = (LPNMUPDOWN)lParam;
                         if (updown->iDelta < 0)
-                            spin->onClick(true);
-                        else 
-                            spin->onClick(false);
+                            control->callback(reinterpret_cast<void*>(true));
+                            else 
+                            control->callback(reinterpret_cast<void*>(false));
                     }                    
-                    else if (control->hasCallback() && control->getType() == TREEVIEW && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == TVN_SELCHANGED) {
-                        auto treeview = reinterpret_cast<WinTreeView*>(control);
-                        treeview->onClick();
+                    else if (control->hasCallback() && control->getHandle() == reinterpret_cast<PXHandle>(pnmhdr->hwndFrom) && pnmhdr->code == TVN_SELCHANGED) {
+                        control->callback(nullptr);
                     }
                 }
                 break;

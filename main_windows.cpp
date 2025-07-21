@@ -10,19 +10,17 @@ PXEditSharedPtr edit;
 PXTextSharedPtr text;
 PXListBoxSharedPtr listbox;
 PXComboBoxSharedPtr combobox;
-PXProgressBarSharedPtr progress;
 PXCheckBoxSharedPtr checkbox;
 PXRadioButtonSharedPtr radioButton;
 PXGroupBoxSharedPtr groupbox;
 PXTreeViewSharedPtr treeview;
 PXStatusBarSharedPtr statusbar;
-// PXSpinSharedPtr spin; <-- locally declared in main
 
 /* callbacks */
-void button1click() {
+void button1click(void*) {
     combobox->addNode(PXNode(edit->getTitle()));
-    checkbox->toggleState();
-    radioButton->toggleState();
+    checkbox->toggleState(nullptr);
+    radioButton->toggleState(nullptr);
     
     listbox->addNode(PXNode("main:"));
     for (const auto control : mainWnd->getControls()) {
@@ -41,31 +39,26 @@ void button1click() {
     }
 }
 
-void button2click() {
+void button2click(void*) {
     util::setWindowState(childWnd->getHandle(), SW_NORMAL);
     checkbox->setState(true);
     radioButton->setState(true);
 }
 
-void editClick(const uint32_t& key) {
-    progress->incStep();
-}
-
-void treeviewClick() {
+void treeviewClick(void*) {
     edit->setTitle(treeview->getSelectedNode()->title);
 }
 
-void spinClick(const bool& up) {
+void spinClick(void* arg) {
+    bool* up = reinterpret_cast<bool*>(arg);
     std::string t = edit->getTitle().toString();
+    t.resize(20);
     int d = std::stoi(t);
-    if (up)
-        ++d;
-    else
-        --d;
-    char buffer[20];
-    sprintf(buffer, "%d", d);
-    PXString t2(buffer);
-    edit->setTitle(t2);
+    
+    up ? ++d : --d;
+
+    snprintf(&t[0], t.size(), "%d", d);
+    edit->setTitle(PXString(t));
 }
 
 int main() {
@@ -75,14 +68,16 @@ int main() {
     childWnd = createWindow("child win", mainWnd);
     
     btn2 = createButton("btn2", mainWnd, PXPosition(100,10), button2click);
-    edit = createEdit("6", mainWnd, PXPosition(10,60), editClick);
     text = createText("Hello PlatformX", mainWnd, PXPosition(10,110));
     treeview = createTreeView("tree view", mainWnd, PXPosition(10, 450), treeviewClick);
     combobox = createComboBox("combobox", mainWnd, PXPosition(10,230));
-    progress = createProgressBar("progressbar", mainWnd, PXPosition(10, 300));
+    PXProgressBarSharedPtr progress = createProgressBar("progressbar", mainWnd, PXPosition(10, 300));
     progress->configure(0,100,1);
     progress->setPos(25);
     progress->setColor(PXColor(0x80,0xC8,0xB0), PXColor(0xF0,0xF0,0xF0));
+    edit = createEdit("6", mainWnd, PXPosition(10,60), [progress](void*) {
+        progress->incStep();
+    });
     
     btn = createButton("btn child", childWnd, PXPosition(10,10), button1click);
     listbox = createListBox("listbox", childWnd, PXPosition(10,160), PXSize(300,400));

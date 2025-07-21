@@ -6,9 +6,8 @@
 #pragma region MacOSButton
 class LIB MacOSButton : public PXButton {
     public:
-        MacOSButton(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+        MacOSButton(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
         ~MacOSButton() override;
-        void onClick() override;
 
     protected:
         PXHandle selector;
@@ -18,7 +17,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinEdit
 // class LIB WinEdit : public PXEdit {
 //     public:
-//         WinEdit(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+//         WinEdit(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         void onKeyPress(const uint32_t& key);
 // };
 // #pragma endregion WinEdit
@@ -26,7 +25,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinText
 // class LIB WinText : public PXText {
 //     public:
-//         WinText(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+//         WinText(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         // void onKeyPress(const uint32_t& key) override;
 // };
 // #pragma endregion WinText
@@ -34,7 +33,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinListBox
 // class LIB WinListBox : public PXListBox {
 //     public:
-//         WinListBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+//         WinListBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         // void onKeyPress(const uint32_t& key) override;
 //         void addNode(PXNode& node, const size_t& pos) override;
 //         void removeNode(const size_t& pos) override;
@@ -45,7 +44,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinComboBox
 // class LIB WinComboBox : public PXComboBox {
 //     public:
-//         WinComboBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+//         WinComboBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         // void onKeyPress(const uint32_t& key) override;
 //         void addNode(PXNode& node, const size_t& pos) override;
 //         void removeNode(const size_t& pos) override;
@@ -56,7 +55,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinProgressBar
 // class LIB WinProgressBar : public PXProgressBar {
 //     public:
-//         WinProgressBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const uint32_t& key)>& callback);
+//         WinProgressBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         // void onKeyPress(const uint32_t& key) override;
 //         void configure(const uint32_t& min, const uint32_t& max, const uint32_t& step) override;
 //         void incStep() override;
@@ -68,7 +67,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinCheckBox
 // class LIB WinCheckBox : public PXCheckBox {
 //     public:
-//         WinCheckBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback);
+//         WinCheckBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         void onClick() override;
 //         void setState(const bool& state) override;
 //         bool getState() const override;
@@ -79,7 +78,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinRadioButton
 // class LIB WinRadioButton : public PXRadioButton {
 //     public:
-//         WinRadioButton(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const PXHandle& handle)>& callback);
+//         WinRadioButton(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         void onClick() override;
 //         void setState(const bool& state) override;
 //         bool getState() const override;
@@ -90,7 +89,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinGroupBox
 // class LIB WinGroupBox : public PXGroupBox {
 //     public:
-//         WinGroupBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+//         WinGroupBox(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         // void onClick() override;        
 // };
 // #pragma endregion WinGroupBox
@@ -98,7 +97,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinTreeView
 // class LIB WinTreeView : public PXTreeView {
 //     public:
-//         WinTreeView(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+//         WinTreeView(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         void onClick() override;
 //         void addNode(PXNode& node, const size_t& pos) override;
 //         void removeNode(const size_t& pos) override;
@@ -109,7 +108,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinStatusBar
 // class LIB WinStatusBar : public PXStatusBar {
 //     public:
-//         WinStatusBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void()>& callback);
+//         WinStatusBar(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         void onClick() override;
 //         void addPart(const double& relEndPos, const PXString& text) override;
 //         void updateParts(const PXString& text=EMPTY, const size_t& idx=-1) override;
@@ -119,7 +118,7 @@ class LIB MacOSButton : public PXButton {
 // #pragma region WinSpin
 // class LIB WinSpin : public PXSpin {
 //     public:
-//         WinSpin(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(const bool& up)>& callback);
+//         WinSpin(const PXString& title, PXControl& parent, const PXPosition& position, const PXSize& size, const std::function<void(void*)>& callback);
 //         void onClick(const bool& up) override;        
 // };
 // #pragma endregion WinSpin
