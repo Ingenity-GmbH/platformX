@@ -54,11 +54,21 @@ platformX is a cross-platform user interface (UI) framework that helps developer
     * The clear separation and templated approach let beginners understand how UI frameworks and cross-platform code organization work.
 
 ### In summary
-platformX helps new and experienced developers build robust, native-looking desktop apps for multiple operating systems — with less hassle and more code reuse. If you’re new to cross-platform development, platformX offers a friendly starting point for building apps that just work everywhere.
+The platformX framework helps new and experienced developers build robust, native-looking desktop apps for multiple operating systems — with less hassle and more code reuse. If you’re new to cross-platform development, platformX offers a friendly starting point for building apps that just work everywhere.
 
 <br><br>
 
 ## Further development of platformX
+
+### Approaches for the individual OSes
+The cross-platform approach enables the development of desktop applications for the three major operating systems: Windows, Linux, and macOS. Naturally, each OS requires its own approach to constructing UI components such as windows and controls, so platform-specific implementations are essential.
+* On Windows, the Win32 API remains a stable and well-documented foundation, especially for low-level system access and legacy compatibility. However, for modern application development, Microsoft currently recommends using the WinUI framework via the Windows App SDK, or WPF for enterprise applications. Both are actively maintained and offer access to modern Windows features, UI paradigms, and improved development productivity. It's not known yet which approach will be the way to go, the Win32 API will continue to be present in future Windows versions.<br><br>
+* For the Linux platform, there is no single, universally adopted UI toolkit for desktop application development. Several established approaches include:
+    * GTK: The most common native toolkit for GNOME-based distributions. Written in C, it features bindings for many languages and modern UI support.
+    * Qt: Widely used for cross-platform and high-performance applications, offering a broad set of controls and support for C++, Python, and others.
+    * Other Options: Toolkits such as wxWidgets, FLTK, and EFL are available, though less common. In specialized cases, custom UI components can be created directly using X11 or Wayland APIs<br><br>
+* On macOS Cocoa's AppKit is the native macOS UI framework. Cocoa is integrated deeply with macOS conventions for user experience and accessibility.
+Hence Cocoa's API is written in Objective-C (with supporting Swift), the implementation will be based on C++ and Objective-C, often refered to as Objective-C++, allowing mixing C++ and Objective-C sourcecode in the same sourcefile. This offers a great opportunity to implment the functionality in platformX.
 
 ### Using the `ingenity.code-profile`
 Code profiles in VS Code let you save and switch between different sets of editor settings, extensions, and UI layouts. This helps you keep project-specific tools and preferences separate, avoiding conflicts. You can quickly set up the ideal environment for different programming languages or workflows. Sharing profiles with teammates ensures everyone works consistently. Profiles also make it easy to experiment with new extensions or settings without messing up your main setup. In short, profiles boost productivity by keeping your VS Code experience organized and tailored to your needs.
