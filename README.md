@@ -136,3 +136,9 @@ Furthermore, you can start debugging just by pressing `F5`. This runs a debug co
 * Rebar
 * Tooltip
 * Page Scroller
+
+<br><br>
+
+## Author
+* **Jannis Domann** - *Lead Architect & Core Developer* - [GitHub Profile](https://github.com/JannisDomann)
+
