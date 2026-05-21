@@ -45,13 +45,13 @@ platformX is a cross-platform user interface (UI) framework that helps developer
 * `src/<os>/`
     * Folders containing the real code that makes controls work natively on each operating system.
 
-### Key benefits for beginners
-* No need to learn each OS’s UI toolkit
-    * platformX abstracts away platform complexity, so you can focus on building features, not fighting with Windows, Linux or macOS APIs.
-* Easy to expand and maintain
-    * Adding new controls is simple — just describe them once and implement the platform-specific code as needed.
-* Ideal for learning
-    * The clear separation and templated approach let beginners understand how UI frameworks and cross-platform code organization work.
+### Architectural Efficiency & Developer Experience (DX)
+* Zero-Boilerplate OS Abstraction:
+    * Abstracts away low-level platform complexities, allowing engineers to focus entirely on core feature development instead of fighting legacy Win32, Cocoa, or X11 APIs.
+* Rapid Extensibility & Low Maintenance:
+    * Adding new UI components is highly efficient—controls are defined once in a unified blueprint, requiring only the platform-specific implementation to scale.
+* High-Readability Design Patterns:
+    * The strict decoupling of platform-independent UI templates and native code ensures an optimal onboarding experience and serves as a prime reference for scalable cross-platform architecture.
 
 ### In summary
 The platformX framework helps new and experienced developers build robust, native-looking desktop apps for multiple operating systems — with less hassle and more code reuse. If you’re new to cross-platform development, platformX offers a friendly starting point for building apps that just work everywhere.
